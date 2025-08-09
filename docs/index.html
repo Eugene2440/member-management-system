@@ -12,8 +12,15 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>Join Our Association</h1>
-            <p>Complete your registration with payment details</p>
+            <div class="logo-section">
+                <div class="logo-placeholder">
+                    <span>LOGO</span>
+                </div>
+                <div class="association-info">
+                    <h1>The Architecture Engineering and Construction Student Association</h1>
+                    <p>Complete your registration with payment details</p>
+                </div>
+            </div>
         </div>
         
         <div class="form-container">
@@ -34,8 +41,31 @@
                 </div>
                 
                 <div class="form-group">
-                    <label for="paymentReference">Registration Fee Payment Reference</label>
-                    <input type="text" id="paymentReference" name="paymentReference" placeholder="Transaction ID, Receipt number, etc." required>
+                    <label for="registrationNumber">School Registration Number</label>
+                    <input type="text" id="registrationNumber" name="registrationNumber" placeholder="e.g., ENG/2024/001">
+                    <small>Optional - Your student registration number</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="department">Department</label>
+                    <select id="department" name="department">
+                        <option value="">Select Department (Optional)</option>
+                        <option value="DADP">DEPARTMENT OF ARCHITECTURE, DESIGN AND PLANNING (DADP)</option>
+                        <option value="DCRE">DEPARTMENT OF CIVIL AND RESOURCE ENGINEERING (DCRE)</option>
+                        <option value="DCPS">DEPARTMENT OF CONSTRUCTION AND PROPERTY STUDIES (DCPS)</option>
+                        <option value="DEEE">DEPARTMENT OF ELECTRICAL AND ELECTRONICS ENGINEERING (DEEE)</option>
+                        <option value="DMAE">DEPARTMENT OF MECHANICAL AND AEROSPACE ENGINEERING (DMAE)</option>
+                        <option value="DSSS">DEPARTMENT OF SURVEYING AND SPATIAL SCIENCES (DSSS)</option>
+                        <option value="DCBE">DEPARTMENT OF CHEMICAL AND BIOSYSTEMS ENGINEERING (DCBE)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="paymentReference">Registration Fee Payment Reference *</label>
+                    <div class="payment-input-group">
+                        <input type="text" id="paymentReference" name="paymentReference" placeholder="Transaction ID, Receipt number, etc." required>
+                        <button type="button" class="pay-now-btn" onclick="showPaymentModal()">Pay Now</button>
+                    </div>
                     <small>Enter your payment transaction reference or receipt number</small>
                 </div>
                 
@@ -47,7 +77,7 @@
         </div>
         
         <div class="admin-link">
-            <a href="/login">Admin Login</a>
+            <p>Need help? <a href="contact.html">Contact Support</a> | <a href="login.html">Admin Login</a></p>
         </div>
     </div>
     
@@ -85,7 +115,119 @@
         </div>
     </div>
     
-    <script src="js/config.js"></script>
+    <!-- Payment Modal -->
+    <div id="paymentModal" class="modal" style="display: none;">
+        <div class="modal-content payment-modal">
+            <div class="modal-header">
+                <span class="close" onclick="closePaymentModal()">&times;</span>
+                <h3>Registration Fee Payment</h3>
+            </div>
+            <div class="modal-body">
+                <div class="payment-info">
+                    <h4>Payment Details</h4>
+                    <p>Registration Fee: <strong>KSh 500</strong></p>
+                    
+                    <div class="payment-method">
+                        <h5>M-Pesa Paybill</h5>
+                        <div class="payment-detail">
+                            <label>Paybill Number:</label>
+                            <div class="copy-field">
+                                <span id="paybillNumber">400200</span>
+                                <button type="button" onclick="copyToClipboard('paybillNumber')" class="copy-btn">Copy</button>
+                            </div>
+                        </div>
+                        
+                        <div class="payment-detail">
+                            <label>Account Number:</label>
+                            <div class="copy-field">
+                                <span id="accountNumber">AECSA2024</span>
+                                <button type="button" onclick="copyToClipboard('accountNumber')" class="copy-btn">Copy</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="payment-instructions">
+                        <h5>Payment Instructions:</h5>
+                        <ol>
+                            <li>Go to M-Pesa on your phone</li>
+                            <li>Select "Lipa na M-Pesa"</li>
+                            <li>Select "Pay Bill"</li>
+                            <li>Enter Business Number: <strong>400200</strong></li>
+                            <li>Enter Account Number: <strong>AECSA2024</strong></li>
+                            <li>Enter Amount: <strong>500</strong></li>
+                            <li>Enter your M-Pesa PIN</li>
+                            <li>You will receive an M-Pesa confirmation message</li>
+                            <li>Copy the transaction code from the message and paste it in the payment reference field</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="closePaymentModal()" class="btn-secondary">Close</button>
+            </div>
+        </div>
+    </div>
+
     <script src="js/registration.js"></script>
+    <script>
+        function showPaymentModal() {
+            document.getElementById('paymentModal').style.display = 'block';
+        }
+        
+        function closePaymentModal() {
+            document.getElementById('paymentModal').style.display = 'none';
+        }
+        
+        function copyToClipboard(elementId) {
+            const element = document.getElementById(elementId);
+            const text = element.textContent;
+            
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showNotification('Copied to clipboard!', 'success');
+                }).catch(() => {
+                    fallbackCopyToClipboard(text);
+                });
+            } else {
+                fallbackCopyToClipboard(text);
+            }
+        }
+        
+        function fallbackCopyToClipboard(text) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                showNotification('Copied to clipboard!', 'success');
+            } catch (err) {
+                showNotification('Failed to copy', 'error');
+            }
+            document.body.removeChild(textArea);
+        }
+        
+        function showNotification(message, type) {
+            // Simple notification - you can enhance this
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 10px 20px;
+                border-radius: 5px;
+                color: white;
+                z-index: 10000;
+                ${type === 'success' ? 'background-color: #4CAF50;' : 'background-color: #f44336;'}
+            `;
+            document.body.appendChild(notification);
+            setTimeout(() => {
+                document.body.removeChild(notification);
+            }, 3000);
+        }
+    </script>
 </body>
 </html>

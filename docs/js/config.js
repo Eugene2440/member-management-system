@@ -1,7 +1,7 @@
 // Configuration for production deployment
 window.APP_CONFIG = {
     // Replace this URL with your actual Render backend URL after deployment
-    API_BASE_URL: 'https://your-app-name.onrender.com',
+    API_BASE_URL: 'https://member-management-system-e52u.onrender.com',
     
     // Development URL (when running locally)
     DEV_API_BASE_URL: 'http://localhost:3000'

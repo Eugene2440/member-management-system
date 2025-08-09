@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 3000;
 // Middleware
 const corsOptions = {
     origin: process.env.NODE_ENV === 'production' 
-        ? ['https://yourusername.github.io'] // Replace with your actual GitHub Pages URL
+        ? ['https://eugene2440.github.io/member-management-system'] // Replace with your actual GitHub Pages URL
         : ['http://localhost:3000', 'http://127.0.0.1:5500'],
     credentials: true
 };

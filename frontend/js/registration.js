@@ -20,6 +20,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 name: formData.get('name').trim(),
                 email: formData.get('email').trim(),
                 phone: formData.get('phone').trim(),
+                registrationNumber: formData.get('registrationNumber') ? formData.get('registrationNumber').trim() : null,
+                department: formData.get('department') || null,
                 paymentReference: formData.get('paymentReference').trim()
             };
             

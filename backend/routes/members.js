@@ -8,7 +8,7 @@ const router = express.Router();
 // Public route - Member registration
 router.post('/register', async (req, res) => {
     try {
-        const { name, email, phone, paymentReference } = req.body;
+        const { name, email, phone, registrationNumber, department, paymentReference } = req.body;
         
         // Validate required fields
         if (!name || !email || !phone || !paymentReference) {
@@ -20,6 +20,8 @@ router.post('/register', async (req, res) => {
             name,
             email,
             phone,
+            registrationNumber: registrationNumber || null,
+            department: department || null,
             paymentReference,
             membershipType: 'pending', // Default type, admin will assign proper type
             paymentStatus: 'pending',
