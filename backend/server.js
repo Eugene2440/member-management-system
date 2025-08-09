@@ -52,4 +52,6 @@ app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
     console.log(`Frontend available at: http://localhost:${PORT}`);
     console.log(`Admin dashboard at: http://localhost:${PORT}/admin`);
+    console.log(`Contact page at: http://localhost:${PORT}/contact`);
+    console.log(`Build timestamp: ${new Date().toISOString()}`);
 });
