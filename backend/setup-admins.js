@@ -54,17 +54,17 @@ async function createAdminUser(username, password, name, role = 'admin') {
 async function setupInitialAdmins() {
     console.log('Setting up initial admin users...\n');
     
-    // Create default admin users
-    await createAdminUser('admin', 'admin123', 'System Administrator', 'admin');
+    // Create AECSA admin user
+    await createAdminUser('theaecsa', 'aecsa8019', 'AECSA Administrator', 'admin');
     await createAdminUser('registrar', 'reg123', 'Registration Officer', 'registrar');
     await createAdminUser('treasurer', 'treas123', 'Treasurer', 'treasurer');
     
     console.log('\nSetup complete!');
-    console.log('\nDefault login credentials:');
-    console.log('Admin: admin / admin123');
+    console.log('\nLogin credentials:');
+    console.log('Main Admin: theaecsa / aecsa8019');
     console.log('Registrar: registrar / reg123');
     console.log('Treasurer: treasurer / treas123');
-    console.log('\n⚠️  IMPORTANT: Change these default passwords immediately after first login!');
+    console.log('\n✅ AECSA admin account ready!');
     
     process.exit(0);
 }
