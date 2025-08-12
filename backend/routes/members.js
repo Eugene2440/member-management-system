@@ -15,6 +15,9 @@ router.post('/register', async (req, res) => {
             return res.status(400).json({ error: 'Name, email, phone, and payment reference are required' });
         }
         
+        // Generate member number
+        const memberNumber = await generateMemberNumber();
+        
         // Create member object - Admin will assign membership type later
         const memberData = {
             name,
@@ -23,6 +26,7 @@ router.post('/register', async (req, res) => {
             registrationNumber: registrationNumber || null,
             department: department || null,
             paymentReference,
+            memberNumber,
             membershipType: 'pending', // Default type, admin will assign proper type
             paymentStatus: 'pending',
             registrationDate: new Date().toISOString(),
@@ -35,13 +39,45 @@ router.post('/register', async (req, res) => {
         res.status(201).json({ 
             success: true, 
             message: 'Member registered successfully',
-            memberId: docRef.id 
+            memberId: docRef.id,
+            memberNumber: memberNumber
         });
     } catch (error) {
         console.error('Error registering member:', error);
         res.status(500).json({ error: 'Failed to register member' });
     }
 });
+
+// Helper function to generate member number
+async function generateMemberNumber() {
+    try {
+        // Get all members to find the highest member number
+        const membersQuery = query(collection(db, 'members'), orderBy('memberNumber', 'desc'));
+        const membersSnapshot = await getDocs(membersQuery);
+        
+        let nextNumber = 1;
+        
+        if (!membersSnapshot.empty) {
+            const firstDoc = membersSnapshot.docs[0];
+            const lastMemberNumber = firstDoc.data().memberNumber;
+            
+            if (lastMemberNumber) {
+                // Extract the numeric part from the member number (e.g., "001" from member number "001")
+                const numericPart = parseInt(lastMemberNumber);
+                if (!isNaN(numericPart)) {
+                    nextNumber = numericPart + 1;
+                }
+            }
+        }
+        
+        // Format as 3-digit number with leading zeros
+        return nextNumber.toString().padStart(3, '0');
+    } catch (error) {
+        console.error('Error generating member number:', error);
+        // Fallback to timestamp-based number if there's an error
+        return Date.now().toString().slice(-3);
+    }
+}
 
 // Protected routes - Require authentication
 router.use(verifyToken);

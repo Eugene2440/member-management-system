@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             if (response.ok && result.success) {
                 // Show success modal
-                showSuccessModal(result.memberId);
+                showSuccessModal(result.memberId, result.memberNumber);
             } else {
                 throw new Error(result.error || 'Registration failed');
             }
@@ -72,11 +72,13 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-function showSuccessModal(memberId) {
+function showSuccessModal(memberId, memberNumber) {
     const modal = document.getElementById('successModal');
     const memberIdSpan = document.getElementById('memberId');
+    const memberNumberSpan = document.getElementById('memberNumber');
     
     memberIdSpan.textContent = memberId;
+    memberNumberSpan.textContent = memberNumber || 'Not assigned';
     modal.style.display = 'block';
     
     // Auto-close after 10 seconds
