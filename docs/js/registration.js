@@ -36,11 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 throw new Error('Please enter a valid email address');
             }
             
-            // Validate phone format (basic validation)
-            const phoneRegex = /^[\+]?[\d\s\-\(\)]+$/;
-            if (!phoneRegex.test(memberData.phone)) {
-                throw new Error('Please enter a valid phone number');
-            }
+            // Phone number is saved as-is without format validation
             
             // Submit to API
             const response = await fetch(`${window.API_URL}/api/members/register`, {
