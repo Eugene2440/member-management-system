@@ -24,7 +24,6 @@
 
 ### Frontend URL will be:
 `https://yourusername.github.io/your-repo-name/`
-
 ## Post-Deployment:
 1. Update CORS settings in backend for your GitHub Pages URL
 2. Test all functionality

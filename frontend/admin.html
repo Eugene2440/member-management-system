@@ -52,7 +52,7 @@
             <section class="filters-section">
                 <div class="filters-container">
                     <div class="search-group">
-                        <input type="text" id="searchInput" placeholder="Search by name, email, or phone...">
+                        <input type="text" id="searchInput" placeholder="Search by name, email, phone, member number, department...">
                         <button onclick="searchMembers()" class="search-btn">Search</button>
                     </div>
                     
@@ -92,6 +92,10 @@
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Phone</th>
+                                <th>Member Number</th>
+                                <th>Department</th>
+                                <th>Registration Number</th>
+                                <th>Payment Reference</th>
                                 <th>Membership Type</th>
                                 <th>Payment Status</th>
                                 <th>Registration Date</th>
@@ -144,6 +148,33 @@
                             <input type="tel" id="memberPhone" name="phone" required>
                         </div>
                         <div class="form-group">
+                            <label for="memberNumber">Member Number</label>
+                            <input type="text" id="memberNumber" name="memberNumber" readonly>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="memberDepartment">Department</label>
+                            <select id="memberDepartment" name="department">
+                                <option value="">Select Department (Optional)</option>
+                                <option value="DADP">DEPARTMENT OF ARCHITECTURE, DESIGN AND PLANNING (DADP)</option>
+                                <option value="DCRE">DEPARTMENT OF CIVIL AND RESOURCE ENGINEERING (DCRE)</option>
+                                <option value="DCPS">DEPARTMENT OF CONSTRUCTION AND PROPERTY STUDIES (DCPS)</option>
+                                <option value="DEEE">DEPARTMENT OF ELECTRICAL AND ELECTRONICS ENGINEERING (DEEE)</option>
+                                <option value="DMAE">DEPARTMENT OF MECHANICAL AND AEROSPACE ENGINEERING (DMAE)</option>
+                                <option value="DSSS">DEPARTMENT OF SURVEYING AND SPATIAL SCIENCES (DSSS)</option>
+                                <option value="DCBE">DEPARTMENT OF CHEMICAL AND BIOSYSTEMS ENGINEERING (DCBEs)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="memberRegistrationNumber">Registration Number</label>
+                            <input type="text" id="memberRegistrationNumber" name="registrationNumber" placeholder="eg., ECSM/01234/2022">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
                             <label for="memberMembershipType">Membership Type</label>
                             <select id="memberMembershipType" name="membershipType">
                                 <option value="pending">Pending Assignment</option>
@@ -152,13 +183,13 @@
                                 <option value="honorary">Honorary</option>
                             </select>
                         </div>
-                    </div>
-                    
-                    <div class="form-row">
                         <div class="form-group">
                             <label for="memberPaymentReference">Payment Reference</label>
                             <input type="text" id="memberPaymentReference" name="paymentReference">
                         </div>
+                    </div>
+                    
+                    <div class="form-row">
                         <div class="form-group">
                             <label for="memberPaymentStatus">Payment Status</label>
                             <select id="memberPaymentStatus" name="paymentStatus">

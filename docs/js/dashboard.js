@@ -121,6 +121,10 @@ function renderMembersTable() {
                 <td>${escapeHtml(member.name)}</td>
                 <td>${escapeHtml(member.email)}</td>
                 <td>${escapeHtml(member.phone)}</td>
+                <td>${escapeHtml(member.memberNumber || 'N/A')}</td>
+                <td>${escapeHtml(member.department || 'N/A')}</td>
+                <td>${escapeHtml(member.registrationNumber || 'N/A')}</td>
+                <td>${escapeHtml(member.paymentReference || 'N/A')}</td>
                 <td>${escapeHtml(member.membershipType)}</td>
                 <td><span class="status-badge ${statusClass}">${member.paymentStatus}</span></td>
                 <td>${registrationDate}</td>
@@ -185,11 +189,15 @@ function applyFilters() {
     const membershipTypeFilter = document.getElementById('membershipTypeFilter').value;
     
     filteredMembers = allMembers.filter(member => {
-        // Search filter
+        // Search filter - expanded to include new fields
         const matchesSearch = !searchTerm || 
             member.name.toLowerCase().includes(searchTerm) ||
             member.email.toLowerCase().includes(searchTerm) ||
-            member.phone.includes(searchTerm);
+            member.phone.includes(searchTerm) ||
+            (member.memberNumber && member.memberNumber.toLowerCase().includes(searchTerm)) ||
+            (member.department && member.department.toLowerCase().includes(searchTerm)) ||
+            (member.registrationNumber && member.registrationNumber.toLowerCase().includes(searchTerm)) ||
+            (member.paymentReference && member.paymentReference.toLowerCase().includes(searchTerm));
         
         // Payment status filter
         const matchesPaymentStatus = !paymentStatusFilter || 

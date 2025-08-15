@@ -121,6 +121,10 @@ function renderMembersTable() {
                 <td>${escapeHtml(member.name)}</td>
                 <td>${escapeHtml(member.email)}</td>
                 <td>${escapeHtml(member.phone)}</td>
+                <td>${escapeHtml(member.memberNumber || 'N/A')}</td>
+                <td>${escapeHtml(member.department || 'N/A')}</td>
+                <td>${escapeHtml(member.registrationNumber || 'N/A')}</td>
+                <td>${escapeHtml(member.paymentReference || 'N/A')}</td>
                 <td>${escapeHtml(member.membershipType)}</td>
                 <td><span class="status-badge ${statusClass}">${member.paymentStatus}</span></td>
                 <td>${registrationDate}</td>
@@ -185,11 +189,15 @@ function applyFilters() {
     const membershipTypeFilter = document.getElementById('membershipTypeFilter').value;
     
     filteredMembers = allMembers.filter(member => {
-        // Search filter
+        // Search filter - expanded to include new fields
         const matchesSearch = !searchTerm || 
             member.name.toLowerCase().includes(searchTerm) ||
             member.email.toLowerCase().includes(searchTerm) ||
-            member.phone.includes(searchTerm);
+            member.phone.includes(searchTerm) ||
+            (member.memberNumber && member.memberNumber.toLowerCase().includes(searchTerm)) ||
+            (member.department && member.department.toLowerCase().includes(searchTerm)) ||
+            (member.registrationNumber && member.registrationNumber.toLowerCase().includes(searchTerm)) ||
+            (member.paymentReference && member.paymentReference.toLowerCase().includes(searchTerm));
         
         // Payment status filter
         const matchesPaymentStatus = !paymentStatusFilter || 
@@ -254,6 +262,9 @@ function editMember(memberId) {
     document.getElementById('memberName').value = member.name;
     document.getElementById('memberEmail').value = member.email;
     document.getElementById('memberPhone').value = member.phone;
+    document.getElementById('memberNumber').value = member.memberNumber || '';
+    document.getElementById('memberDepartment').value = member.department || '';
+    document.getElementById('memberRegistrationNumber').value = member.registrationNumber || '';
     document.getElementById('memberMembershipType').value = member.membershipType;
     document.getElementById('memberPaymentReference').value = member.paymentReference || '';
     document.getElementById('memberPaymentStatus').value = member.paymentStatus;
@@ -292,6 +303,9 @@ async function saveMember() {
             name: formData.get('name').trim(),
             email: formData.get('email').trim(),
             phone: formData.get('phone').trim(),
+            memberNumber: formData.get('memberNumber').trim(),
+            department: formData.get('department') || null,
+            registrationNumber: formData.get('registrationNumber').trim() || null,
             membershipType: formData.get('membershipType'),
             paymentReference: formData.get('paymentReference').trim(),
             paymentStatus: formData.get('paymentStatus')
