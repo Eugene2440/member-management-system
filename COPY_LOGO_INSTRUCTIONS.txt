@@ -1,0 +1,13 @@
+Please copy your new logo image from:
+
+C:\Users\eugine.baraka\Downloads\1000171590.jpg
+
+into the project assets folder at:
+
+frontend\css\logo.jpg
+
+You can do this with PowerShell:
+
+Copy-Item -Path "C:\Users\eugine.baraka\Downloads\1000171590.jpg" -Destination "C:\Users\eugine.baraka\member-management-system-1\frontend\css\logo.jpg" -Force
+
+After copying, refresh the site or re-deploy so the new logo appears.
