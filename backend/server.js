@@ -14,9 +14,11 @@ const PORT = process.env.PORT || 3000;
 // Middleware
 const corsOptions = {
     origin: process.env.NODE_ENV === 'production' 
-        ? ['https://eugene2440.github.io/member-management-system'] // Replace with your actual GitHub Pages URL
+        ? ['https://member-management-system-e52u.onrender.com', 'https://eugene2440.github.io']
         : ['http://localhost:3000', 'http://127.0.0.1:5500'],
-    credentials: true
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
 };
 
 app.use(cors(corsOptions));

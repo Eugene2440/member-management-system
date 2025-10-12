@@ -5,7 +5,7 @@ const { verifyToken, verifyRole } = require('../middleware/auth');
 
 const router = express.Router();
 
-// Public route - Get upcoming events
+// Public routes (must be before verifyToken middleware)
 router.get('/public', async (req, res) => {
     try {
         const now = new Date().toISOString().split('T')[0];
@@ -28,7 +28,6 @@ router.get('/public', async (req, res) => {
     }
 });
 
-// Get past events (public)
 router.get('/past/public', async (req, res) => {
     try {
         const now = new Date().toISOString().split('T')[0];
