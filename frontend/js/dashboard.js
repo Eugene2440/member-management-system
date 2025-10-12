@@ -508,15 +508,20 @@ function createRegistrationChart() {
             maintainAspectRatio: false,
             plugins: {
                 legend: {
-                    display: false
+                    display: false,
+                    labels: { font: { family: 'Montserrat' } }
                 }
             },
             scales: {
                 y: {
                     beginAtZero: true,
                     ticks: {
-                        stepSize: 1
+                        stepSize: 1,
+                        font: { family: 'Montserrat' }
                     }
+                },
+                x: {
+                    ticks: { font: { family: 'Montserrat' } }
                 }
             }
         }
@@ -547,7 +552,8 @@ function createDepartmentChart() {
                     position: 'bottom',
                     labels: {
                         padding: 15,
-                        usePointStyle: true
+                        usePointStyle: true,
+                        font: { family: 'Montserrat' }
                     }
                 }
             }
@@ -574,15 +580,20 @@ function createPaymentChart() {
             maintainAspectRatio: false,
             plugins: {
                 legend: {
-                    display: false
+                    display: false,
+                    labels: { font: { family: 'Montserrat' } }
                 }
             },
             scales: {
                 y: {
                     beginAtZero: true,
                     ticks: {
-                        stepSize: 1
+                        stepSize: 1,
+                        font: { family: 'Montserrat' }
                     }
+                },
+                x: {
+                    ticks: { font: { family: 'Montserrat' } }
                 }
             }
         }
@@ -676,6 +687,8 @@ function showSection(section) {
         showEventsSection();
     } else if (section === 'announcements') {
         showAnnouncementsSection();
+    } else if (section === 'leadership') {
+        showLeadershipSection();
     }
     
     // Close sidebar on mobile
@@ -723,11 +736,34 @@ function showAnnouncementsSection() {
     const eventsSection = document.getElementById('eventsSection');
     if (eventsSection) eventsSection.style.display = 'none';
     
+    const leadershipSection = document.getElementById('leadershipSection');
+    if (leadershipSection) leadershipSection.style.display = 'none';
+    
     let announcementsSection = document.getElementById('announcementsSection');
     if (!announcementsSection) {
         createAnnouncementsSection();
     } else {
         announcementsSection.style.display = 'block';
+    }
+}
+
+function showLeadershipSection() {
+    document.querySelector('.stats-section').style.display = 'none';
+    document.querySelector('.analytics-section').style.display = 'none';
+    document.querySelector('.filters-section').style.display = 'none';
+    document.querySelector('.members-section').style.display = 'none';
+    
+    const eventsSection = document.getElementById('eventsSection');
+    if (eventsSection) eventsSection.style.display = 'none';
+    
+    const announcementsSection = document.getElementById('announcementsSection');
+    if (announcementsSection) announcementsSection.style.display = 'none';
+    
+    let leadershipSection = document.getElementById('leadershipSection');
+    if (!leadershipSection) {
+        createLeadershipSection();
+    } else {
+        leadershipSection.style.display = 'block';
     }
 }
 
@@ -1412,3 +1448,231 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
+
+
+function createLeadershipSection() {
+    const main = document.getElementById('dashboardMain');
+    
+    const html = `
+        <section id="leadershipSection" class="events-management-section">
+            <div class="section-header">
+                <h2>Leadership Management</h2>
+                <button onclick="addLeader()" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Add Leader
+                </button>
+            </div>
+            <div class="events-grid" id="leadershipGrid">
+                <div class="loading-indicator"><div class="loading-spinner"></div><p>Loading...</p></div>
+            </div>
+        </section>
+    `;
+    
+    main.insertAdjacentHTML('beforeend', html);
+    loadLeadership();
+}
+
+async function loadLeadership() {
+    try {
+        const token = localStorage.getItem('adminToken');
+        const response = await fetch('/api/leadership', {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        
+        const result = await response.json();
+        if (response.ok && result.success) {
+            renderLeadership(result.leaders);
+        }
+    } catch (error) {
+        console.error('Error loading leadership:', error);
+        document.getElementById('leadershipGrid').innerHTML = '<p>Error loading leadership</p>';
+    }
+}
+
+function renderLeadership(leaders) {
+    const grid = document.getElementById('leadershipGrid');
+    
+    if (leaders.length === 0) {
+        grid.innerHTML = '<p>No leaders yet.</p>';
+        return;
+    }
+    
+    grid.innerHTML = leaders.map(l => `
+        <div class="event-card">
+            <div style="text-align: center; margin-bottom: 15px;">
+                ${l.photo ? 
+                    `<img src="${l.photo}" alt="${escapeHtml(l.name)}" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin: 0 auto;">` :
+                    `<div style="width: 120px; height: 120px; background: var(--light-blue); border-radius: 50%; margin: 0 auto; display: flex; align-items: center; justify-content: center; color: var(--primary-blue); font-size: 3rem;">
+                        <i class="fas fa-user"></i>
+                    </div>`
+                }
+            </div>
+            <h3>${escapeHtml(l.position)}</h3>
+            <p style="color: var(--primary-orange); font-weight: 600;">${escapeHtml(l.name)}</p>
+            <p>${escapeHtml(l.description || '')}</p>
+            <div class="event-actions">
+                <button class="btn btn-secondary" onclick="editLeader('${l.id}')">
+                    <i class="fas fa-edit"></i> Edit
+                </button>
+                <button class="btn btn-danger" onclick="deleteLeader('${l.id}')">
+                    <i class="fas fa-trash"></i> Delete
+                </button>
+            </div>
+        </div>
+    `).join('');
+}
+
+function addLeader() {
+    showLeaderModal();
+}
+
+function editLeader(id) {
+    fetch('/api/leadership', {
+        headers: { 'Authorization': `Bearer ${localStorage.getItem('adminToken')}` }
+    })
+    .then(r => r.json())
+    .then(data => {
+        const leader = data.leaders.find(l => l.id === id);
+        if (leader) showLeaderModal(leader);
+    });
+}
+
+function showLeaderModal(leader = null) {
+    const isEdit = leader !== null;
+    const modalHTML = `
+        <div id="leaderModal" class="modal" style="display: block;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>${isEdit ? 'Edit' : 'Add'} Leader</h2>
+                    <button onclick="closeLeaderModal()" class="close-btn">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Position *</label>
+                        <input type="text" id="leaderPosition" value="${leader ? escapeHtml(leader.position) : ''}" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Name *</label>
+                        <input type="text" id="leaderName" value="${leader ? escapeHtml(leader.name) : ''}" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea id="leaderDescription" rows="3">${leader ? escapeHtml(leader.description || '') : ''}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Photo</label>
+                        <div class="file-upload-area" onclick="document.getElementById('leaderPhotoInput').click()">
+                            <input type="file" id="leaderPhotoInput" accept="image/*" style="display: none;" onchange="handleLeaderPhotoUpload(event)">
+                            <div id="leaderPhotoPreview" class="flyer-preview">
+                                ${leader && leader.photo ? 
+                                    `<img src="${leader.photo}" alt="Leader photo" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover;" />` : 
+                                    `<div class="upload-placeholder">
+                                        <i class="fas fa-cloud-upload-alt"></i>
+                                        <p>Click to upload photo</p>
+                                        <small>PNG, JPG up to 2MB</small>
+                                    </div>`
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Display Order</label>
+                        <input type="number" id="leaderOrder" value="${leader ? leader.order || 0 : 0}" min="0">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button onclick="closeLeaderModal()" class="btn btn-secondary">Cancel</button>
+                    <button onclick="saveLeader(${isEdit ? `'${leader.id}'` : 'null'})" class="btn btn-primary">
+                        ${isEdit ? 'Update' : 'Create'}
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+}
+
+function closeLeaderModal() {
+    const modal = document.getElementById('leaderModal');
+    if (modal) modal.remove();
+}
+
+function handleLeaderPhotoUpload(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    
+    if (file.size > 2 * 1024 * 1024) {
+        showNotification('File size must be less than 2MB', 'error');
+        return;
+    }
+    
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        compressImage(e.target.result, (compressedImage) => {
+            const preview = document.getElementById('leaderPhotoPreview');
+            preview.innerHTML = `<img src="${compressedImage}" alt="Leader photo" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover;" />`;
+        });
+    };
+    reader.readAsDataURL(file);
+}
+
+async function saveLeader(id) {
+    try {
+        const position = document.getElementById('leaderPosition').value.trim();
+        const name = document.getElementById('leaderName').value.trim();
+        const description = document.getElementById('leaderDescription').value.trim();
+        const order = parseInt(document.getElementById('leaderOrder').value) || 0;
+        
+        if (!position || !name) {
+            throw new Error('Position and name are required');
+        }
+        
+        let photo = null;
+        const photoPreview = document.querySelector('#leaderPhotoPreview img');
+        if (photoPreview) {
+            photo = photoPreview.src;
+        }
+        
+        const data = { position, name, description, photo, order };
+        const token = localStorage.getItem('adminToken');
+        
+        const response = await fetch(`/api/leadership${id ? `/${id}` : ''}`, {
+            method: id ? 'PUT' : 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+        
+        const result = await response.json();
+        if (response.ok && result.success) {
+            showNotification(`Leader ${id ? 'updated' : 'added'} successfully`, 'success');
+            closeLeaderModal();
+            loadLeadership();
+        } else {
+            throw new Error(result.error);
+        }
+    } catch (error) {
+        showNotification('Error: ' + error.message, 'error');
+    }
+}
+
+async function deleteLeader(id) {
+    if (!confirm('Delete this leader?')) return;
+    
+    try {
+        const token = localStorage.getItem('adminToken');
+        const response = await fetch(`/api/leadership/${id}`, {
+            method: 'DELETE',
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        
+        const result = await response.json();
+        if (response.ok && result.success) {
+            showNotification('Leader deleted', 'success');
+            loadLeadership();
+        }
+    } catch (error) {
+        showNotification('Error deleting leader', 'error');
+    }
+}

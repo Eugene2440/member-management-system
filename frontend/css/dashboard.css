@@ -3,6 +3,7 @@ body {
     background: var(--gray-100);
     padding: 0;
     margin: 0;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .dashboard-container {
@@ -17,12 +18,15 @@ body {
     left: -280px;
     top: 120px;
     width: 280px;
-    height: calc(100vh - 120px);
+    height: auto;
+    max-height: 300px;
     background: linear-gradient(180deg, var(--white) 0%, #fafbfc 100%);
     box-shadow: 4px 0 20px rgba(0, 0, 0, 0.08);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 999;
-    border-right: 1px solid var(--gray-200);
+    border: 1px solid var(--primary-blue);
+    border-left: none;
+    border-radius: 0 15px 15px 0;
 }
 
 .sidebar.active {
@@ -131,8 +135,7 @@ body {
 }
 
 .dashboard-main.sidebar-open {
-    margin-left: 280px;
-    transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    margin-left: 0;
 }
 
 /* Header */
@@ -215,7 +218,7 @@ body {
     cursor: pointer;
     font-size: 0.9rem;
     font-weight: 500;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     transition: all 0.3s ease;
     text-decoration: none;
     display: flex;
@@ -380,7 +383,7 @@ body {
     border: 2px solid var(--gray-200);
     border-radius: 10px;
     font-size: 1rem;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     transition: border-color 0.3s ease;
     resize: vertical;
 }
@@ -567,7 +570,7 @@ body {
     border: 2px solid #e1e8ed;
     border-radius: 10px;
     font-size: 1rem;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     transition: border-color 0.3s ease;
 }
 
@@ -587,7 +590,7 @@ body {
     font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .search-btn,
@@ -627,7 +630,7 @@ body {
     border: 2px solid #e1e8ed;
     border-radius: 10px;
     font-size: 0.95rem;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     background: white;
     min-width: 180px;
 }
@@ -735,7 +738,7 @@ body {
     font-size: 0.7rem;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .btn-edit {
@@ -958,7 +961,7 @@ body {
     border: 2px solid var(--gray-200);
     border-radius: 10px;
     font-size: 1rem;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     transition: border-color 0.3s ease;
 }
 
@@ -990,7 +993,7 @@ body {
     font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .btn-primary:hover {
@@ -1009,7 +1012,7 @@ body {
     font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .btn-secondary:hover {
@@ -1026,7 +1029,7 @@ body {
     font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .btn-danger:hover {

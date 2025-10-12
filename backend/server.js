@@ -7,6 +7,7 @@ const memberRoutes = require('./routes/members');
 const authRoutes = require('./routes/auth');
 const eventRoutes = require('./routes/events');
 const announcementRoutes = require('./routes/announcements');
+const leadershipRoutes = require('./routes/leadership');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -31,6 +32,7 @@ app.use('/api/members', memberRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/events', eventRoutes);
 app.use('/api/announcements', announcementRoutes);
+app.use('/api/leadership', leadershipRoutes);
 
 // Serve frontend
 app.get('/', (req, res) => {
