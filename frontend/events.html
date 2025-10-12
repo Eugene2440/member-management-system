@@ -158,7 +158,7 @@
             try {
                 const API_URL = window.location.hostname === 'localhost' 
                     ? 'http://localhost:3000/api' 
-                    : 'https://your-backend-url.onrender.com/api';
+                    : 'https://member-management-system-e52u.onrender.com/api';
                     
                 const response = await fetch(`${API_URL}/events/past/public`);
                 const data = await response.json();
