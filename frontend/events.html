@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events - AECAS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="home.html" class="nav-logo">
+                <img src="css/logo.jpg" alt="AECAS Logo">
+                <div class="nav-logo-text">
+                    <span class="nav-logo-title">AECAS</span>
+                    <span class="nav-logo-subtitle">The Association of Engineering Construction and Architecture Students</span>
+                </div>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="home.html">Home</a></li>
+                <li><a href="events.html" class="active">Events</a></li>
+                <li><a href="leadership.html">Leadership</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="announcements.html">Announcements</a></li>
+                <li><a href="join.html" class="btn btn-primary" style="padding: 10px 20px; border-radius: 25px;">Join AECAS</a></li>
+            </ul>
+            <div class="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero" style="padding: 60px 0;">
+            <div class="hero-container">
+                <h1>AECAS Events</h1>
+                <p>Stay updated with our upcoming events, workshops, and activities designed to enhance your professional development.</p>
+            </div>
+        </section>
+
+        <!-- Upcoming Events -->
+        <section class="section">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Upcoming Events</h2>
+                    <p>Don't miss out on these exciting opportunities to learn, network, and grow</p>
+                </div>
+                <div class="events-grid">
+                    <!-- Events will be loaded dynamically -->
+                    <p style="text-align: center; width: 100%; padding: 40px;">Loading upcoming events...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Past Events -->
+        <section class="section" style="background: var(--gray-100);">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Past Events</h2>
+                    <p>Take a look at some of our successful events and activities</p>
+                </div>
+                <div class="past-events-grid" id="pastEventsGrid">
+                    <p style="text-align: center; width: 100%; padding: 20px;">Loading past events...</p>
+                </div>
+            </div>
+        </section>
+
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>AECAS</h3>
+                    <p>The Association of Engineering Construction and Architecture Students at Technical University of Kenya.</p>
+                    <p>Building Tomorrow's Professionals Today</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <a href="home.html">Home</a>
+                    <a href="events.html">Events</a>
+                    <a href="leadership.html">Leadership</a>
+                    <a href="join.html">Join AECAS</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Info</h3>
+                    <p><i class="fas fa-envelope"></i> henryodida5@gmail.com</p>
+                    <p><i class="fas fa-phone"></i> +254 748188081</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Technical University of Kenya</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 AECAS - Association of Engineering Construction and Architecture Students. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Flyer Modal -->
+    <div id="flyerModal" class="modal" style="display: none;">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <span class="close" onclick="closeFlyerModal()">&times;</span>
+                <h3>Event Flyer</h3>
+            </div>
+            <div class="modal-body" style="text-align: center; padding: 20px;">
+                <img src="css/event-flyer.jpg" alt="Event Flyer" style="width: 100%; max-width: 600px; border-radius: 10px;">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mobile menu toggle
+        const navToggle = document.querySelector('.nav-toggle');
+        const navMenu = document.querySelector('.nav-menu');
+
+        navToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+            });
+        });
+
+        function showFlyer(imageUrl, title) {
+            const modal = document.getElementById('flyerModal');
+            const modalImg = modal.querySelector('img');
+            const modalTitle = modal.querySelector('h3');
+            
+            if (imageUrl) {
+                modalImg.src = imageUrl;
+                modalTitle.textContent = title;
+            }
+            modal.style.display = 'block';
+        }
+        
+        function closeFlyerModal() {
+            document.getElementById('flyerModal').style.display = 'none';
+        }
+        
+        function openGallery(eventId) {
+            window.location.href = `gallery.html?event=${eventId}`;
+        }
+        
+        async function loadPastEvents() {
+            try {
+                const API_URL = window.location.hostname === 'localhost' 
+                    ? 'http://localhost:3000/api' 
+                    : 'https://your-backend-url.onrender.com/api';
+                    
+                const response = await fetch(`${API_URL}/events/past/public`);
+                const data = await response.json();
+                
+                if (data.success && data.events.length > 0) {
+                    displayPastEvents(data.events);
+                } else {
+                    document.getElementById('pastEventsGrid').innerHTML = '<p style="text-align: center; width: 100%; padding: 20px;">No past events yet.</p>';
+                }
+            } catch (error) {
+                console.error('Error loading past events:', error);
+                document.getElementById('pastEventsGrid').innerHTML = '<p style="text-align: center; width: 100%; padding: 20px;">Unable to load past events.</p>';
+            }
+        }
+        
+        function displayPastEvents(events) {
+            const grid = document.getElementById('pastEventsGrid');
+            grid.innerHTML = events.map(event => {
+                const eventDate = new Date(event.date);
+                const month = eventDate.toLocaleString('en', { month: 'short' }).toUpperCase();
+                const year = eventDate.getFullYear();
+                const thumbnail = event.gallery && event.gallery[0] ? event.gallery[0] : (event.flyerImage || 'css/event-flyer.jpg');
+                
+                return `
+                    <div class="past-event-card">
+                        <div class="past-event-image">
+                            <img src="${thumbnail}" alt="${event.title}" onerror="this.src='css/event-flyer.jpg'">
+                            <div class="event-date-overlay">
+                                <span>${month} ${year}</span>
+                            </div>
+                        </div>
+                        <div class="past-event-content">
+                            <h3>${event.title}</h3>
+                            <p>${event.remarks || event.description || 'A successful event organized by AECAS.'}</p>
+                            ${event.gallery && event.gallery.length > 0 ? `<button class="btn btn-primary" onclick="openGallery('${event.id}')">View Gallery (${event.gallery.length} photos)</button>` : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            loadPastEvents();
+        });
+    </script>
+    <script src="js/events.js"></script>
+</body>
+</html>

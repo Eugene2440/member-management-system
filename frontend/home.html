@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AECAS - Association of Engineering Construction and Architecture Students</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="home.html" class="nav-logo">
+                <img src="css/logo.jpg" alt="AECAS Logo">
+                <div class="nav-logo-text">
+                    <span class="nav-logo-title">AECAS</span>
+                    <span class="nav-logo-subtitle">The Association of Engineering Construction and Architecture Students</span>
+                </div>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="home.html" class="active">Home</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="leadership.html">Leadership</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="announcements.html">Announcements</a></li>
+                <li><a href="join.html" class="btn btn-primary" style="padding: 10px 20px; border-radius: 25px;">Join AECAS</a></li>
+            </ul>
+            <div class="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-container">
+                <h1>Building Tomorrow's Professionals Today</h1>
+                <p>Join the Association of Engineering Construction and Architecture Students at TUK and be part of a community that shapes the future of engineering and architecture.</p>
+                <div class="cta-buttons">
+                    <a href="join.html" class="btn btn-primary">Join AECAS</a>
+                    <a href="#about" class="btn btn-secondary">Learn More</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="section">
+            <div class="container">
+                <div class="section-title">
+                    <h2>About AECAS</h2>
+                    <p>The Association of Engineering Construction and Architecture Students is a vibrant community of future professionals at the Technical University of Kenya.</p>
+                </div>
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-icon">
+                            <i class="fas fa-quote-left"></i>
+                        </div>
+                        <h3>Motto</h3>
+                        <p>Fostering interdisciplinary collaboration in engineering and the built environment</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                        <h3>Mission</h3>
+                        <p>To unite students in Engineering and the Built Environment, fostering interdisciplinary collaboration that bridges academic learning with practical industry experience.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <h3>Vision</h3>
+                        <p>To be the leading student association connecting academia, industry, and communities for a resilient future in engineering and construction.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- What We Do Section -->
+        <section class="section" style="background: var(--gray-100);">
+            <div class="container">
+                <div class="section-title">
+                    <h2>What We Do</h2>
+                    <p>We organize regular visits to construction sites, engineering projects, and industrial facilities. Students get exposed to real projects and observe modern building techniques, engineering processes, and industry best practices.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Upcoming Events Section -->
+        <section class="section">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Upcoming Events</h2>
+                    <p>Don't miss out on these exciting opportunities</p>
+                </div>
+                <div id="homeEventsGrid" class="events-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+                    <p style="text-align: center; width: 100%; padding: 20px;">Loading events...</p>
+                </div>
+                <div style="text-align: center; margin-top: 30px;">
+                    <a href="events.html" class="btn btn-primary">View All Events</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Departments Section -->
+        <section class="section" style="background: var(--gray-100);">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Our Departments</h2>
+                    <p>AECAS represents students from all engineering and architecture departments at TUK</p>
+                </div>
+                <div class="cards-grid">
+                    <div class="card">
+                        <h3>ARCHITECTURE, DESIGN AND PLANNING (DADP)</h3>
+                        <ul>
+                            <li>Urban and Regional Planning</li>
+                            <li>Urban and Regional Development</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>CIVIL AND RESOURCE ENGINEERING (DCRE)</h3>
+                        <ul>
+                            <li>Civil Engineering</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>CONSTRUCTION AND PROPERTY STUDIES (DCPS)</h3>
+                        <ul>
+                            <li>Construction Management</li>
+                            <li>Quantity Surveying</li>
+                            <li>Construction Technology</li>
+                            <li>Real Estate</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>ELECTRICAL AND ELECTRONICS ENGINEERING (DEEE)</h3>
+                        <ul>
+                            <li>Electrical and Electronics Engineering</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>MECHANICAL AND AEROSPACE ENGINEERING (DMAE)</h3>
+                        <ul>
+                            <li>Mechanical Engineering</li>
+                            <li>Aerospace and Aeronautical Engineering</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>SURVEYING AND SPATIAL SCIENCES (DSSS)</h3>
+                        <ul>
+                            <li>Geospatial Engineering</li>
+                            <li>Geoinformatics</li>
+                            <li>Geoinformation</li>
+                            <li>Survey</li>
+                            <li>Land Administration</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>CHEMICAL AND BIOSYSTEMS ENGINEERING (DCBE)</h3>
+                        <ul>
+                            <li>Chemical Engineering</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>ARCHITECTURE AND BUILDING SCIENCE</h3>
+                        <ul>
+                            <li>Architecture</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>AECAS</h3>
+                    <p>The Association of Engineering Construction and Architecture Students at Technical University of Kenya.</p>
+                    <p>Building Tomorrow's Professionals Today</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <a href="home.html">Home</a>
+                    <a href="events.html">Events</a>
+                    <a href="leadership.html">Leadership</a>
+                    <a href="join.html">Join AECAS</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Info</h3>
+                    <p><i class="fas fa-envelope"></i> henryodida5@gmail.com</p>
+                    <p><i class="fas fa-phone"></i> +254 748188081</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Technical University of Kenya</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 AECAS - Association of Engineering Construction and Architecture Students. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const navToggle = document.querySelector('.nav-toggle');
+        const navMenu = document.querySelector('.nav-menu');
+
+        navToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+            });
+        });
+
+        // Load upcoming events
+        const API_URL = window.location.hostname === 'localhost' 
+            ? 'http://localhost:3000/api' 
+            : 'https://your-backend-url.onrender.com/api';
+
+        async function loadHomeEvents() {
+            try {
+                const response = await fetch(`${API_URL}/events/public`);
+                const data = await response.json();
+                
+                if (data.success && data.events.length > 0) {
+                    displayHomeEvents(data.events.slice(0, 3));
+                } else {
+                    document.getElementById('homeEventsGrid').innerHTML = '<p style="text-align: center; width: 100%; padding: 20px;">No upcoming events at the moment. Check back soon!</p>';
+                }
+            } catch (error) {
+                console.error('Error loading events:', error);
+                document.getElementById('homeEventsGrid').innerHTML = '<p style="text-align: center; width: 100%; padding: 20px;">Unable to load events. Please try again later.</p>';
+            }
+        }
+
+        function displayHomeEvents(events) {
+            const eventsGrid = document.getElementById('homeEventsGrid');
+            eventsGrid.innerHTML = '';
+            
+            events.forEach(event => {
+                const eventDate = new Date(event.date);
+                const month = eventDate.toLocaleString('en', { month: 'short' }).toUpperCase();
+                const day = eventDate.getDate();
+                
+                const eventCard = `
+                    <div class="card" style="text-align: left;">
+                        <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+                            <div style="background: var(--primary-color); color: white; padding: 10px 15px; border-radius: 8px; text-align: center; min-width: 60px;">
+                                <div style="font-size: 12px; font-weight: 600;">${month}</div>
+                                <div style="font-size: 24px; font-weight: 700;">${day}</div>
+                            </div>
+                            <div>
+                                <h3 style="margin: 0; font-size: 18px;">${event.title}</h3>
+                                <p style="margin: 5px 0 0 0; font-size: 14px; color: var(--text-secondary);"><i class="fas fa-clock"></i> ${event.time}</p>
+                            </div>
+                        </div>
+                        <p style="margin: 10px 0;"><i class="fas fa-map-marker-alt"></i> ${event.location}</p>
+                        <p style="margin: 10px 0; color: var(--text-secondary);">${event.description ? event.description.substring(0, 100) + '...' : 'Join us for this exciting event!'}</p>
+                    </div>
+                `;
+                
+                eventsGrid.innerHTML += eventCard;
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadHomeEvents();
+        });
+    </script>
+</body>
+</html>

@@ -33,6 +33,7 @@ async function initializeDashboard() {
     // Load initial data
     await loadMembers();
     updateStats();
+    initializeAnalytics();
 }
 
 function setupRolePermissions() {
@@ -87,6 +88,7 @@ async function loadMembers() {
             filteredMembers = [...allMembers];
             renderMembersTable();
             updateStats();
+            updateAnalytics();
         } else {
             throw new Error(result.error || 'Failed to load members');
         }
@@ -302,7 +304,7 @@ async function saveMember() {
         const memberData = {
             name: formData.get('name').trim(),
             email: formData.get('email').trim(),
-            phone: formData.get('phone').trim(),
+            phone: formData.get('phone').replace(/\D/g, ''),
             memberNumber: formData.get('memberNumber').trim(),
             department: formData.get('department') || null,
             registrationNumber: formData.get('registrationNumber').trim() || null,
@@ -472,6 +474,929 @@ window.addEventListener('click', function(event) {
         closeConfirmModal();
     }
 });
+
+// Analytics Functions
+let charts = {};
+
+function initializeAnalytics() {
+    createRegistrationChart();
+    createDepartmentChart();
+    createPaymentChart();
+}
+
+function createRegistrationChart() {
+    const ctx = document.getElementById('registrationChart').getContext('2d');
+    
+    // Get last 6 months data
+    const monthsData = getLast6MonthsData();
+    
+    charts.registration = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: monthsData.labels,
+            datasets: [{
+                label: 'New Registrations',
+                data: monthsData.data,
+                borderColor: 'rgb(30, 58, 138)',
+                backgroundColor: 'rgba(30, 58, 138, 0.1)',
+                tension: 0.4,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1
+                    }
+                }
+            }
+        }
+    });
+}
+
+function createDepartmentChart() {
+    const ctx = document.getElementById('departmentChart').getContext('2d');
+    const departmentData = getDepartmentDistribution();
+    
+    charts.department = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: departmentData.labels,
+            datasets: [{
+                data: departmentData.data,
+                backgroundColor: [
+                    '#1e3a8a', '#3b82f6', '#eab308', '#ca8a04',
+                    '#10b981', '#059669', '#dc2626', '#991b1b'
+                ]
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        padding: 15,
+                        usePointStyle: true
+                    }
+                }
+            }
+        }
+    });
+}
+
+function createPaymentChart() {
+    const ctx = document.getElementById('paymentChart').getContext('2d');
+    const paymentData = getPaymentStatusData();
+    
+    charts.payment = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: paymentData.labels,
+            datasets: [{
+                label: 'Members',
+                data: paymentData.data,
+                backgroundColor: ['#eab308', '#10b981', '#dc2626']
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1
+                    }
+                }
+            }
+        }
+    });
+}
+
+
+
+function getLast6MonthsData() {
+    const months = [];
+    const data = [];
+    const now = new Date();
+    
+    for (let i = 5; i >= 0; i--) {
+        const date = new Date(now.getFullYear(), now.getMonth() - i, 1);
+        const monthName = date.toLocaleDateString('en-US', { month: 'short' });
+        months.push(monthName);
+        
+        const count = allMembers.filter(member => {
+            const memberDate = new Date(member.registrationDate);
+            return memberDate.getMonth() === date.getMonth() && 
+                   memberDate.getFullYear() === date.getFullYear();
+        }).length;
+        
+        data.push(count);
+    }
+    
+    return { labels: months, data: data };
+}
+
+function getDepartmentDistribution() {
+    const departments = {};
+    
+    allMembers.forEach(member => {
+        const dept = member.department || 'Not Specified';
+        departments[dept] = (departments[dept] || 0) + 1;
+    });
+    
+    return {
+        labels: Object.keys(departments),
+        data: Object.values(departments)
+    };
+}
+
+function getPaymentStatusData() {
+    const statuses = { pending: 0, confirmed: 0, rejected: 0 };
+    
+    allMembers.forEach(member => {
+        statuses[member.paymentStatus]++;
+    });
+    
+    return {
+        labels: ['Pending', 'Confirmed', 'Rejected'],
+        data: [statuses.pending, statuses.confirmed, statuses.rejected]
+    };
+}
+
+
+
+function updateAnalytics() {
+    // Destroy existing charts
+    Object.values(charts).forEach(chart => {
+        if (chart) chart.destroy();
+    });
+    
+    // Recreate charts with new data
+    initializeAnalytics();
+}
+
+// Sidebar Functions
+function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const main = document.getElementById('dashboardMain');
+    
+    sidebar.classList.toggle('active');
+    main.classList.toggle('sidebar-open');
+}
+
+function showSection(section) {
+    // Update active nav link
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.classList.remove('active');
+    });
+    
+    event.target.closest('.nav-link').classList.add('active');
+    
+    // Show/hide sections based on selection
+    if (section === 'members') {
+        showMembersSection();
+    } else if (section === 'events') {
+        showEventsSection();
+    } else if (section === 'announcements') {
+        showAnnouncementsSection();
+    }
+    
+    // Close sidebar on mobile
+    if (window.innerWidth <= 768) {
+        toggleSidebar();
+    }
+}
+
+function showMembersSection() {
+    document.querySelector('.stats-section').style.display = 'block';
+    document.querySelector('.analytics-section').style.display = 'block';
+    document.querySelector('.filters-section').style.display = 'block';
+    document.querySelector('.members-section').style.display = 'block';
+    
+    const eventsSection = document.getElementById('eventsSection');
+    if (eventsSection) eventsSection.style.display = 'none';
+    
+    const announcementsSection = document.getElementById('announcementsSection');
+    if (announcementsSection) announcementsSection.style.display = 'none';
+}
+
+function showEventsSection() {
+    document.querySelector('.stats-section').style.display = 'none';
+    document.querySelector('.analytics-section').style.display = 'none';
+    document.querySelector('.filters-section').style.display = 'none';
+    document.querySelector('.members-section').style.display = 'none';
+    
+    let eventsSection = document.getElementById('eventsSection');
+    if (!eventsSection) {
+        createEventsSection();
+    } else {
+        eventsSection.style.display = 'block';
+    }
+    
+    const announcementsSection = document.getElementById('announcementsSection');
+    if (announcementsSection) announcementsSection.style.display = 'none';
+}
+
+function showAnnouncementsSection() {
+    document.querySelector('.stats-section').style.display = 'none';
+    document.querySelector('.analytics-section').style.display = 'none';
+    document.querySelector('.filters-section').style.display = 'none';
+    document.querySelector('.members-section').style.display = 'none';
+    
+    const eventsSection = document.getElementById('eventsSection');
+    if (eventsSection) eventsSection.style.display = 'none';
+    
+    let announcementsSection = document.getElementById('announcementsSection');
+    if (!announcementsSection) {
+        createAnnouncementsSection();
+    } else {
+        announcementsSection.style.display = 'block';
+    }
+}
+
+function createEventsSection() {
+    const main = document.getElementById('dashboardMain');
+    
+    const eventsHTML = `
+        <section id="eventsSection" class="events-management-section">
+            <div class="section-header">
+                <h2>Event Management</h2>
+                <div style="display: flex; gap: 10px;">
+                    <button onclick="toggleEventView('upcoming')" id="upcomingBtn" class="btn btn-secondary">
+                        <i class="fas fa-calendar-plus"></i> Upcoming
+                    </button>
+                    <button onclick="toggleEventView('past')" id="pastBtn" class="btn btn-secondary">
+                        <i class="fas fa-history"></i> Past
+                    </button>
+                    <button onclick="addNewEvent()" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Add Event
+                    </button>
+                </div>
+            </div>
+            
+            <div class="events-grid" id="eventsGrid">
+                <div class="loading-indicator" id="eventsLoading">
+                    <div class="loading-spinner"></div>
+                    <p>Loading events...</p>
+                </div>
+            </div>
+        </section>
+    `;
+    
+    main.insertAdjacentHTML('beforeend', eventsHTML);
+    window.currentEventView = 'upcoming';
+    loadEvents();
+}
+
+async function loadEvents() {
+    try {
+        const token = localStorage.getItem('adminToken');
+        const response = await fetch('/api/events', {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        
+        const result = await response.json();
+        
+        if (response.ok && result.success) {
+            renderEvents(result.events);
+        } else {
+            throw new Error(result.error || 'Failed to load events');
+        }
+    } catch (error) {
+        console.error('Error loading events:', error);
+        document.getElementById('eventsGrid').innerHTML = '<p>Error loading events</p>';
+    }
+}
+
+function renderEvents(events) {
+    const grid = document.getElementById('eventsGrid');
+    const now = new Date().toISOString().split('T')[0];
+    const view = window.currentEventView || 'upcoming';
+    
+    localStorage.setItem('currentEvents', JSON.stringify(events));
+    
+    const upcoming = events.filter(e => e.date >= now);
+    const past = events.filter(e => e.date < now);
+    
+    // Update button styles
+    const upcomingBtn = document.getElementById('upcomingBtn');
+    const pastBtn = document.getElementById('pastBtn');
+    if (upcomingBtn && pastBtn) {
+        if (view === 'upcoming') {
+            upcomingBtn.className = 'btn btn-primary';
+            pastBtn.className = 'btn btn-secondary';
+        } else {
+            upcomingBtn.className = 'btn btn-secondary';
+            pastBtn.className = 'btn btn-primary';
+        }
+    }
+    
+    const displayEvents = view === 'upcoming' ? upcoming : past;
+    
+    if (displayEvents.length === 0) {
+        grid.innerHTML = `<p>No ${view} events found.</p>`;
+        return;
+    }
+    
+    grid.innerHTML = displayEvents.map(event => renderEventCard(event, view === 'past')).join('');
+}
+
+function toggleEventView(view) {
+    window.currentEventView = view;
+    const events = JSON.parse(localStorage.getItem('currentEvents') || '[]');
+    renderEvents(events);
+}
+
+function renderEventCard(event, isPast) {
+    return `
+        <div class="event-card">
+            <h3>${escapeHtml(event.title)}</h3>
+            <p><i class="fas fa-calendar"></i> ${new Date(event.date).toLocaleDateString()}</p>
+            <p><i class="fas fa-clock"></i> ${escapeHtml(event.time)}</p>
+            <p><i class="fas fa-map-marker-alt"></i> ${escapeHtml(event.location)}</p>
+            ${event.description ? `<p class="event-description">${escapeHtml(event.description)}</p>` : ''}
+            <div class="event-actions">
+                ${event.flyerImage ? `<button class="btn btn-primary" onclick="viewEventFlyer('${event.flyerImage}', '${escapeHtml(event.title)}')"><i class="fas fa-image"></i> Flyer</button>` : ''}
+                ${isPast ? `<button class="btn btn-primary" onclick="manageGallery('${event.id}')"><i class="fas fa-images"></i> Gallery</button>` : ''}
+                <button class="btn btn-secondary" onclick="editEvent('${event.id}')">
+                    <i class="fas fa-edit"></i> Edit
+                </button>
+                <button class="btn btn-danger" onclick="deleteEvent('${event.id}')">
+                    <i class="fas fa-trash"></i> Delete
+                </button>
+            </div>
+        </div>
+    `;
+}
+
+function addNewEvent() {
+    showEventModal();
+}
+
+function editEvent(eventId) {
+    const events = JSON.parse(localStorage.getItem('currentEvents') || '[]');
+    const event = events.find(e => e.id === eventId);
+    if (event) {
+        showEventModal(event);
+    }
+}
+
+async function deleteEvent(eventId) {
+    if (!confirm('Are you sure you want to delete this event?')) return;
+    
+    try {
+        const token = localStorage.getItem('adminToken');
+        const response = await fetch(`/api/events/${eventId}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        
+        const result = await response.json();
+        
+        if (response.ok && result.success) {
+            showNotification('Event deleted successfully', 'success');
+            loadEvents();
+        } else {
+            throw new Error(result.error || 'Failed to delete event');
+        }
+    } catch (error) {
+        console.error('Error deleting event:', error);
+        showNotification('Error deleting event: ' + error.message, 'error');
+    }
+}
+
+function showEventModal(event = null) {
+    const isEdit = event !== null;
+    const isPast = event && event.date < new Date().toISOString().split('T')[0];
+    const modalHTML = `
+        <div id="eventModal" class="modal" style="display: block;">
+            <div class="modal-content large">
+                <div class="modal-header">
+                    <h2>${isEdit ? 'Edit Event' : 'Add New Event'}</h2>
+                    <button onclick="closeEventModal()" class="close-btn">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="eventForm">
+                        <div class="form-group">
+                            <label for="eventTitle">Event Title *</label>
+                            <input type="text" id="eventTitle" value="${event ? escapeHtml(event.title) : ''}" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="eventFlyer">Event Flyer Image</label>
+                            <div class="file-upload-area" onclick="document.getElementById('flyerInput').click()">
+                                <input type="file" id="flyerInput" accept="image/*" style="display: none;" onchange="handleFlyerUpload(event)">
+                                <div id="flyerPreview" class="flyer-preview">
+                                    ${event && event.flyerImage ? 
+                                        `<img src="${event.flyerImage}" alt="Current flyer" />` : 
+                                        `<div class="upload-placeholder">
+                                            <i class="fas fa-cloud-upload-alt"></i>
+                                            <p>Click to upload event flyer</p>
+                                            <small>PNG, JPG up to 2MB</small>
+                                        </div>`
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="eventDate">Date *</label>
+                                <input type="date" id="eventDate" value="${event ? event.date : ''}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="eventTime">Time *</label>
+                                <input type="text" id="eventTime" value="${event ? escapeHtml(event.time) : ''}" placeholder="e.g., 2:00 PM - 5:00 PM" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="eventLocation">Location *</label>
+                            <input type="text" id="eventLocation" value="${event ? escapeHtml(event.location) : ''}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="eventDescription">Description</label>
+                            <textarea id="eventDescription" rows="3">${event ? escapeHtml(event.description || '') : ''}</textarea>
+                        </div>
+                        ${isPast ? `
+                        <div class="form-group">
+                            <label for="eventRemarks">Remarks (for past events)</label>
+                            <textarea id="eventRemarks" rows="3">${event ? escapeHtml(event.remarks || '') : ''}</textarea>
+                        </div>` : ''}
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button onclick="closeEventModal()" class="btn btn-secondary">Cancel</button>
+                    <button onclick="saveEvent(${isEdit ? `'${event.id}'` : 'null'})" class="btn btn-primary">
+                        ${isEdit ? 'Update Event' : 'Create Event'}
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+}
+
+function closeEventModal() {
+    const modal = document.getElementById('eventModal');
+    if (modal) {
+        modal.remove();
+    }
+}
+
+function handleFlyerUpload(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    
+    if (file.size > 2 * 1024 * 1024) {
+        showNotification('File size must be less than 2MB', 'error');
+        return;
+    }
+    
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        // Compress image before preview
+        compressImage(e.target.result, (compressedImage) => {
+            const preview = document.getElementById('flyerPreview');
+            preview.innerHTML = `<img src="${compressedImage}" alt="Event flyer preview" />`;
+        });
+    };
+    reader.readAsDataURL(file);
+}
+
+function compressImage(base64, callback, quality = 0.7) {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    const img = new Image();
+    
+    img.onload = function() {
+        // Resize to max 800px width while maintaining aspect ratio
+        const maxWidth = 800;
+        const ratio = Math.min(maxWidth / img.width, maxWidth / img.height);
+        
+        canvas.width = img.width * ratio;
+        canvas.height = img.height * ratio;
+        
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        
+        const compressedBase64 = canvas.toDataURL('image/jpeg', quality);
+        callback(compressedBase64);
+    };
+    
+    img.src = base64;
+}
+
+async function saveEvent(eventId) {
+    try {
+        const title = document.getElementById('eventTitle').value.trim();
+        const date = document.getElementById('eventDate').value;
+        const time = document.getElementById('eventTime').value.trim();
+        const location = document.getElementById('eventLocation').value.trim();
+        const description = document.getElementById('eventDescription').value.trim();
+        const remarksField = document.getElementById('eventRemarks');
+        const remarks = remarksField ? remarksField.value.trim() : '';
+        
+        if (!title || !date || !time || !location) {
+            throw new Error('Please fill in all required fields');
+        }
+        
+        let flyerImage = null;
+        const flyerPreview = document.querySelector('#flyerPreview img');
+        if (flyerPreview) {
+            flyerImage = flyerPreview.src;
+        }
+        
+        const eventData = { title, date, time, location, description, flyerImage, remarks };
+        const token = localStorage.getItem('adminToken');
+        
+        const response = await fetch(`/api/events${eventId ? `/${eventId}` : ''}`, {
+            method: eventId ? 'PUT' : 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(eventData)
+        });
+        
+        const result = await response.json();
+        
+        if (response.ok && result.success) {
+            showNotification(`Event ${eventId ? 'updated' : 'created'} successfully`, 'success');
+            closeEventModal();
+            loadEvents();
+        } else {
+            throw new Error(result.error || `Failed to ${eventId ? 'update' : 'create'} event`);
+        }
+    } catch (error) {
+        console.error('Error saving event:', error);
+        showNotification('Error saving event: ' + error.message, 'error');
+    }
+}
+
+function manageGallery(eventId) {
+    const events = JSON.parse(localStorage.getItem('currentEvents') || '[]');
+    const event = events.find(e => e.id === eventId);
+    if (!event) return;
+    
+    const modalHTML = `
+        <div id="galleryModal" class="modal" style="display: block;">
+            <div class="modal-content large">
+                <div class="modal-header">
+                    <h2>Manage Gallery - ${escapeHtml(event.title)}</h2>
+                    <button onclick="closeGalleryModal()" class="close-btn">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Add Images to Gallery</label>
+                        <div class="file-upload-area" onclick="document.getElementById('galleryInput').click()">
+                            <input type="file" id="galleryInput" accept="image/*" multiple style="display: none;" onchange="handleGalleryUpload(event, '${eventId}')">
+                            <div class="upload-placeholder">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p>Click to upload images</p>
+                                <small>Select multiple images (PNG, JPG up to 2MB each)</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="galleryPreview" class="gallery-preview">
+                        ${(event.gallery || []).map((img, idx) => `
+                            <div class="gallery-item">
+                                <img src="${img}" alt="Gallery image ${idx + 1}" />
+                                <button class="remove-gallery-btn" onclick="removeGalleryImage('${eventId}', ${idx})">&times;</button>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button onclick="closeGalleryModal()" class="btn btn-primary">Done</button>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+}
+
+function closeGalleryModal() {
+    const modal = document.getElementById('galleryModal');
+    if (modal) modal.remove();
+    loadEvents();
+}
+
+async function handleGalleryUpload(event, eventId) {
+    const files = Array.from(event.target.files);
+    if (files.length === 0) return;
+    
+    for (const file of files) {
+        if (file.size > 2 * 1024 * 1024) {
+            showNotification('Each file must be less than 2MB', 'error');
+            continue;
+        }
+        
+        const reader = new FileReader();
+        reader.onload = async function(e) {
+            compressImage(e.target.result, async (compressedImage) => {
+                await addImageToGallery(eventId, compressedImage);
+            });
+        };
+        reader.readAsDataURL(file);
+    }
+}
+
+async function addImageToGallery(eventId, imageData) {
+    try {
+        const events = JSON.parse(localStorage.getItem('currentEvents') || '[]');
+        const event = events.find(e => e.id === eventId);
+        if (!event) return;
+        
+        const gallery = event.gallery || [];
+        gallery.push(imageData);
+        
+        const token = localStorage.getItem('adminToken');
+        const response = await fetch(`/api/events/${eventId}`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ gallery })
+        });
+        
+        const result = await response.json();
+        if (response.ok && result.success) {
+            showNotification('Image added to gallery', 'success');
+            closeGalleryModal();
+            manageGallery(eventId);
+        }
+    } catch (error) {
+        console.error('Error adding image:', error);
+        showNotification('Error adding image', 'error');
+    }
+}
+
+async function removeGalleryImage(eventId, index) {
+    if (!confirm('Remove this image from gallery?')) return;
+    
+    try {
+        const events = JSON.parse(localStorage.getItem('currentEvents') || '[]');
+        const event = events.find(e => e.id === eventId);
+        if (!event) return;
+        
+        const gallery = event.gallery || [];
+        gallery.splice(index, 1);
+        
+        const token = localStorage.getItem('adminToken');
+        const response = await fetch(`/api/events/${eventId}`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ gallery })
+        });
+        
+        const result = await response.json();
+        if (response.ok && result.success) {
+            showNotification('Image removed', 'success');
+            closeGalleryModal();
+            manageGallery(eventId);
+        }
+    } catch (error) {
+        console.error('Error removing image:', error);
+        showNotification('Error removing image', 'error');
+    }
+}
+
+function viewEventFlyer(imageUrl, title) {
+    const modalHTML = `
+        <div id="flyerViewModal" class="modal" style="display: block;">
+            <div class="modal-content" style="max-width: 800px;">
+                <div class="modal-header">
+                    <h2>${escapeHtml(title)} - Event Flyer</h2>
+                    <button onclick="closeFlyerViewModal()" class="close-btn">&times;</button>
+                </div>
+                <div class="modal-body" style="text-align: center; padding: 20px;">
+                    <img src="${imageUrl}" alt="Event Flyer" style="width: 100%; max-width: 600px; border-radius: 10px;" />
+                </div>
+            </div>
+        </div>
+    `;
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+}
+
+function closeFlyerViewModal() {
+    const modal = document.getElementById('flyerViewModal');
+    if (modal) {
+        modal.remove();
+    }
+}
+
+function createAnnouncementsSection() {
+    const main = document.getElementById('dashboardMain');
+    
+    const html = `
+        <section id="announcementsSection" class="events-management-section">
+            <div class="section-header">
+                <h2>Announcements Management</h2>
+                <button onclick="addAnnouncement()" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Add Announcement
+                </button>
+            </div>
+            <div class="events-grid" id="announcementsGrid">
+                <div class="loading-indicator"><div class="loading-spinner"></div><p>Loading...</p></div>
+            </div>
+        </section>
+    `;
+    
+    main.insertAdjacentHTML('beforeend', html);
+    loadAnnouncements();
+}
+
+async function loadAnnouncements() {
+    try {
+        const token = localStorage.getItem('adminToken');
+        const response = await fetch('/api/announcements', {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        
+        const result = await response.json();
+        if (response.ok && result.success) {
+            renderAnnouncements(result.announcements);
+        }
+    } catch (error) {
+        console.error('Error loading announcements:', error);
+        document.getElementById('announcementsGrid').innerHTML = '<p>Error loading announcements</p>';
+    }
+}
+
+function renderAnnouncements(announcements) {
+    const grid = document.getElementById('announcementsGrid');
+    
+    if (announcements.length === 0) {
+        grid.innerHTML = '<p>No announcements yet.</p>';
+        return;
+    }
+    
+    grid.innerHTML = announcements.map(a => `
+        <div class="event-card">
+            <h3>${escapeHtml(a.title)}</h3>
+            <p>${escapeHtml(a.message)}</p>
+            <p><small>Priority: ${a.priority} | Status: ${a.isActive ? 'Active' : 'Inactive'}</small></p>
+            <div class="event-actions">
+                <button class="btn btn-secondary" onclick="editAnnouncement('${a.id}')">
+                    <i class="fas fa-edit"></i> Edit
+                </button>
+                <button class="btn btn-danger" onclick="deleteAnnouncement('${a.id}')">
+                    <i class="fas fa-trash"></i> Delete
+                </button>
+            </div>
+        </div>
+    `).join('');
+}
+
+function addAnnouncement() {
+    showAnnouncementModal();
+}
+
+function editAnnouncement(id) {
+    fetch('/api/announcements', {
+        headers: { 'Authorization': `Bearer ${localStorage.getItem('adminToken')}` }
+    })
+    .then(r => r.json())
+    .then(data => {
+        const announcement = data.announcements.find(a => a.id === id);
+        if (announcement) showAnnouncementModal(announcement);
+    });
+}
+
+function showAnnouncementModal(announcement = null) {
+    const isEdit = announcement !== null;
+    const modalHTML = `
+        <div id="announcementModal" class="modal" style="display: block;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>${isEdit ? 'Edit' : 'Add'} Announcement</h2>
+                    <button onclick="closeAnnouncementModal()" class="close-btn">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Title *</label>
+                        <input type="text" id="announcementTitle" value="${announcement ? escapeHtml(announcement.title) : ''}" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Message *</label>
+                        <textarea id="announcementMessage" rows="4" required>${announcement ? escapeHtml(announcement.message) : ''}</textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Priority</label>
+                            <select id="announcementPriority">
+                                <option value="normal" ${announcement && announcement.priority === 'normal' ? 'selected' : ''}>Normal</option>
+                                <option value="high" ${announcement && announcement.priority === 'high' ? 'selected' : ''}>High</option>
+                                <option value="urgent" ${announcement && announcement.priority === 'urgent' ? 'selected' : ''}>Urgent</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Status</label>
+                            <select id="announcementStatus">
+                                <option value="true" ${!announcement || announcement.isActive ? 'selected' : ''}>Active</option>
+                                <option value="false" ${announcement && !announcement.isActive ? 'selected' : ''}>Inactive</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button onclick="closeAnnouncementModal()" class="btn btn-secondary">Cancel</button>
+                    <button onclick="saveAnnouncement(${isEdit ? `'${announcement.id}'` : 'null'})" class="btn btn-primary">
+                        ${isEdit ? 'Update' : 'Create'}
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+}
+
+function closeAnnouncementModal() {
+    const modal = document.getElementById('announcementModal');
+    if (modal) modal.remove();
+}
+
+async function saveAnnouncement(id) {
+    try {
+        const title = document.getElementById('announcementTitle').value.trim();
+        const message = document.getElementById('announcementMessage').value.trim();
+        const priority = document.getElementById('announcementPriority').value;
+        const isActive = document.getElementById('announcementStatus').value === 'true';
+        
+        if (!title || !message) {
+            throw new Error('Title and message are required');
+        }
+        
+        const data = { title, message, priority, isActive };
+        const token = localStorage.getItem('adminToken');
+        
+        const response = await fetch(`/api/announcements${id ? `/${id}` : ''}`, {
+            method: id ? 'PUT' : 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+        
+        const result = await response.json();
+        if (response.ok && result.success) {
+            showNotification(`Announcement ${id ? 'updated' : 'created'} successfully`, 'success');
+            closeAnnouncementModal();
+            loadAnnouncements();
+        } else {
+            throw new Error(result.error);
+        }
+    } catch (error) {
+        showNotification('Error: ' + error.message, 'error');
+    }
+}
+
+async function deleteAnnouncement(id) {
+    if (!confirm('Delete this announcement?')) return;
+    
+    try {
+        const token = localStorage.getItem('adminToken');
+        const response = await fetch(`/api/announcements/${id}`, {
+            method: 'DELETE',
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        
+        const result = await response.json();
+        if (response.ok && result.success) {
+            showNotification('Announcement deleted', 'success');
+            loadAnnouncements();
+        }
+    } catch (error) {
+        showNotification('Error deleting announcement', 'error');
+    }
+}
 
 // Add CSS animations
 const style = document.createElement('style');

@@ -15,17 +15,35 @@ router.post('/register', async (req, res) => {
             return res.status(400).json({ error: 'Name, email, phone, and payment reference are required' });
         }
         
+        // Check for duplicate email
+        const emailQuery = query(collection(db, 'members'), where('email', '==', email.toLowerCase().trim()));
+        const emailSnapshot = await getDocs(emailQuery);
+        
+        if (!emailSnapshot.empty) {
+            return res.status(400).json({ error: 'A member with this email address is already registered' });
+        }
+        
+        // Check for duplicate registration number (if provided)
+        if (registrationNumber && registrationNumber.trim()) {
+            const regNumQuery = query(collection(db, 'members'), where('registrationNumber', '==', registrationNumber.trim().toUpperCase()));
+            const regNumSnapshot = await getDocs(regNumQuery);
+            
+            if (!regNumSnapshot.empty) {
+                return res.status(400).json({ error: 'A member with this registration number is already registered' });
+            }
+        }
+        
         // Generate member number
         const memberNumber = await generateMemberNumber();
         
         // Create member object - Admin will assign membership type later
         const memberData = {
-            name,
-            email,
+            name: name.trim(),
+            email: email.toLowerCase().trim(),
             phone,
-            registrationNumber: registrationNumber || null,
+            registrationNumber: registrationNumber ? registrationNumber.trim().toUpperCase() : null,
             department: department || null,
-            paymentReference,
+            paymentReference: paymentReference.trim(),
             memberNumber,
             membershipType: 'pending', // Default type, admin will assign proper type
             paymentStatus: 'pending',

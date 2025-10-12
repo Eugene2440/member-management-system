@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Gallery - AECAS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <style>
+        .gallery-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        .gallery-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .gallery-header h1 {
+            color: var(--primary-blue);
+            margin-bottom: 10px;
+        }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .gallery-item {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .gallery-item:hover {
+            transform: scale(1.05);
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+        }
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 10px;
+        }
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            color: white;
+            font-size: 40px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="home.html" class="nav-logo">
+                <img src="css/logo.jpg" alt="AECAS Logo">
+                <span class="nav-logo-text">AECAS</span>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="home.html">Home</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="leadership.html">Leadership</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="join.html" class="btn btn-primary" style="padding: 10px 20px; border-radius: 25px;">Join AECAS</a></li>
+            </ul>
+            <div class="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="gallery-container" style="padding-top: 120px;">
+        <div class="gallery-header">
+            <h1 id="eventTitle">Event Gallery</h1>
+            <p id="eventDetails"></p>
+            <a href="events.html" class="btn btn-secondary" style="margin-top: 10px;">Back to Events</a>
+        </div>
+        <div class="gallery-grid" id="galleryGrid">
+            <p style="text-align: center; width: 100%; padding: 40px;">Loading gallery...</p>
+        </div>
+    </div>
+
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+        <span class="lightbox-close">&times;</span>
+        <img id="lightboxImg" src="" alt="Gallery image">
+    </div>
+
+    <script>
+        const API_URL = window.location.hostname === 'localhost' 
+            ? 'http://localhost:3000/api' 
+            : 'https://your-backend-url.onrender.com/api';
+
+        async function loadGallery() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const eventId = urlParams.get('event');
+            
+            if (!eventId) {
+                document.getElementById('galleryGrid').innerHTML = '<p style="text-align: center; width: 100%; padding: 40px;">No event specified.</p>';
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_URL}/events/past/public`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    const event = data.events.find(e => e.id === eventId);
+                    if (event) {
+                        document.getElementById('eventTitle').textContent = event.title;
+                        document.getElementById('eventDetails').textContent = `${new Date(event.date).toLocaleDateString()} • ${event.location}`;
+                        
+                        if (event.gallery && event.gallery.length > 0) {
+                            displayGallery(event.gallery);
+                        } else {
+                            document.getElementById('galleryGrid').innerHTML = '<p style="text-align: center; width: 100%; padding: 40px;">No photos available for this event yet.</p>';
+                        }
+                    } else {
+                        document.getElementById('galleryGrid').innerHTML = '<p style="text-align: center; width: 100%; padding: 40px;">Event not found.</p>';
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading gallery:', error);
+                document.getElementById('galleryGrid').innerHTML = '<p style="text-align: center; width: 100%; padding: 40px;">Unable to load gallery.</p>';
+            }
+        }
+
+        function displayGallery(images) {
+            const grid = document.getElementById('galleryGrid');
+            grid.innerHTML = images.map((img, index) => `
+                <div class="gallery-item" onclick="openLightbox('${img}')">
+                    <img src="${img}" alt="Event photo ${index + 1}">
+                </div>
+            `).join('');
+        }
+
+        function openLightbox(imgSrc) {
+            document.getElementById('lightboxImg').src = imgSrc;
+            document.getElementById('lightbox').style.display = 'flex';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').style.display = 'none';
+        }
+
+        document.addEventListener('DOMContentLoaded', loadGallery);
+
+        // Mobile menu toggle
+        const navToggle = document.querySelector('.nav-toggle');
+        const navMenu = document.querySelector('.nav-menu');
+        navToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+    </script>
+</body>
+</html>

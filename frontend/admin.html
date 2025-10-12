@@ -3,29 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - Association Management</title>
+    <title>Admin Dashboard - AECAS</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="dashboard-container">
         <!-- Header -->
         <header class="dashboard-header">
             <div class="header-content">
-                <h1>Member Management Dashboard</h1>
-                <div class="user-info">
-                    <span id="userWelcome">Welcome, Admin</span>
-                    <span id="userRole" class="role-badge"></span>
-                    <button onclick="logout()" class="logout-btn">Logout</button>
+                <div class="header-left">
+                    <button class="sidebar-toggle" onclick="toggleSidebar()">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <img src="css/logo.jpg" alt="AECAS Logo" class="dashboard-logo">
+                    <div class="header-text">
+                        <h1>AECAS Dashboard</h1>
+                        <p>Member Management System</p>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="user-info">
+                        <i class="fas fa-user-circle"></i>
+                        <div class="user-details">
+                            <span id="userWelcome">Welcome, Admin</span>
+                            <span id="userRole" class="role-badge"></span>
+                        </div>
+                    </div>
+                    <button onclick="logout()" class="logout-btn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Logout
+                    </button>
+                    <a href="home.html" class="website-btn">
+                        <i class="fas fa-globe"></i>
+                        Website
+                    </a>
                 </div>
             </div>
         </header>
+
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="#" onclick="showSection('members')" class="nav-link active">
+                        <i class="fas fa-users"></i>
+                        <span>Members</span>
+                    </a></li>
+                    <li><a href="#" onclick="showSection('events')" class="nav-link">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Events</span>
+                    </a></li>
+                    <li><a href="#" onclick="showSection('announcements')" class="nav-link">
+                        <i class="fas fa-bullhorn"></i>
+                        <span>Announcements</span>
+                    </a></li>
+                </ul>
+            </nav>
+        </aside>
         
         <!-- Main Content -->
-        <main class="dashboard-main">
+        <main class="dashboard-main" id="dashboardMain">
             <!-- Stats Overview -->
             <section class="stats-section">
                 <div class="stats-grid">
@@ -48,6 +91,33 @@
                 </div>
             </section>
             
+            <!-- Analytics Section -->
+            <section class="analytics-section">
+                <div class="section-title">
+                    <h2>Analytics Overview</h2>
+                </div>
+                <div class="analytics-grid">
+                    <div class="analytics-card">
+                        <h3><i class="fas fa-chart-line"></i> Registration Trends</h3>
+                        <div class="chart-container">
+                            <canvas id="registrationChart" width="400" height="200"></canvas>
+                        </div>
+                    </div>
+                    <div class="analytics-card">
+                        <h3><i class="fas fa-graduation-cap"></i> Department Distribution</h3>
+                        <div class="chart-container">
+                            <canvas id="departmentChart" width="400" height="200"></canvas>
+                        </div>
+                    </div>
+                    <div class="analytics-card">
+                        <h3><i class="fas fa-credit-card"></i> Payment Status</h3>
+                        <div class="chart-container">
+                            <canvas id="paymentChart" width="400" height="200"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <!-- Filters and Search -->
             <section class="filters-section">
                 <div class="filters-container">

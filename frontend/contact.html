@@ -3,146 +3,204 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Support - AECSA</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Contact Us - AECAS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <div class="logo-section">
-                <div class="logo-placeholder">
-                    <img src="css/logo.jpg" alt="AECSA Logo" class="logo-image">
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="home.html" class="nav-logo">
+                <img src="css/logo.jpg" alt="AECAS Logo">
+                <div class="nav-logo-text">
+                    <span class="nav-logo-title">AECAS</span>
+                    <span class="nav-logo-subtitle">The Association of Engineering Construction and Architecture Students</span>
                 </div>
-                <div class="association-info">
-                    <h1>The Association of Engineering Construction and Architecture Students - AECAS</h1>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="home.html">Home</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="leadership.html">Leadership</a></li>
+                <li><a href="contact.html" class="active">Contact</a></li>
+                <li><a href="announcements.html">Announcements</a></li>
+                <li><a href="join.html" class="btn btn-primary" style="padding: 10px 20px; border-radius: 25px;">Join AECAS</a></li>
+            </ul>
+            <div class="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero" style="padding: 60px 0;">
+            <div class="hero-container">
+                <h1>Contact Us</h1>
+                <p>Get in touch with AECAS for support, inquiries, or to learn more about our association.</p>
+            </div>
+        </section>
+
+        <!-- Contact Information -->
+        <section class="section">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Get In Touch</h2>
+                    <p>We're here to help with any questions about membership, events, or AECAS activities</p>
+                </div>
+                <div class="cards-grid">
+                    <div class="card" style="text-align: center;">
+                        <div class="card-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <h3>Email Us</h3>
+                        <p style="color: var(--primary-orange); font-weight: 600; margin-bottom: 15px;">henryodida5@gmail.com</p>
+                        <p>Send us an email for detailed inquiries and we'll get back to you as soon as possible.</p>
+                    </div>
+                    
+                    <div class="card" style="text-align: center;">
+                        <div class="card-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <h3>Call Us</h3>
+                        <p style="color: var(--primary-orange); font-weight: 600; margin-bottom: 15px;">+254 748188081</p>
+                        <p>Call us during business hours for immediate assistance and support.</p>
+                        <small style="color: var(--gray-600);">Monday - Friday: 8:00 AM - 5:00 PM (EAT)</small>
+                    </div>
+                    
+                    <div class="card" style="text-align: center;">
+                        <div class="card-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <h3>Visit Us</h3>
+                        <p style="color: var(--primary-orange); font-weight: 600; margin-bottom: 15px;">Technical University of Kenya</p>
+                        <p>College of Architecture and Engineering<br>Student Affairs Office<br>P.O. Box 30197-00100<br>Nairobi, Kenya</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Help -->
+        <section class="section" style="background: var(--gray-100);">
+            <div class="container">
+                <div class="section-title">
+                    <h2>How Can We Help?</h2>
+                    <p>Common topics our team can assist you with</p>
+                </div>
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-icon">
+                            <i class="fas fa-credit-card"></i>
+                        </div>
+                        <h3>Payment Issues</h3>
+                        <p>Having trouble with your registration fee payment? Include your M-Pesa transaction code when contacting us for quick resolution.</p>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-icon">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+                        <h3>Registration Problems</h3>
+                        <p>Can't complete your registration? We'll help you troubleshoot any issues with the registration form or process.</p>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-icon">
+                            <i class="fas fa-id-card"></i>
+                        </div>
+                        <h3>Membership Status</h3>
+                        <p>Questions about your membership status or benefits? Our admin team can help verify your account details.</p>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-icon">
+                            <i class="fas fa-calendar"></i>
+                        </div>
+                        <h3>Events & Activities</h3>
+                        <p>Want to know about upcoming events, workshops, or site visits? We'll keep you informed about all AECAS activities.</p>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-icon">
+                            <i class="fas fa-question-circle"></i>
+                        </div>
+                        <h3>General Inquiries</h3>
+                        <p>Have other questions about AECAS activities, leadership, or how to get more involved? We're here to help!</p>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-icon">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                        <h3>Partnerships</h3>
+                        <p>Interested in partnering with AECAS or sponsoring our events? Contact us to discuss collaboration opportunities.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call to Action -->
+        <section class="section" style="background: var(--primary-blue); color: var(--white);">
+            <div class="container" style="text-align: center;">
+                <h2 style="color: var(--white); margin-bottom: 20px;">Ready to Join AECAS?</h2>
+                <p style="font-size: 1.2rem; margin-bottom: 30px; opacity: 0.9;">Become part of our community and start building your professional network today.</p>
+                <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                    <a href="join.html" class="btn" style="background: var(--primary-orange); color: var(--white);">Join AECAS</a>
+                    <a href="home.html" class="btn" style="background: transparent; border: 2px solid var(--white); color: var(--white);">Back to Home</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>AECAS</h3>
+                    <p>The Association of Engineering Construction and Architecture Students at Technical University of Kenya.</p>
                     <p>Building Tomorrow's Professionals Today</p>
                 </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <a href="home.html">Home</a>
+                    <a href="events.html">Events</a>
+                    <a href="leadership.html">Leadership</a>
+                    <a href="join.html">Join AECAS</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Info</h3>
+                    <p><i class="fas fa-envelope"></i> henryodida5@gmail.com</p>
+                    <p><i class="fas fa-phone"></i> +254 748188081</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Technical University of Kenya</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 AECAS - Association of Engineering Construction and Architecture Students. All rights reserved.</p>
             </div>
         </div>
-        
-        <div class="form-container">
-            <h2>Contact Support</h2>
-            <p>Need help with your membership or have questions? Reach out to us through any of the channels below.</p>
-            
-            <div class="contact-methods">
-                <div class="contact-card">
-                    <div class="contact-icon">
-                        <i class="fas fa-envelope"></i>
-                    </div>
-                    <h3>Email Support</h3>
-                    <p>Send us an email for detailed inquiries</p>
-                    <div class="contact-detail">
-                        <strong>henryodida5@gmail.com</strong>
-                        <button type="button" onclick="copyToClipboard('henryodida5@gmail.com')" class="copy-btn">Copy</button>
-                    </div>
-                </div>
-                
-                <div class="contact-card">
-                    <div class="contact-icon">
-                        <i class="fas fa-phone"></i>
-                    </div>
-                    <h3>Phone Support</h3>
-                    <p>Call us during business hours</p>
-                    <div class="contact-detail">
-                        <strong>+254 748188081</strong>
-                        <button type="button" onclick="copyToClipboard('+254748188081')" class="copy-btn">Copy</button>
-                    </div>
-                    <small>Monday - Friday: 8:00 AM - 5:00 PM (EAT)</small>
-                </div>
-                
-                <div class="contact-card">
-                    <div class="contact-icon">
-                        <i class="fas fa-building"></i>
-                    </div>
-                    <h3>Office Address</h3>
-                    <p>Visit us at our office</p>
-                    <div class="contact-detail">
-                        <strong>Technical University of Kenya<br>
-                        College of Architecture and Engineering<br>
-                        Student Affairs Office<br>
-                        P.O. Box 30197-00100<br>
-                        Nairobi, Kenya</strong>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="quick-help">
-                <h3>Quick Help</h3>
-                <div class="help-topics">
-                    <div class="help-topic">
-                        <h4>Payment Issues</h4>
-                        <p>Having trouble with your registration fee payment? Include your M-Pesa transaction code when contacting us.</p>
-                    </div>
-                    <div class="help-topic">
-                        <h4>Registration Problems</h4>
-                        <p>Can't complete your registration? Make sure all required fields are filled and your email is valid.</p>
-                    </div>
-                    <div class="help-topic">
-                        <h4>Membership Status</h4>
-                        <p>Questions about your membership status? Our admin team can help verify your account details.</p>
-                    </div>
-                    <div class="help-topic">
-                        <h4>General Inquiries</h4>
-                        <p>Have other questions about AECSA activities, events, or membership benefits? We're here to help!</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="actions">
-                <a href="index.html" class="btn-secondary">Back to Registration</a>
-            </div>
-        </div>
-    </div>
+    </footer>
 
     <script>
-        function copyToClipboard(text) {
-            if (navigator.clipboard) {
-                navigator.clipboard.writeText(text).then(() => {
-                    showNotification('Copied to clipboard!', 'success');
-                }).catch(() => {
-                    fallbackCopyToClipboard(text);
-                });
-            } else {
-                fallbackCopyToClipboard(text);
-            }
-        }
-        
-        function fallbackCopyToClipboard(text) {
-            const textArea = document.createElement('textarea');
-            textArea.value = text;
-            document.body.appendChild(textArea);
-            textArea.focus();
-            textArea.select();
-            try {
-                document.execCommand('copy');
-                showNotification('Copied to clipboard!', 'success');
-            } catch (err) {
-                showNotification('Failed to copy', 'error');
-            }
-            document.body.removeChild(textArea);
-        }
-        
-        function showNotification(message, type) {
-            const notification = document.createElement('div');
-            notification.className = `notification ${type}`;
-            notification.textContent = message;
-            notification.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                padding: 10px 20px;
-                border-radius: 5px;
-                color: white;
-                z-index: 10000;
-                ${type === 'success' ? 'background-color: #4CAF50;' : 'background-color: #f44336;'}
-            `;
-            document.body.appendChild(notification);
-            setTimeout(() => {
-                document.body.removeChild(notification);
-            }, 3000);
-        }
+        // Mobile menu toggle
+        const navToggle = document.querySelector('.nav-toggle');
+        const navMenu = document.querySelector('.nav-menu');
+
+        navToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+            });
+        });
     </script>
 </body>
 </html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Announcements - AECAS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="home.html" class="nav-logo">
+                <img src="css/logo.jpg" alt="AECAS Logo">
+                <div class="nav-logo-text">
+                    <span class="nav-logo-title">AECAS</span>
+                    <span class="nav-logo-subtitle">The Association of Engineering Construction and Architecture Students</span>
+                </div>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="home.html">Home</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="leadership.html">Leadership</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="announcements.html" class="active">Announcements</a></li>
+                <li><a href="join.html" class="btn btn-primary" style="padding: 10px 20px; border-radius: 25px;">Join AECAS</a></li>
+            </ul>
+            <div class="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <section class="section" style="padding-top: 120px;">
+            <div class="container">
+                <div id="announcementsList" style="max-width: 800px; margin: 0 auto;">
+                    <p style="text-align: center; padding: 40px;">Loading announcements...</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>AECAS</h3>
+                    <p>The Association of Engineering Construction and Architecture Students at Technical University of Kenya.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <a href="home.html">Home</a>
+                    <a href="events.html">Events</a>
+                    <a href="leadership.html">Leadership</a>
+                    <a href="join.html">Join AECAS</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Info</h3>
+                    <p><i class="fas fa-envelope"></i> henryodida5@gmail.com</p>
+                    <p><i class="fas fa-phone"></i> +254 748188081</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Technical University of Kenya</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 AECAS. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const navToggle = document.querySelector('.nav-toggle');
+        const navMenu = document.querySelector('.nav-menu');
+        navToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+
+        const API_URL = window.location.hostname === 'localhost' 
+            ? 'http://localhost:3000/api' 
+            : 'https://your-backend-url.onrender.com/api';
+
+        async function loadAnnouncements() {
+            try {
+                const response = await fetch(`${API_URL}/announcements/public`);
+                const data = await response.json();
+                
+                if (data.success && data.announcements.length > 0) {
+                    displayAnnouncements(data.announcements);
+                } else {
+                    document.getElementById('announcementsList').innerHTML = '<p style="text-align: center; padding: 40px;">No announcements at this time.</p>';
+                }
+            } catch (error) {
+                console.error('Error loading announcements:', error);
+                document.getElementById('announcementsList').innerHTML = '<p style="text-align: center; padding: 40px;">Unable to load announcements.</p>';
+            }
+        }
+
+        function displayAnnouncements(announcements) {
+            const list = document.getElementById('announcementsList');
+            list.innerHTML = announcements.map(a => {
+                const priorityClass = a.priority === 'urgent' ? 'urgent' : a.priority === 'high' ? 'high' : 'normal';
+                const priorityIcon = a.priority === 'urgent' ? 'fa-exclamation-circle' : a.priority === 'high' ? 'fa-exclamation-triangle' : 'fa-info-circle';
+                const date = new Date(a.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                return `
+                    <div class="card" style="margin-bottom: 25px; border-left: 4px solid ${a.priority === 'urgent' ? '#dc2626' : a.priority === 'high' ? 'var(--primary-orange)' : 'var(--primary-blue)'}; position: relative;">
+                        <div style="display: flex; align-items: start; gap: 20px;">
+                            <div style="flex-shrink: 0; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;" class="${priorityClass === 'urgent' ? 'card-icon' : priorityClass === 'high' ? 'card-icon' : 'card-icon'}" style="background: ${a.priority === 'urgent' ? '#fee2e2' : a.priority === 'high' ? 'var(--light-orange)' : 'var(--light-blue)'}; color: ${a.priority === 'urgent' ? '#dc2626' : a.priority === 'high' ? 'var(--primary-orange)' : 'var(--primary-blue)'}">
+                                <i class="fas ${priorityIcon}"></i>
+                            </div>
+                            <div style="flex: 1;">
+                                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 10px;">
+                                    <h3 style="margin: 0; color: var(--primary-blue); font-size: 1.3rem;">${a.title}</h3>
+                                    <span style="background: ${a.priority === 'urgent' ? '#fee2e2' : a.priority === 'high' ? 'var(--light-orange)' : 'var(--light-blue)'}; color: ${a.priority === 'urgent' ? '#991b1b' : a.priority === 'high' ? 'var(--secondary-orange)' : 'var(--primary-blue)'}; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase;">${a.priority}</span>
+                                </div>
+                                <p style="color: var(--gray-600); line-height: 1.6; margin: 15px 0;">${a.message}</p>
+                                <div style="display: flex; align-items: center; gap: 8px; color: var(--gray-600); font-size: 0.9rem;">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <span>${date}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        document.addEventListener('DOMContentLoaded', loadAnnouncements);
+    </script>
+</body>
+</html>

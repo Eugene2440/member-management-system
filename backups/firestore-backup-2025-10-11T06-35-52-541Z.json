@@ -1,0 +1,2191 @@
+{
+  "timestamp": "2025-10-11T06:35:50.474Z",
+  "collections": {
+    "members": [
+      {
+        "id": "0Q0GWt0wFKkejZQDXIPZ",
+        "data": {
+          "registrationNumber": "EFCN/00610/2022",
+          "lastUpdated": "2025-09-18T21:00:13.585Z",
+          "paymentStatus": "pending",
+          "name": "Hellen Kwamboka Mogoi",
+          "registrationDate": "2025-08-21T18:42:34.394Z",
+          "phone": "(079) 092-7101",
+          "membershipType": "ordinary",
+          "memberNumber": "071",
+          "department": "DCPS",
+          "email": "hellen200017@gmail.com",
+          "paymentReference": "VICE PRESIDENT"
+        }
+      },
+      {
+        "id": "0TNthiM7uT4qhYU1ayop",
+        "data": {
+          "paymentReference": "TIE2WL5DI8",
+          "lastUpdated": "2025-09-18T20:29:53.789Z",
+          "registrationDate": "2025-09-14T16:31:18.202Z",
+          "memberNumber": "172",
+          "registrationNumber": "EFRM/01628/2024",
+          "phone": "(079) 629-2610",
+          "paymentStatus": "confirmed",
+          "department": "DCPS",
+          "email": "labankiarii73@gmail.com",
+          "membershipType": "ordinary",
+          "name": "Laban Kiarii Gacie"
+        }
+      },
+      {
+        "id": "0aMiboQ1R2sd5uYaaLZN",
+        "data": {
+          "registrationNumber": "ESGM/00438/2022",
+          "paymentStatus": "pending",
+          "paymentReference": "Chapter Representative - Department of Survey and Spatial Sciences",
+          "registrationDate": "2025-08-16T20:36:22.912Z",
+          "email": "marymagdalenemaina323@gmail.com",
+          "lastUpdated": "2025-08-19T20:11:03.083Z",
+          "membershipType": "ordinary",
+          "memberNumber": "035",
+          "department": "DSSS",
+          "phone": "(011) 555-7397",
+          "name": "Mary Maina"
+        }
+      },
+      {
+        "id": "1tm4uMUOpJLaW5efB0F2",
+        "data": {
+          "paymentStatus": "confirmed",
+          "memberNumber": "004",
+          "department": "DCRE",
+          "lastUpdated": "2025-08-13T19:11:07.785Z",
+          "name": "Stancy Kanini",
+          "registrationDate": "2025-08-13T19:04:59.313Z",
+          "paymentReference": "THD493UTGC",
+          "membershipType": "ordinary",
+          "email": "stancy1632@gmail.com",
+          "registrationNumber": "ECSM/00345/2022",
+          "phone": "(075) 513-9814"
+        }
+      },
+      {
+        "id": "3e8t89WiRi82a6e4tDTX",
+        "data": {
+          "email": "brayobekay@gmail.com",
+          "paymentReference": "TIJ5O3KTCH",
+          "paymentStatus": "confirmed",
+          "registrationNumber": "ECSM/00351/2022",
+          "phone": "(074) 396-9355",
+          "lastUpdated": "2025-09-20T17:24:19.732Z",
+          "name": "Brian Kithuka",
+          "memberNumber": "204",
+          "registrationDate": "2025-09-19T17:52:37.705Z",
+          "department": "DCRE",
+          "membershipType": "pending"
+        }
+      },
+      {
+        "id": "3rv2GYRyd5Pdry466nHG",
+        "data": {
+          "paymentStatus": "confirmed",
+          "registrationNumber": "EICQ/05216P/2016",
+          "department": "DCRE",
+          "memberNumber": "008",
+          "name": "Charles Elvis Kiarie",
+          "paymentReference": "THE0A3L9MA",
+          "phone": "(079) 183-2640",
+          "lastUpdated": "2025-08-14T06:28:08.559Z",
+          "email": "charleskiarie1738@gmail.com",
+          "registrationDate": "2025-08-14T06:20:38.757Z",
+          "membershipType": "ordinary"
+        }
+      },
+      {
+        "id": "4CpU3CzOXLpWFSqkBLAt",
+        "data": {
+          "registrationNumber": "ECSM/00160/2021",
+          "memberNumber": "231",
+          "lastUpdated": "2025-10-05T20:47:55.256Z",
+          "email": "tiffanywashika@gmail.com",
+          "membershipType": "pending",
+          "phone": "(254) 796-820364",
+          "paymentReference": "TJ5MP6MXEP",
+          "name": "Jennie Washika",
+          "paymentStatus": "pending",
+          "department": "DCRE",
+          "registrationDate": "2025-10-05T20:47:55.256Z"
+        }
+      },
+      {
+        "id": "4sNliMG6pbrw9MM3fiOX",
+        "data": {
+          "registrationDate": "2025-08-12T16:39:20.686Z",
+          "lastUpdated": "2025-08-12T19:21:49.775Z",
+          "membershipType": "ordinary",
+          "department": "DCBE",
+          "phone": "0113881982",
+          "paymentStatus": "confirmed",
+          "paymentReference": "THC42ZHLY0",
+          "name": "Jumaa Salome Rasoo",
+          "registrationNumber": "EDCI/01021/2022",
+          "memberNumber": "001",
+          "email": "rasoojumaa4@gmail.com"
+        }
+      },
+      {
+        "id": "4t7ad84ZTvNjy63ziSyH",
+        "data": {
+          "department": "DCRE",
+          "registrationNumber": "ECSI/01461/2023",
+          "email": "labanpeter@students.tukenya.ac.ke",
+          "membershipType": "ordinary",
+          "paymentStatus": "confirmed",
+          "memberNumber": "115",
+          "phone": "(011) 064-1623",
+          "name": "Laban Kitheka",
+          "paymentReference": "THS3AM7NS3",
+          "registrationDate": "2025-08-28T07:49:05.227Z",
+          "lastUpdated": "2025-09-01T16:19:57.478Z"
+        }
+      },
+      {
+        "id": "57DutIsipn50Cr7l8iFT",
+        "data": {
+          "paymentStatus": "confirmed",
+          "registrationNumber": "ECSM/05382P/2022",
+          "name": "Desmond Wesa Nyabuto",
+          "email": "desmondvictor97@gmail.com",
+          "membershipType": "pending",
+          "lastUpdated": "2025-09-02T19:41:32.590Z",
+          "phone": "(011) 333-5952",
+          "memberNumber": "085",
+          "paymentReference": "THN0NZX3HY",
+          "registrationDate": "2025-08-23T19:43:21.804Z",
+          "department": "DCRE"
+        }
+      },
+      {
+        "id": "5J5wCivjmC3eglg3Vdcr",
+        "data": {
+          "registrationNumber": "ECSM/00377/2022",
+          "membershipType": "ordinary",
+          "memberNumber": "040",
+          "department": "DCRE",
+          "name": "Effie Anyango Ouma",
+          "phone": "(254) 768-295947",
+          "paymentReference": "THH7PXNM31",
+          "lastUpdated": "2025-08-18T08:42:16.198Z",
+          "paymentStatus": "confirmed",
+          "email": "oumaeffie@gmail.com",
+          "registrationDate": "2025-08-17T09:06:32.735Z"
+        }
+      },
+      {
+        "id": "6pDXI4aelrpT9ak8Q3qD",
+        "data": {
+          "lastUpdated": "2025-08-18T08:47:16.483Z",
+          "paymentReference": "THI7U57YHJ",
+          "phone": "(254) 713-435462",
+          "name": "Raymond Kimutai Kirui",
+          "department": "DMAE",
+          "membershipType": "ordinary",
+          "email": "kiruiraymond31@gmail.com",
+          "paymentStatus": "confirmed",
+          "registrationNumber": "EMIM/03007P/2021",
+          "memberNumber": "047",
+          "registrationDate": "2025-08-18T07:21:55.066Z"
+        }
+      },
+      {
+        "id": "7eV7zKWV6Q9VxyCcJrcn",
+        "data": {
+          "registrationDate": "2025-08-16T20:21:25.532Z",
+          "name": "Ronney Ochieng",
+          "phone": "(254) 794-107254",
+          "registrationNumber": "ESGM/00458/2022",
+          "lastUpdated": "2025-08-19T20:11:15.241Z",
+          "department": "DSSS",
+          "email": "ronneyochieng88@gmail.com",
+          "membershipType": "ordinary",
+          "memberNumber": "033",
+          "paymentStatus": "pending",
+          "paymentReference": "Events Coordinator"
+        }
+      },
+      {
+        "id": "7rbwI6cmlsj91Y69ywpf",
+        "data": {
+          "lastUpdated": "2025-09-18T21:00:59.142Z",
+          "email": "sarahmwangi815@gmail.com",
+          "registrationNumber": "EAUM/01994/2023",
+          "phone": "(070) 106-4008",
+          "department": "DADP",
+          "memberNumber": "168",
+          "registrationDate": "2025-09-13T18:13:48.622Z",
+          "paymentReference": "Urban Planning Chapter Rep",
+          "membershipType": "ordinary",
+          "paymentStatus": "pending",
+          "name": "Sarah Nduta Mwangi"
+        }
+      },
+      {
+        "id": "7umN4QN81ESW0PpUC8wR",
+        "data": {
+          "paymentStatus": "confirmed",
+          "phone": "(011) 304-0231",
+          "memberNumber": "186",
+          "email": "debrangolo@gmail.com",
+          "paymentReference": "TIG28BN5X2",
+          "name": "Nelly Debra Anyango",
+          "registrationDate": "2025-09-16T17:35:38.493Z",
+          "registrationNumber": "ECSM/01063/2024",
+          "lastUpdated": "2025-09-18T20:50:15.808Z",
+          "membershipType": "ordinary",
+          "department": "DCRE"
+        }
+      },
+      {
+        "id": "80StmOa9x2KDlwCmlGbk",
+        "data": {
+          "registrationNumber": "ESGM/00455/2022",
+          "email": "otienoo927@gmail.com",
+          "paymentStatus": "confirmed",
+          "memberNumber": "006",
+          "phone": "(070) 109-8327",
+          "membershipType": "ordinary",
+          "name": "James Otieno",
+          "department": "DSSS",
+          "lastUpdated": "2025-08-13T19:25:49.900Z",
+          "registrationDate": "2025-08-13T19:16:35.682Z",
+          "paymentReference": "Paid"
+        }
+      },
+      {
+        "id": "AwtgssPTRypoOYve31Yj",
+        "data": {
+          "registrationNumber": "EMIM/03990P/2021",
+          "email": "mukiriwangui87@gmail.com",
+          "registrationDate": "2025-09-16T21:26:30.111Z",
+          "membershipType": "ordinary",
+          "paymentReference": "TIH192FYTR",
+          "phone": "(079) 673-3673",
+          "paymentStatus": "confirmed",
+          "memberNumber": "196",
+          "name": "Claudia Wangui Mukiri",
+          "department": "DMAE",
+          "lastUpdated": "2025-09-18T21:02:15.109Z"
+        }
+      },
+      {
+        "id": "Cb95zu91DaNOonMGYbIq",
+        "data": {
+          "name": "Candela Galileo",
+          "lastUpdated": "2025-09-19T13:53:24.731Z",
+          "email": "candelagalileo51@gmail.com",
+          "phone": "(070) 088-4903",
+          "paymentStatus": "pending",
+          "registrationDate": "2025-09-19T13:53:24.731Z",
+          "memberNumber": "201",
+          "membershipType": "pending",
+          "registrationNumber": "EFRM/01667/2024",
+          "department": "DCPS",
+          "paymentReference": "KES 200.00 paid to CRISPIN MOCHECHE ABUGA (Acc 515405) on 19/09/25 at 04:50 PM Ref: TIJ6MD23BU. Enquiries, call 0719088000."
+        }
+      },
+      {
+        "id": "CnPhUJWNENnfFPlR3H37",
+        "data": {
+          "membershipType": "ordinary",
+          "phone": "(074) 730-1030",
+          "paymentReference": "TI32A9Y2WK",
+          "registrationDate": "2025-09-03T17:59:47.061Z",
+          "name": "Colin Mayabi",
+          "registrationNumber": "ECSM/00892/2024",
+          "lastUpdated": "2025-09-04T20:12:49.948Z",
+          "memberNumber": "144",
+          "paymentStatus": "confirmed",
+          "department": "DCRE",
+          "email": "xaviercolin587@gmail.com"
+        }
+      },
+      {
+        "id": "D33KsJqVbhJ3xCvA0Kcl",
+        "data": {
+          "paymentReference": "TIPJW5LXTI",
+          "name": "Gloria Sayo",
+          "memberNumber": "221",
+          "paymentStatus": "pending",
+          "membershipType": "pending",
+          "email": "gloriasayo1@gmail.com",
+          "phone": "(074) 806-1096",
+          "registrationNumber": "ESEM/00006/2022",
+          "lastUpdated": "2025-09-25T18:20:32.025Z",
+          "department": "DSSS",
+          "registrationDate": "2025-09-25T18:20:32.025Z"
+        }
+      },
+      {
+        "id": "E7l4G46VMDLvU6kMyzfN",
+        "data": {
+          "registrationDate": "2025-09-29T07:33:33.434Z",
+          "paymentReference": "TITPU5WPEZ",
+          "name": "Hope Mang'eni",
+          "email": "mangenihope@gmail.com",
+          "memberNumber": "226",
+          "lastUpdated": "2025-09-29T07:33:33.434Z",
+          "registrationNumber": "EFRM/01649/2024",
+          "department": "DCPS",
+          "paymentStatus": "pending",
+          "membershipType": "pending",
+          "phone": "(254) 713-049686"
+        }
+      },
+      {
+        "id": "EcmpZqdXKeqwKKdJMRzV",
+        "data": {
+          "email": "ndiritustella993@gmail.com",
+          "name": "Stella Wangui",
+          "department": "DCRE",
+          "membershipType": "ordinary",
+          "paymentStatus": "confirmed",
+          "lastUpdated": "2025-09-18T20:49:20.786Z",
+          "registrationNumber": "ECSI/01384/2023",
+          "phone": "(079) 188-5505",
+          "paymentReference": "TIG77T464H",
+          "memberNumber": "184",
+          "registrationDate": "2025-09-16T16:26:44.670Z"
+        }
+      },
+      {
+        "id": "F9ZVSWUy7mC3sGqsoUQD",
+        "data": {
+          "name": "El-bethel Buyanzi",
+          "paymentReference": "President",
+          "registrationNumber": "ECSM/05490P/2022",
+          "email": "buyanzielbethel@gmail.com",
+          "memberNumber": "018",
+          "paymentStatus": "pending",
+          "membershipType": "ordinary",
+          "registrationDate": "2025-08-16T18:18:00.768Z",
+          "lastUpdated": "2025-09-18T20:59:01.792Z",
+          "department": "DCRE",
+          "phone": "(254) 713-077328"
+        }
+      },
+      {
+        "id": "Frv6QKK5sHzXWHx2VY9W",
+        "data": {
+          "lastUpdated": "2025-08-18T08:52:07.790Z",
+          "name": "Mochama Philomena Kerubo",
+          "email": "philohcate@gmail.com",
+          "paymentReference": "THG9NAH6NZ",
+          "memberNumber": "015",
+          "department": "DCPS",
+          "membershipType": "ordinary",
+          "registrationNumber": "EFCN/03477/2024",
+          "registrationDate": "2025-08-16T16:09:52.479Z",
+          "paymentStatus": "confirmed",
+          "phone": "(070) 782-7194"
+        }
+      },
+      {
+        "id": "GWIJKhW1sn0GpIgxwdY7",
+        "data": {
+          "registrationDate": "2025-08-25T10:30:51.363Z",
+          "name": "Geoffrey Kamau Irungu",
+          "registrationNumber": "EFBI/00979/2025S",
+          "memberNumber": "097",
+          "email": "gk3389233@gmail.com",
+          "phone": "(254) 746-395687",
+          "paymentReference": "THP8USH260",
+          "paymentStatus": "confirmed",
+          "membershipType": "ordinary",
+          "department": "DCPS",
+          "lastUpdated": "2025-09-01T16:22:50.457Z"
+        }
+      },
+      {
+        "id": "GdMfBqeqcSRnYKQqbDCU",
+        "data": {
+          "registrationNumber": "ECSM/00344/2022",
+          "memberNumber": "007",
+          "paymentReference": "THC42ZHLY0",
+          "membershipType": "ordinary",
+          "phone": "(070) 354-2855",
+          "registrationDate": "2025-08-13T19:22:10.659Z",
+          "department": "DCRE",
+          "name": "Mercy Mumbi",
+          "lastUpdated": "2025-08-13T19:26:00.806Z",
+          "email": "riithomumbi@gmail.com",
+          "paymentStatus": "confirmed"
+        }
+      },
+      {
+        "id": "HeAnLDl1HeM5h4GVK3QZ",
+        "data": {
+          "email": "bethjohn011@gmail.com",
+          "paymentStatus": "pending",
+          "name": "John Njuguna Beth",
+          "lastUpdated": "2025-08-19T20:11:55.093Z",
+          "phone": "(076) 810-4498",
+          "registrationDate": "2025-08-16T20:05:16.245Z",
+          "membershipType": "ordinary",
+          "paymentReference": "OUTREACH COORDINATOR",
+          "department": "DMAE",
+          "memberNumber": "028",
+          "registrationNumber": "EMII/02829/2024"
+        }
+      },
+      {
+        "id": "HtUb5XLWKFQQK6QYShr6",
+        "data": {
+          "membershipType": "pending",
+          "email": "warugurumose3@gmail.com",
+          "paymentStatus": "pending",
+          "paymentReference": "TIK9TGF0OF",
+          "name": "Moses Mbugua Waruguru",
+          "registrationDate": "2025-09-20T17:58:06.301Z",
+          "registrationNumber": "EFBI/01777/2024",
+          "memberNumber": "216",
+          "phone": "(079) 743-1223",
+          "department": "DCPS",
+          "lastUpdated": "2025-09-20T17:58:06.301Z"
+        }
+      },
+      {
+        "id": "HyTCSHPnaCi8TModtDYn",
+        "data": {
+          "email": "kotienogrivance@gmail.com",
+          "registrationNumber": "EFCM/02807/2024",
+          "phone": "(071) 639-0039",
+          "registrationDate": "2025-08-21T17:42:26.168Z",
+          "paymentReference": "0716390039",
+          "lastUpdated": "2025-08-23T21:14:30.206Z",
+          "membershipType": "ordinary",
+          "memberNumber": "067",
+          "name": "Grivance Odhiambo",
+          "paymentStatus": "confirmed",
+          "department": null
+        }
+      },
+      {
+        "id": "ITVd7ukYy7lMWHvqzWaY",
+        "data": {
+          "paymentReference": "THP3VG5BY1",
+          "registrationDate": "2025-08-25T12:42:29.567Z",
+          "phone": "(011) 715-9432",
+          "memberNumber": "099",
+          "email": "njagic85@gmail.com",
+          "membershipType": "ordinary",
+          "department": "DCRE",
+          "name": "Charles Njagi Wanjohi",
+          "paymentStatus": "confirmed",
+          "lastUpdated": "2025-08-28T20:31:29.620Z",
+          "registrationNumber": "ECSE/000573/2025M"
+        }
+      },
+      {
+        "id": "ItkmILsb0onuhOerTBgf",
+        "data": {
+          "registrationNumber": "EDCM/00317/2022",
+          "membershipType": "ordinary",
+          "registrationDate": "2025-09-14T11:05:40.164Z",
+          "paymentReference": "TIE4UPUYKK",
+          "lastUpdated": "2025-09-18T20:28:39.793Z",
+          "department": "DCBE",
+          "paymentStatus": "confirmed",
+          "phone": "(074) 016-6319",
+          "memberNumber": "169",
+          "name": "Kariuki Ann Nyaruiru",
+          "email": "annnyaruiru74@gmail.com"
+        }
+      },
+      {
+        "id": "JDsiDruzEwQi3F0MdtlB",
+        "data": {
+          "registrationNumber": "EFCN/05351P/2022",
+          "department": "DCPS",
+          "name": "Boniface Kiprotich Koech",
+          "memberNumber": "017",
+          "membershipType": "pending",
+          "paymentReference": "THG1NR3H13",
+          "paymentStatus": "confirmed",
+          "email": "bonifacekiprotich77@gmail.com",
+          "phone": "(254) 718-608179",
+          "lastUpdated": "2025-08-16T18:29:58.910Z",
+          "registrationDate": "2025-08-16T17:09:39.276Z"
+        }
+      },
+      {
+        "id": "JNXEasEjruBwgKUHy43S",
+        "data": {
+          "paymentStatus": "pending",
+          "lastUpdated": "2025-09-18T21:00:41.643Z",
+          "department": "DADP",
+          "registrationNumber": "EAAM-00036-2021",
+          "email": "keisylenon00@gmail.com",
+          "memberNumber": "076",
+          "phone": "(074) 238-2654",
+          "registrationDate": "2025-08-22T16:55:01.966Z",
+          "paymentReference": "Organizing secretary",
+          "name": "Keisy Lenon",
+          "membershipType": "ordinary"
+        }
+      },
+      {
+        "id": "JRaklg3oJgjGE08D7Hc0",
+        "data": {
+          "department": "DCRE",
+          "registrationNumber": "ECSI/01099/2022",
+          "name": "Lloyd Kulubi",
+          "memberNumber": "107",
+          "membershipType": "ordinary",
+          "paymentReference": "THR24MJALG",
+          "paymentStatus": "confirmed",
+          "email": "lloydaura04@gmail.com",
+          "phone": "(071) 617-8230",
+          "lastUpdated": "2025-08-28T20:35:41.128Z",
+          "registrationDate": "2025-08-27T04:26:03.946Z"
+        }
+      },
+      {
+        "id": "Jw9S1LVceCyCKtGYDT5H",
+        "data": {
+          "phone": "(074) 028-5778",
+          "name": "Xavier",
+          "registrationDate": "2025-08-23T19:51:55.746Z",
+          "memberNumber": "086",
+          "email": "xavierkipkoech003@gmail.com",
+          "lastUpdated": "2025-08-23T20:21:00.032Z",
+          "paymentReference": "THN601WQ",
+          "membershipType": "pending",
+          "registrationNumber": "ECSM/00361/2022",
+          "paymentStatus": "confirmed",
+          "department": "DCRE"
+        }
+      },
+      {
+        "id": "K5NKrCmaAeH7nTv3Ljss",
+        "data": {
+          "membershipType": "ordinary",
+          "paymentReference": "TI2914B5WB",
+          "email": "abednegongito@gmail.com",
+          "registrationNumber": "EFCN/00584/2022",
+          "phone": "(079) 576-9595",
+          "lastUpdated": "2025-09-02T19:06:30.371Z",
+          "registrationDate": "2025-09-02T06:24:06.927Z",
+          "department": "DCPS",
+          "name": "Abednego Kioko",
+          "paymentStatus": "confirmed",
+          "memberNumber": "128"
+        }
+      },
+      {
+        "id": "KJzONZGTCSNbO2tZP3Pk",
+        "data": {
+          "email": "njengathadeus@gmail.com",
+          "lastUpdated": "2025-08-28T20:34:40.503Z",
+          "department": "DMAE",
+          "memberNumber": "105",
+          "paymentReference": "THQ97VKY05",
+          "phone": "(245) 704-152569",
+          "paymentStatus": "confirmed",
+          "registrationDate": "2025-08-26T09:53:56.755Z",
+          "membershipType": "ordinary",
+          "name": "Wanjiru Thadeus Njenga",
+          "registrationNumber": "EMII/01700/2025s"
+        }
+      },
+      {
+        "id": "KlFiyKnRqlRSFcAcqnI2",
+        "data": {
+          "paymentReference": "THG605Y8KU",
+          "registrationDate": "2025-08-16T18:21:59.607Z",
+          "lastUpdated": "2025-08-16T18:29:24.873Z",
+          "name": "Emmanuel Zachariah",
+          "memberNumber": "020",
+          "registrationNumber": "ECSM/00373/2022",
+          "membershipType": "pending",
+          "phone": "(070) 548-4875",
+          "email": "emmanuelzachariah265@gmail.com",
+          "paymentStatus": "confirmed",
+          "department": "DCRE"
+        }
+      },
+      {
+        "id": "KliOFe9Wx1ExhH7hA4xm",
+        "data": {
+          "paymentReference": "TIU26646IV",
+          "memberNumber": "229",
+          "phone": "(071) 338-4689",
+          "registrationNumber": "ECSM/05377P/2022",
+          "name": "Richard Wambua Mwendwa",
+          "email": "richardwambua421@gmail.com",
+          "department": "DCRE",
+          "membershipType": "pending",
+          "registrationDate": "2025-10-01T08:45:46.032Z",
+          "lastUpdated": "2025-10-01T08:45:46.032Z",
+          "paymentStatus": "pending"
+        }
+      },
+      {
+        "id": "LCl7ALfdjmK0OFd5GjYu",
+        "data": {
+          "lastUpdated": "2025-08-19T20:09:54.345Z",
+          "membershipType": "ordinary",
+          "department": "DMAE",
+          "paymentReference": "CHAPTER REPRESENTATIVE MECHANICAL ENGINEERING",
+          "registrationDate": "2025-08-18T06:37:18.381Z",
+          "registrationNumber": "EMIM/00222/2021",
+          "email": "fredngula2020@gmail.com",
+          "memberNumber": "041",
+          "paymentStatus": "pending",
+          "name": "Fred Ngula Musyoka",
+          "phone": "(070) 270-7033"
+        }
+      },
+      {
+        "id": "LtZ8sHiquD59AsL5Nwh9",
+        "data": {
+          "paymentReference": "TIM3M5FU3U",
+          "department": "DMAE",
+          "memberNumber": "219",
+          "registrationDate": "2025-09-22T19:43:25.379Z",
+          "membershipType": "pending",
+          "email": "kariukiontrack@gmail.com",
+          "name": "Stephen Kariuki",
+          "paymentStatus": "pending",
+          "phone": "(070) 062-2155",
+          "registrationNumber": "EMIM/00292/2025S",
+          "lastUpdated": "2025-09-22T19:43:25.379Z"
+        }
+      },
+      {
+        "id": "LyaMtyxnWGKgE53cthCI",
+        "data": {
+          "paymentReference": "TITPU5WPEZ",
+          "lastUpdated": "2025-09-29T07:33:47.562Z",
+          "memberNumber": "227",
+          "registrationDate": "2025-09-29T07:33:47.562Z",
+          "registrationNumber": "EFRM/01649/2024",
+          "phone": "(254) 713-049686",
+          "paymentStatus": "pending",
+          "email": "mangenihope@gmail.com",
+          "department": "DCPS",
+          "membershipType": "pending",
+          "name": "Hope Mang'eni"
+        }
+      },
+      {
+        "id": "M0V3bf8ImIF0Iv1goUfa",
+        "data": {
+          "lastUpdated": "2025-08-28T20:26:39.802Z",
+          "paymentReference": "THO4QGGSXA",
+          "phone": "(254) 793-962548",
+          "registrationNumber": "EMII/01558/2023",
+          "memberNumber": "091",
+          "registrationDate": "2025-08-24T12:39:15.441Z",
+          "paymentStatus": "confirmed",
+          "membershipType": "ordinary",
+          "department": "DMAE",
+          "email": "agwandajohnson@gmail.com",
+          "name": "Johnson  Agwanda"
+        }
+      },
+      {
+        "id": "MBdMB1FBYgf0UlbytbJ8",
+        "data": {
+          "lastUpdated": "2025-08-28T20:35:06.463Z",
+          "membershipType": "ordinary",
+          "department": "DCRE",
+          "registrationDate": "2025-08-26T10:04:51.147Z",
+          "paymentReference": "THQ7ZXHMZ5",
+          "registrationNumber": "ECSM/00245/2025S",
+          "email": "muleimorris25@gmail.com",
+          "name": "Morris Mulei",
+          "paymentStatus": "confirmed",
+          "memberNumber": "106",
+          "phone": "(011) 649-8282"
+        }
+      },
+      {
+        "id": "MLqp5yP2mzcBWYrwnZ11",
+        "data": {
+          "memberNumber": "074",
+          "membershipType": "ordinary",
+          "lastUpdated": "2025-08-23T21:12:29.995Z",
+          "registrationDate": "2025-08-22T12:34:13.579Z",
+          "name": "Kennedy Muchiri Karuchi",
+          "phone": "(076) 805-7393",
+          "department": "DCPS",
+          "registrationNumber": "EFCM/02778/2024",
+          "paymentReference": "THL3DVFLFD",
+          "paymentStatus": "confirmed",
+          "email": "kennedykaruchi@gmail.com"
+        }
+      },
+      {
+        "id": "NszEc1Jwvxcui09PkYVc",
+        "data": {
+          "paymentStatus": "confirmed",
+          "phone": "(071) 403-7798",
+          "memberNumber": "046",
+          "membershipType": "ordinary",
+          "department": "DMAE",
+          "registrationDate": "2025-08-18T07:09:36.423Z",
+          "registrationNumber": "EMIM/00239/2021",
+          "lastUpdated": "2025-08-18T08:49:42.122Z",
+          "name": "Ongera Vincent",
+          "email": "vincentongera01@gmail.com",
+          "paymentReference": "THI9U2WU1T."
+        }
+      },
+      {
+        "id": "NvDyUMlxPXffWwLGFPM1",
+        "data": {
+          "name": "Abigael Wamuhu",
+          "registrationNumber": "ECSM/05172P/2024",
+          "lastUpdated": "2025-08-30T16:48:16.418Z",
+          "email": "abigaelwamuhu5@gmail.com",
+          "paymentReference": "THO4O6HFSY",
+          "memberNumber": "089",
+          "phone": "(079) 420-7226",
+          "registrationDate": "2025-08-23T21:23:09.805Z",
+          "department": "DCRE",
+          "membershipType": "ordinary",
+          "paymentStatus": "confirmed"
+        }
+      },
+      {
+        "id": "NxlKObOE6MJn0zNUi7Z5",
+        "data": {
+          "registrationNumber": "ECSI/01613/2025S",
+          "registrationDate": "2025-09-02T16:40:55.533Z",
+          "paymentStatus": "pending",
+          "name": "Muthiani Bravin Mwendwa",
+          "department": "DCRE",
+          "paymentReference": "THQ72M159N",
+          "memberNumber": "136",
+          "phone": "(254) 792-348014",
+          "membershipType": "pending",
+          "lastUpdated": "2025-09-02T16:40:55.533Z",
+          "email": "muthianibravin25@students.tukenya.ac.ke"
+        }
+      },
+      {
+        "id": "OWRdnZ99XVkNxkeUjnx2",
+        "data": {
+          "memberNumber": "066",
+          "phone": "(072) 855-9959",
+          "registrationDate": "2025-08-21T17:22:25.990Z",
+          "department": "DEEE",
+          "membershipType": "ordinary",
+          "paymentStatus": "pending",
+          "registrationNumber": "EEEI/06551P/2024",
+          "paymentReference": "Chapter Representative - Electrical",
+          "email": "manwasamuel24@students.tukenya.ac.ke",
+          "lastUpdated": "2025-09-18T20:59:36.637Z",
+          "name": "Samuel"
+        }
+      },
+      {
+        "id": "Oiyzwrsl5zIXKKn4eja9",
+        "data": {
+          "phone": "(254) 794-636282",
+          "paymentReference": "THI8UNHWWE",
+          "membershipType": "ordinary",
+          "lastUpdated": "2025-08-18T11:06:41.294Z",
+          "registrationNumber": "EFCM/02789/2024",
+          "memberNumber": "059",
+          "email": "maxmyna86@gmail.com",
+          "paymentStatus": "confirmed",
+          "registrationDate": "2025-08-18T09:27:51.198Z",
+          "name": "Mark Maina Stephen",
+          "department": "DCPS"
+        }
+      },
+      {
+        "id": "Ol42CJvgAl0CIkq4askF",
+        "data": {
+          "phone": "(074) 376-8936",
+          "paymentReference": "THE7BAZWQD",
+          "department": "DCPS",
+          "registrationNumber": "EFCN/00071/2023",
+          "lastUpdated": "2025-08-14T10:50:50.561Z",
+          "name": "Graca Asiko",
+          "registrationDate": "2025-08-14T10:48:12.840Z",
+          "memberNumber": "010",
+          "paymentStatus": "confirmed",
+          "email": "asikograca@gmail.com",
+          "membershipType": "ordinary"
+        }
+      },
+      {
+        "id": "Pg989iMWKW2cPel4sqAy",
+        "data": {
+          "name": "Pheliex Otieno",
+          "department": "DSSS",
+          "lastUpdated": "2025-09-05T20:22:11.816Z",
+          "memberNumber": "155",
+          "paymentReference": "TI58I1D1QY",
+          "registrationNumber": "ESGI/00546/2022",
+          "email": "otienopheliex9960@gmail.com",
+          "paymentStatus": "confirmed",
+          "membershipType": "ordinary",
+          "phone": "(011) 466-2748",
+          "registrationDate": "2025-09-05T10:20:57.161Z"
+        }
+      },
+      {
+        "id": "QFJfbKI6Szb199OX6PmT",
+        "data": {
+          "department": "DMAE",
+          "memberNumber": "146",
+          "membershipType": "ordinary",
+          "phone": "(073) 585-9409",
+          "paymentReference": "TI49C8440V",
+          "name": "Florence Ashivende",
+          "lastUpdated": "2025-09-04T20:13:40.539Z",
+          "registrationDate": "2025-09-04T08:28:59.770Z",
+          "registrationNumber": "EMIM/00216",
+          "email": "florenceashivende@gmail.com",
+          "paymentStatus": "confirmed"
+        }
+      },
+      {
+        "id": "QV8cqeQgENlTQZ2Qq2lc",
+        "data": {
+          "lastUpdated": "2025-08-12T19:21:35.288Z",
+          "membershipType": "ordinary",
+          "phone": "0792674817",
+          "memberNumber": "002",
+          "paymentStatus": "confirmed",
+          "email": "angelcelia06@gmail.com",
+          "registrationDate": "2025-08-12T19:01:10.276Z",
+          "paymentReference": "THC743ZWAX",
+          "name": "Celia Angel",
+          "department": "DCRE",
+          "registrationNumber": "ECSM/00335/2022"
+        }
+      },
+      {
+        "id": "QWsiSjaJUvbpukVbyy2r",
+        "data": {
+          "registrationDate": "2025-10-07T11:52:06.221Z",
+          "phone": "(071) 574-5808",
+          "lastUpdated": "2025-10-07T11:52:06.221Z",
+          "registrationNumber": "ECSM/01049/2024",
+          "paymentReference": "TJ79C6NU4R",
+          "membershipType": "pending",
+          "department": "DCRE",
+          "memberNumber": "233",
+          "name": "Telvin Mwangi Wanjohi",
+          "paymentStatus": "pending",
+          "email": "telvinmwa26@gmail.com"
+        }
+      },
+      {
+        "id": "QmFJXJbOBy3Gs7UPf1Cm",
+        "data": {
+          "registrationNumber": "EMIM/00219/2021",
+          "registrationDate": "2025-08-18T07:24:31.703Z",
+          "paymentStatus": "confirmed",
+          "name": "Patience Wanjiru",
+          "department": "DMAE",
+          "paymentReference": "THI4U5HTDU",
+          "phone": "(072) 016-3344",
+          "memberNumber": "048",
+          "membershipType": "ordinary",
+          "lastUpdated": "2025-08-18T08:45:46.929Z",
+          "email": "wanjirupatience93@gmail.com"
+        }
+      },
+      {
+        "id": "RIsOBnJY4sw2dDoAuS5T",
+        "data": {
+          "membershipType": "ordinary",
+          "registrationDate": "2025-09-13T16:30:37.765Z",
+          "paymentReference": "TID8RI3LF4",
+          "lastUpdated": "2025-09-18T20:21:48.678Z",
+          "phone": "(254) 704-809068",
+          "name": "Evelyne Odette",
+          "paymentStatus": "confirmed",
+          "memberNumber": "166",
+          "registrationNumber": "EAAM/00041/2022",
+          "department": "DADP",
+          "email": "eveodette0705@gmail.com"
+        }
+      },
+      {
+        "id": "RxU2Q6n9EvYeR8tmPgR9",
+        "data": {
+          "phone": "(072) 305-7076",
+          "registrationDate": "2025-08-23T19:38:22.320Z",
+          "department": "DCRE",
+          "membershipType": "pending",
+          "email": "mohamedabdikadir052@gmail.com",
+          "memberNumber": "084",
+          "paymentStatus": "confirmed",
+          "lastUpdated": "2025-08-23T20:21:12.275Z",
+          "registrationNumber": "ECSM/00356/2022",
+          "paymentReference": "THN7NZ18CX",
+          "name": "Abdikadir Mohamed Abdi"
+        }
+      },
+      {
+        "id": "S3vjgoGnscjXxFb3dvl7",
+        "data": {
+          "lastUpdated": "2025-08-19T20:11:26.551Z",
+          "membershipType": "ordinary",
+          "registrationNumber": "ECSM/01062/2024",
+          "name": "Ebby Okumu",
+          "registrationDate": "2025-08-16T20:10:49.519Z",
+          "department": "DCRE",
+          "paymentReference": "Communications Head",
+          "memberNumber": "032",
+          "paymentStatus": "pending",
+          "phone": "(254) 793-010045",
+          "email": "ebbyamungaj@gmail.com"
+        }
+      },
+      {
+        "id": "S5B8GfbBQydcxRsSj8nV",
+        "data": {
+          "membershipType": "ordinary",
+          "phone": "(070) 679-2494",
+          "paymentReference": "TI3462B6A4",
+          "name": "Otieno Junior",
+          "department": "DCRE",
+          "registrationDate": "2025-09-03T05:01:08.830Z",
+          "registrationNumber": "ESCI/02500/2024",
+          "email": "juniorkaoleni@gmail.com",
+          "lastUpdated": "2025-09-04T20:07:23.058Z",
+          "memberNumber": "137",
+          "paymentStatus": "confirmed"
+        }
+      },
+      {
+        "id": "SQERIRhzD7hnL9MwcEgy",
+        "data": {
+          "phone": "(254) 795-673760",
+          "memberNumber": "122",
+          "registrationDate": "2025-09-01T19:03:40.662Z",
+          "paymentStatus": "confirmed",
+          "registrationNumber": "EFCN/00927/2024",
+          "email": "titokip77@gmail.com",
+          "department": "DCPS",
+          "paymentReference": "TI11Z227OV",
+          "name": "Tito Kiplangat",
+          "lastUpdated": "2025-09-02T19:00:11.283Z",
+          "membershipType": "ordinary"
+        }
+      },
+      {
+        "id": "T0ekBT9XlC69z2jhpnSS",
+        "data": {
+          "lastUpdated": "2025-09-18T20:49:44.320Z",
+          "registrationDate": "2025-09-16T17:02:49.176Z",
+          "department": "DMAE",
+          "phone": "(011) 495-6010",
+          "email": "lewismutende@gmail.com",
+          "name": "Lewis Mutende",
+          "memberNumber": "185",
+          "membershipType": "ordinary",
+          "paymentStatus": "confirmed",
+          "registrationNumber": "EMIM/00318/2025S",
+          "paymentReference": "0707174290"
+        }
+      },
+      {
+        "id": "T9HgnwcEvrdmq1w2h3Uy",
+        "data": {
+          "email": "nicoleamerie0@gmail.com",
+          "registrationDate": "2025-09-27T19:31:54.706Z",
+          "department": "DCRE",
+          "name": "Nicole Amerie",
+          "memberNumber": "222",
+          "phone": "(074) 110-3227",
+          "paymentStatus": "pending",
+          "membershipType": "pending",
+          "registrationNumber": "ECSM/00186/2023",
+          "paymentReference": "TIRBL5W2BD",
+          "lastUpdated": "2025-09-27T19:31:54.706Z"
+        }
+      },
+      {
+        "id": "TGJTkVLIBwvOk6flqivq",
+        "data": {
+          "registrationNumber": "ECSM/05690P/2024",
+          "paymentReference": "THP1XJAMHZ",
+          "name": "Ellen Waithera",
+          "paymentStatus": "confirmed",
+          "department": "DCRE",
+          "memberNumber": "104",
+          "registrationDate": "2025-08-25T18:20:54.063Z",
+          "phone": "(254) 796-294328",
+          "email": "waitheraellen372@gmail.com",
+          "membershipType": "ordinary",
+          "lastUpdated": "2025-08-28T20:33:57.372Z"
+        }
+      },
+      {
+        "id": "THLGgWA26rzVCbfjAjoG",
+        "data": {
+          "name": "Henry Charles",
+          "email": "henryodida5@gmail.com",
+          "registrationNumber": "EEEI/01320/2023",
+          "department": "DEEE",
+          "registrationDate": "2025-08-16T18:34:41.008Z",
+          "lastUpdated": "2025-09-18T20:59:23.562Z",
+          "paymentStatus": "pending",
+          "memberNumber": "023",
+          "membershipType": "ordinary",
+          "paymentReference": "Registrar",
+          "phone": "(254) 748-188081"
+        }
+      },
+      {
+        "id": "TUG7fKOvyEWQTs2UBtkh",
+        "data": {
+          "paymentStatus": "confirmed",
+          "name": "Collins Omutere",
+          "department": "DCRE",
+          "email": "collinsomutere21@gmail.com",
+          "registrationDate": "2025-09-03T11:03:45.595Z",
+          "membershipType": "ordinary",
+          "memberNumber": "140",
+          "paymentReference": "TI357PY2V1",
+          "lastUpdated": "2025-09-04T20:11:29.785Z",
+          "registrationNumber": "ECSM/01035/2024",
+          "phone": "(254) 740-679723"
+        }
+      },
+      {
+        "id": "TYhHsjjyLarOkFCEuA95",
+        "data": {
+          "paymentStatus": "confirmed",
+          "registrationDate": "2025-08-27T09:54:36.427Z",
+          "name": "Mohamed Kassim",
+          "department": "DEEE",
+          "phone": "(079) 357-8232",
+          "paymentReference": "THR354B7C9",
+          "memberNumber": "113",
+          "email": "mohanurein90@gmail.com",
+          "lastUpdated": "2025-08-28T20:41:04.891Z",
+          "registrationNumber": "EEEM/03552/2024",
+          "membershipType": "ordinary"
+        }
+      },
+      {
+        "id": "TcNdNvUe0hHsbbgRpSRX",
+        "data": {
+          "paymentStatus": "pending",
+          "memberNumber": "230",
+          "department": "DCRE",
+          "lastUpdated": "2025-10-05T20:47:37.553Z",
+          "registrationDate": "2025-10-05T20:47:37.553Z",
+          "name": "Jennie Washika",
+          "paymentReference": "TJ5MP6MXEP",
+          "membershipType": "pending",
+          "email": "tiffanywashika@gmail.com",
+          "registrationNumber": "ECSM/00160/2021",
+          "phone": "(254) 796-820364"
+        }
+      },
+      {
+        "id": "TsBgrg92GCxOvcYHKnQU",
+        "data": {
+          "membershipType": "ordinary",
+          "email": "muthokaemmanuel49@gmail.com",
+          "lastUpdated": "2025-08-28T20:29:52.362Z",
+          "memberNumber": "096",
+          "registrationNumber": "ECSI/01617/2025S",
+          "name": "Emmanuel Mwendwa",
+          "phone": "(079) 049-4164",
+          "department": "DCRE",
+          "paymentStatus": "confirmed",
+          "paymentReference": "THP3U9KV3P",
+          "registrationDate": "2025-08-25T08:41:30.629Z"
+        }
+      },
+      {
+        "id": "ULfYyXTSOxxa6YhOCBew",
+        "data": {
+          "paymentStatus": "confirmed",
+          "name": "Frank Maina",
+          "paymentReference": "TI231XXCYF",
+          "phone": "(254) 796-651186",
+          "lastUpdated": "2025-09-02T19:07:49.619Z",
+          "memberNumber": "133",
+          "registrationNumber": "EEEM/01844/2025S",
+          "registrationDate": "2025-09-02T09:24:23.847Z",
+          "email": "mfrankmaish@gmail.com",
+          "membershipType": "ordinary",
+          "department": "DEEE"
+        }
+      },
+      {
+        "id": "Udo5KVOU2lVr2TvNDikE",
+        "data": {
+          "memberNumber": "225",
+          "membershipType": "pending",
+          "name": "Don Kuyiyi",
+          "registrationNumber": "ECSM/01068/2024",
+          "department": "DCRE",
+          "paymentReference": "KES 200.00 paid to CRISPIN MOCHECHE ABUGA (Acc 515405) on 28/09/25 at 07:42 PM Ref: TIS995UJ67. Enquiries, call 0719088000.",
+          "email": "kuyiyidon.01@gmail.com",
+          "lastUpdated": "2025-09-28T16:45:58.602Z",
+          "phone": "(071) 558-6093",
+          "paymentStatus": "pending",
+          "registrationDate": "2025-09-28T16:45:58.602Z"
+        }
+      },
+      {
+        "id": "V6vDsb6KwqItu3jpjV6d",
+        "data": {
+          "paymentReference": "THO6R28BZI",
+          "memberNumber": "092",
+          "email": "zohla12osano@gmail.com",
+          "membershipType": "ordinary",
+          "registrationDate": "2025-08-24T14:36:36.661Z",
+          "name": "Zohla Osano",
+          "department": "DCRE",
+          "paymentStatus": "confirmed",
+          "lastUpdated": "2025-08-28T20:21:27.493Z",
+          "phone": "(070) 599-4232",
+          "registrationNumber": null
+        }
+      },
+      {
+        "id": "VETKqtDVTl0BGwsp4vH3",
+        "data": {
+          "memberNumber": "199",
+          "membershipType": "ordinary",
+          "department": null,
+          "paymentReference": "TIH2ACEEZC",
+          "registrationDate": "2025-09-17T08:20:01.069Z",
+          "phone": "(254) 708-166295",
+          "name": "Lucky Onyango",
+          "lastUpdated": "2025-09-18T21:04:05.417Z",
+          "paymentStatus": "confirmed",
+          "email": "luckyonyango94@gmail.com",
+          "registrationNumber": null
+        }
+      },
+      {
+        "id": "VLdjtp2eFP5dLCvLFKbK",
+        "data": {
+          "memberNumber": "131",
+          "paymentStatus": "confirmed",
+          "paymentReference": "TI291X081J",
+          "membershipType": "ordinary",
+          "lastUpdated": "2025-09-02T19:07:04.673Z",
+          "registrationDate": "2025-09-02T09:19:10.348Z",
+          "registrationNumber": "EFCN/00913/2024",
+          "email": "sallymicheni5@gmail.com",
+          "department": "DCPS",
+          "name": "Sally Kendi Micheni",
+          "phone": "(070) 155-0802"
+        }
+      },
+      {
+        "id": "W0CVWSrbPiA34F4YCTY3",
+        "data": {
+          "lastUpdated": "2025-08-28T20:32:16.197Z",
+          "email": "danielwambare9@gmail.com",
+          "memberNumber": "100",
+          "membershipType": "ordinary",
+          "paymentReference": "THP4VN0XFW",
+          "registrationDate": "2025-08-25T13:19:54.995Z",
+          "registrationNumber": "ECSI/06691P/2023P",
+          "paymentStatus": "confirmed",
+          "phone": "(254) 706-260129",
+          "name": "Daniel Wambare Kariuki",
+          "department": "DCRE"
+        }
+      },
+      {
+        "id": "WgGk3vGFvS1e4AdEgDGF",
+        "data": {
+          "paymentStatus": "pending",
+          "registrationNumber": "ECSM/00362/2022",
+          "phone": "(079) 751-5405",
+          "lastUpdated": "2025-09-02T19:40:11.526Z",
+          "department": "DCRE",
+          "email": "abugacrispin005@gmail.com",
+          "paymentReference": "Treasurer",
+          "membershipType": "ordinary",
+          "name": "Crispin Mocheche Abuga",
+          "memberNumber": "027",
+          "registrationDate": "2025-08-16T20:04:35.111Z"
+        }
+      },
+      {
+        "id": "X4pnaQCFVVLeUGby894J",
+        "data": {
+          "lastUpdated": "2025-08-28T20:28:15.157Z",
+          "email": "elviseshikuku@gmail.com",
+          "memberNumber": "094",
+          "membershipType": "ordinary",
+          "paymentReference": "THP6TF0NZY",
+          "registrationDate": "2025-08-25T05:28:16.280Z",
+          "registrationNumber": "EMII/01756/2025S",
+          "paymentStatus": "confirmed",
+          "phone": "(079) 056-1879",
+          "name": "Elvise Shikuku",
+          "department": "DMAE"
+        }
+      },
+      {
+        "id": "YifZpoG0jzFDSUgyib2j",
+        "data": {
+          "lastUpdated": "2025-09-18T21:03:26.429Z",
+          "email": "njmercy03@gmail.com",
+          "registrationNumber": "EMIM/00218/2021",
+          "phone": "(075) 705-0652",
+          "paymentStatus": "confirmed",
+          "department": "DMAE",
+          "name": "Mercy Mwangi",
+          "membershipType": "ordinary",
+          "registrationDate": "2025-09-17T06:00:52.870Z",
+          "memberNumber": "198",
+          "paymentReference": "TIH99RM86R"
+        }
+      },
+      {
+        "id": "YwlaEMzESZe7edDbYy2T",
+        "data": {
+          "memberNumber": "218",
+          "paymentStatus": "pending",
+          "paymentReference": "TIJ6MD23BU",
+          "membershipType": "pending",
+          "lastUpdated": "2025-09-21T16:38:32.080Z",
+          "registrationDate": "2025-09-21T16:38:32.080Z",
+          "registrationNumber": "EFRM/01667/2024",
+          "department": "DCPS",
+          "email": "candelagalileo51@gmail.com",
+          "name": "Candela Galileo",
+          "phone": "(070) 088-4903"
+        }
+      },
+      {
+        "id": "Z5R5r2Bg0HrX4S1XgR0U",
+        "data": {
+          "paymentReference": "TIA788FOB1",
+          "registrationDate": "2025-09-11T19:28:12.249Z",
+          "phone": "(070) 654-5827",
+          "name": "Lonah Chemutai Koech",
+          "membershipType": "ordinary",
+          "registrationNumber": "ECSM/03115/2024",
+          "department": "DCRE",
+          "lastUpdated": "2025-09-18T20:11:09.201Z",
+          "memberNumber": "162",
+          "paymentStatus": "confirmed",
+          "email": "koechlorna711@gmail.com"
+        }
+      },
+      {
+        "id": "ZLhbasSPUtTxlZXSD7y8",
+        "data": {
+          "registrationDate": "2025-08-18T10:53:40.849Z",
+          "memberNumber": "062",
+          "department": "DCBE",
+          "lastUpdated": "2025-08-18T11:06:32.723Z",
+          "paymentReference": "THI1V37OYH",
+          "name": "Ryan Ukiru",
+          "registrationNumber": "EDCM/00332/2022",
+          "phone": "(254) 718-150510",
+          "paymentStatus": "confirmed",
+          "email": "ryanukiru04@gmail.com",
+          "membershipType": "ordinary"
+        }
+      },
+      {
+        "id": "ZPVzzIz6HOVLCvQ2UxAw",
+        "data": {
+          "lastUpdated": "2025-08-23T20:21:34.432Z",
+          "membershipType": "pending",
+          "memberNumber": "079",
+          "registrationNumber": "ECSM/00368/2022",
+          "paymentStatus": "confirmed",
+          "phone": "(079) 188-0412",
+          "email": "nyongesaevans881@gmail.com",
+          "paymentReference": "THN1NUAFFN",
+          "department": "DCRE",
+          "registrationDate": "2025-08-23T18:56:03.235Z",
+          "name": "Evans Nyongesa"
+        }
+      },
+      {
+        "id": "a2LeZktl78WNzvjEpVAD",
+        "data": {
+          "lastUpdated": "2025-09-02T19:02:14.993Z",
+          "email": "swaudi599@gmail.com",
+          "registrationDate": "2025-09-01T20:43:25.664Z",
+          "department": "DMAE",
+          "paymentReference": "Tl15ZAAE9R",
+          "membershipType": "ordinary",
+          "name": "Sheryl Waudi",
+          "paymentStatus": "confirmed",
+          "registrationNumber": null,
+          "memberNumber": "123",
+          "phone": "(254) 743-043703"
+        }
+      },
+      {
+        "id": "azv8J9rLbeFQbhb0Hibg",
+        "data": {
+          "paymentReference": "TI50GXGMLW",
+          "department": null,
+          "memberNumber": "152",
+          "name": "Eric Ogechi",
+          "registrationNumber": "ACDI/01733/2024",
+          "paymentStatus": "confirmed",
+          "lastUpdated": "2025-09-05T20:22:30.796Z",
+          "email": "ericogechi215@gmail.com",
+          "registrationDate": "2025-09-05T08:57:20.919Z",
+          "membershipType": "ordinary",
+          "phone": "(254) 712-615791"
+        }
+      },
+      {
+        "id": "doq6XE8KExqKgxE9LOun",
+        "data": {
+          "name": "Hadasa Kibet",
+          "department": "DCPS",
+          "memberNumber": "036",
+          "phone": "(077) 003-2594",
+          "email": "hadasakibet@gmail.com",
+          "registrationNumber": "EFCN/03151/2024",
+          "registrationDate": "2025-08-16T21:48:39.697Z",
+          "membershipType": "ordinary",
+          "paymentStatus": "pending",
+          "lastUpdated": "2025-08-19T20:10:34.037Z",
+          "paymentReference": "Quantity Surveying Chapter Representative"
+        }
+      },
+      {
+        "id": "e5J9SH5BgopuG7ms2LDM",
+        "data": {
+          "registrationDate": "2025-08-23T18:53:12.737Z",
+          "memberNumber": "077",
+          "department": "DCRE",
+          "lastUpdated": "2025-09-06T07:38:20.504Z",
+          "paymentReference": "THN4NTYWUG",
+          "name": "John Micheal Otieno",
+          "registrationNumber": "ECSM/00380/2022",
+          "phone": "(254) 799-129637",
+          "paymentStatus": "confirmed",
+          "membershipType": "ordinary",
+          "email": "otienojohnmicheal2@gmail.com"
+        }
+      },
+      {
+        "id": "emgVX2GMWKjAuoTetFUu",
+        "data": {
+          "memberNumber": "038",
+          "name": "Catherine Bosibori Mong'are",
+          "paymentReference": "Secretary",
+          "membershipType": "ordinary",
+          "lastUpdated": "2025-08-19T20:10:11.437Z",
+          "department": "DCBE",
+          "paymentStatus": "pending",
+          "phone": "(254) 738-402676",
+          "email": "literalcate2@gmail.com",
+          "registrationNumber": "EDCM/01574/2021",
+          "registrationDate": "2025-08-17T08:25:30.207Z"
+        }
+      },
+      {
+        "id": "fOdPEBqi94oNxy1dwJFy",
+        "data": {
+          "paymentReference": "THI9U3C2OD",
+          "lastUpdated": "2025-08-18T08:46:50.187Z",
+          "registrationNumber": "EMIM/00224/2021",
+          "email": "osiemowhitney@gmail.com",
+          "name": "Whitney Osiemo",
+          "memberNumber": "044",
+          "membershipType": "ordinary",
+          "phone": "(254) 745-430972",
+          "department": "DMAE",
+          "paymentStatus": "confirmed",
+          "registrationDate": "2025-08-18T07:08:52.301Z"
+        }
+      },
+      {
+        "id": "fbVIOOOZPCQJbkhuZHZh",
+        "data": {
+          "paymentReference": "THI8ULV2XQ",
+          "membershipType": "ordinary",
+          "phone": "(254) 728-231898",
+          "paymentStatus": "confirmed",
+          "memberNumber": "058",
+          "registrationDate": "2025-08-18T09:08:44.335Z",
+          "lastUpdated": "2025-08-18T09:09:53.975Z",
+          "email": "davidmutua988@gmail.com",
+          "registrationNumber": "EMIM/01354/2021",
+          "department": "DMAE",
+          "name": "David Mutua Matata"
+        }
+      },
+      {
+        "id": "fbZiLOdm7gFEIrQ6w6AB",
+        "data": {
+          "registrationNumber": "EMII/01729/2024",
+          "membershipType": "ordinary",
+          "department": "DMAE",
+          "memberNumber": "121",
+          "paymentReference": "TI19UVWHJZ",
+          "phone": "(079) 516-53339",
+          "lastUpdated": "2025-09-01T07:01:16.705Z",
+          "email": "kirevetaalex@gmail.com",
+          "paymentStatus": "confirmed",
+          "registrationDate": "2025-09-01T06:30:09.182Z",
+          "name": "Kireveta Alex"
+        }
+      },
+      {
+        "id": "fdSstL8sk5jE3QWKawvz",
+        "data": {
+          "memberNumber": "154",
+          "phone": "(254) 712-835094",
+          "registrationNumber": "ECSI/01396/2023",
+          "registrationDate": "2025-09-05T09:53:53.818Z",
+          "department": "DCRE",
+          "paymentStatus": "confirmed",
+          "membershipType": "ordinary",
+          "paymentReference": "T154HWK2A",
+          "name": "Jane Muthoni Gitundu",
+          "email": "janegitundu83@gmail.com",
+          "lastUpdated": "2025-09-05T20:22:46.196Z"
+        }
+      },
+      {
+        "id": "g2BOzx9PHc63MNINywOR",
+        "data": {
+          "registrationNumber": "EMIM/00195/2021",
+          "email": "mosesngero14@gmail.com",
+          "department": "DMAE",
+          "paymentStatus": "confirmed",
+          "name": "Wanjohi Moses N",
+          "registrationDate": "2025-09-16T20:23:05.075Z",
+          "paymentReference": "TIG38ZXM2X",
+          "phone": "(074) 328-1995",
+          "lastUpdated": "2025-09-18T21:01:49.864Z",
+          "membershipType": "ordinary",
+          "memberNumber": "193"
+        }
+      },
+      {
+        "id": "gngfdNSxpwiFy3ySBEaX",
+        "data": {
+          "paymentReference": "Construction Management Chapter Representative",
+          "registrationNumber": "EFCM/02793/2024",
+          "email": "adrianneuer182@gmail.com",
+          "memberNumber": "031",
+          "phone": "(071) 848-6305",
+          "paymentStatus": "pending",
+          "membershipType": "ordinary",
+          "registrationDate": "2025-08-16T20:06:31.274Z",
+          "department": "DCPS",
+          "name": "Adrian Cheruiyot",
+          "lastUpdated": "2025-08-19T20:11:42.334Z"
+        }
+      },
+      {
+        "id": "hOsaAD8G3sFvQIgbdlIU",
+        "data": {
+          "phone": "(254) 115-381435",
+          "membershipType": "pending",
+          "email": "wanjikugitauelizabeth@gmail.com",
+          "name": "Elizabeth Wanjiku Gitau",
+          "paymentStatus": "confirmed",
+          "department": "DCRE",
+          "memberNumber": "082",
+          "registrationNumber": "ECSM/00348/2022",
+          "registrationDate": "2025-08-23T19:16:11.723Z",
+          "paymentReference": "THN6NX1S1A",
+          "lastUpdated": "2025-09-02T19:41:53.693Z"
+        }
+      },
+      {
+        "id": "hbPF5cQ95FK7sooGGuos",
+        "data": {
+          "lastUpdated": "2025-08-18T08:50:09.745Z",
+          "memberNumber": "053",
+          "phone": "(254) 708-198325",
+          "membershipType": "ordinary",
+          "email": "kimelijoyline@gmail.com",
+          "name": "Joyline Kimeli",
+          "department": "DMAE",
+          "registrationNumber": "EMIM/00228/2021",
+          "registrationDate": "2025-08-18T07:33:49.602Z",
+          "paymentReference": "THI6U6SO5I",
+          "paymentStatus": "confirmed"
+        }
+      },
+      {
+        "id": "i30N3HSE7qsB5pQ5sTPd",
+        "data": {
+          "lastUpdated": "2025-09-20T05:18:47.606Z",
+          "email": "victormutemi021@gmail.com",
+          "registrationNumber": "EFCM/01236/2022",
+          "phone": "(254) 746-633832",
+          "paymentStatus": "pending",
+          "department": "DCPS",
+          "name": "Victor Mutemi",
+          "membershipType": "pending",
+          "registrationDate": "2025-09-20T05:18:47.606Z",
+          "paymentReference": "TIK6PAD7MO",
+          "memberNumber": "209"
+        }
+      },
+      {
+        "id": "i4hqeVLMRuY0c3zh3aUl",
+        "data": {
+          "email": "mukonyinigel@gmail.com",
+          "paymentReference": "Contact for info",
+          "paymentStatus": "pending",
+          "registrationNumber": "ECSM/01879/2022",
+          "registrationDate": "2025-08-22T11:57:04.671Z",
+          "lastUpdated": "2025-09-18T21:00:26.384Z",
+          "memberNumber": "073",
+          "membershipType": "ordinary",
+          "department": "DCRE",
+          "name": "Kataka Mukonyi Nigel",
+          "phone": "(072) 066-2592"
+        }
+      },
+      {
+        "id": "iLPFsaHtSZz4B6pZ4Zef",
+        "data": {
+          "email": "fredrickodindo7@gmail.com",
+          "registrationNumber": "ECSM/05680P/2024",
+          "phone": "(254) 792-613107",
+          "lastUpdated": "2025-09-20T07:40:35.154Z",
+          "registrationDate": "2025-09-20T07:40:35.154Z",
+          "name": "Fredrick Odindo",
+          "paymentStatus": "pending",
+          "memberNumber": "211",
+          "department": "DCRE",
+          "paymentReference": "TIK8PWCH4S",
+          "membershipType": "pending"
+        }
+      },
+      {
+        "id": "iQqlVOFHoEQIBFS3GbaQ",
+        "data": {
+          "registrationDate": "2025-09-29T22:01:16.396Z",
+          "paymentReference": "TIU26646IV",
+          "name": "Zedekiah Magara",
+          "phone": "(254) 700-181786",
+          "email": "zm1234nf@gmail.com",
+          "registrationNumber": "ECSM/05385P/2022",
+          "memberNumber": "228",
+          "lastUpdated": "2025-10-10T19:28:49.886Z",
+          "paymentStatus": "rejected",
+          "department": "DCRE",
+          "membershipType": "pending"
+        }
+      },
+      {
+        "id": "iSOofmvETmVnrXr80No6",
+        "data": {
+          "lastUpdated": "2025-09-06T07:53:06.176Z",
+          "memberNumber": "161",
+          "registrationDate": "2025-09-06T07:44:22.092Z",
+          "phone": "(071) 282-6165",
+          "department": "DCRE",
+          "registrationNumber": "ECSM/00180/2021",
+          "paymentReference": "THE5ECL9WR",
+          "email": "johnlovy891@gmail.com",
+          "paymentStatus": "confirmed",
+          "name": "Love Valentine John",
+          "membershipType": "ordinary"
+        }
+      },
+      {
+        "id": "jBlX6XzDA9ECgsI6qv7I",
+        "data": {
+          "phone": "(254) 755-013789",
+          "name": "Michael Lawrence Ngarachu",
+          "department": "DMAE",
+          "registrationNumber": "EMIM/01075/2024",
+          "email": "mngarachu733@gmail.com",
+          "paymentStatus": "confirmed",
+          "lastUpdated": "2025-08-19T20:09:21.255Z",
+          "memberNumber": "064",
+          "paymentReference": "Ref: THI3XSAGMT",
+          "membershipType": "ordinary",
+          "registrationDate": "2025-08-18T19:09:54.301Z"
+        }
+      },
+      {
+        "id": "jIgAMVra6WGxaZ6O4U34",
+        "data": {
+          "lastUpdated": "2025-08-18T08:47:48.507Z",
+          "registrationDate": "2025-08-18T08:02:23.061Z",
+          "paymentStatus": "confirmed",
+          "email": "mikemusili7@gmail.com",
+          "name": "Michael Mwangi Musili",
+          "department": "DMAE",
+          "phone": "(070) 042-4360",
+          "registrationNumber": "EMIM/00220/2021",
+          "paymentReference": "THI2UBII6E",
+          "memberNumber": "055",
+          "membershipType": "ordinary"
+        }
+      },
+      {
+        "id": "jUIYWd563yvg1KaEWkMG",
+        "data": {
+          "phone": "(074) 288-8053",
+          "membershipType": "ordinary",
+          "department": "DCBE",
+          "memberNumber": "142",
+          "paymentStatus": "confirmed",
+          "lastUpdated": "2025-09-04T20:12:15.232Z",
+          "paymentReference": "TI397YELCV",
+          "name": "Ann Mumbi Wangari",
+          "email": "mumbiann557@gmail.com",
+          "registrationDate": "2025-09-03T11:53:55.744Z",
+          "registrationNumber": "EDCM/00318/2022"
+        }
+      },
+      {
+        "id": "k8KUrkbz9pDpjth9Vyc7",
+        "data": {
+          "phone": "(011) 496-1730",
+          "registrationNumber": "ECSM/05579P/2024",
+          "lastUpdated": "2025-08-14T16:53:35.605Z",
+          "department": "DCRE",
+          "email": "onyangojens@gmail.com",
+          "name": "Jens Onyango",
+          "membershipType": "ordinary",
+          "memberNumber": "014",
+          "paymentReference": "THE3CH5RT3",
+          "registrationDate": "2025-08-14T15:00:31.318Z",
+          "paymentStatus": "confirmed"
+        }
+      },
+      {
+        "id": "kEF89hL3nz4SZ80tRvVf",
+        "data": {
+          "lastUpdated": "2025-09-18T20:54:33.143Z",
+          "name": "Peter Mulei Musyoka",
+          "email": "lightfavoured27@gmail.com",
+          "paymentReference": "TIG28VGH32",
+          "memberNumber": "187",
+          "department": "DCRE",
+          "membershipType": "ordinary",
+          "registrationNumber": "ECSM/03234/2024",
+          "registrationDate": "2025-09-16T19:29:07.299Z",
+          "paymentStatus": "confirmed",
+          "phone": "(070) 422-8983"
+        }
+      },
+      {
+        "id": "kLIbmBHcJvg8VOApuQ4i",
+        "data": {
+          "email": "kibetnygyel@gmail.com",
+          "name": "Nygyel Kibet",
+          "paymentReference": "Chapter Representative Architecture",
+          "registrationNumber": "EAAM/00045/2022",
+          "department": "DADP",
+          "phone": "(254) 794-340995",
+          "registrationDate": "2025-09-03T05:59:18.140Z",
+          "lastUpdated": "2025-09-04T20:05:00.145Z",
+          "memberNumber": "139",
+          "paymentStatus": "pending",
+          "membershipType": "ordinary"
+        }
+      },
+      {
+        "id": "m26vGagH4BBqIVy3j25a",
+        "data": {
+          "memberNumber": "148",
+          "phone": "(254) 711-352020",
+          "paymentReference": "THS6ALLI60",
+          "membershipType": "ordinary",
+          "lastUpdated": "2025-09-04T20:14:13.860Z",
+          "registrationDate": "2025-09-04T09:22:56.954Z",
+          "paymentStatus": "confirmed",
+          "department": "DCPS",
+          "name": "Collins Muoki",
+          "registrationNumber": "EABJ\\01635\\2024",
+          "email": "muokicollins056@gmail.com"
+        }
+      },
+      {
+        "id": "mSytnqMxW4ROl7RUkOIY",
+        "data": {
+          "membershipType": "ordinary",
+          "paymentStatus": "confirmed",
+          "lastUpdated": "2025-08-18T08:50:24.441Z",
+          "paymentReference": "THI5U682OP",
+          "name": "Kibe Brian",
+          "registrationNumber": "EMIM/00229/2021",
+          "phone": "(011) 220-3031",
+          "department": "DMAE",
+          "memberNumber": "051",
+          "registrationDate": "2025-08-18T07:28:15.743Z",
+          "email": "briangichimudan531@gmail.com"
+        }
+      },
+      {
+        "id": "mZjkRXaUSN5pybFrcgRo",
+        "data": {
+          "phone": "(071) 392-4745",
+          "department": "DMAE",
+          "registrationNumber": "EMII/01535/2023",
+          "membershipType": "ordinary",
+          "paymentStatus": "confirmed",
+          "registrationDate": "2025-09-04T18:34:59.302Z",
+          "email": "samuelnjoroge7643@gmail.com",
+          "lastUpdated": "2025-09-04T20:14:38.347Z",
+          "memberNumber": "150",
+          "paymentReference": "TI49FPXMXV",
+          "name": "Samuel Njomo Njoroge"
+        }
+      },
+      {
+        "id": "n8m1wkwjfMJ2dPwajWMT",
+        "data": {
+          "membershipType": "ordinary",
+          "paymentReference": "Assistant communication head",
+          "memberNumber": "022",
+          "name": "Elvis Mutaki",
+          "registrationNumber": "ECSI/02435/2024",
+          "department": "DCRE",
+          "lastUpdated": "2025-08-20T19:55:10.902Z",
+          "phone": "(254) 713-381907",
+          "registrationDate": "2025-08-16T18:26:44.991Z",
+          "email": "elvismutaki58@gmail.com",
+          "paymentStatus": "pending"
+        }
+      },
+      {
+        "id": "nXT9LV7ocDS7fmA5SCxK",
+        "data": {
+          "lastUpdated": "2025-08-18T08:44:45.476Z",
+          "membershipType": "ordinary",
+          "registrationNumber": "EMIM/00204/2021",
+          "phone": "(072) 852-6106",
+          "email": "adrianmwangi207@gmail.com",
+          "paymentReference": "THI1U53PBR",
+          "memberNumber": "049",
+          "paymentStatus": "confirmed",
+          "department": "DMAE",
+          "name": "Adrian Mwangi",
+          "registrationDate": "2025-08-18T07:27:14.741Z"
+        }
+      },
+      {
+        "id": "neoh3EghoAOWX5Kzr8xz",
+        "data": {
+          "name": "Naeem Papu",
+          "email": "papunaeem788@gmail.com",
+          "department": "DMAE",
+          "registrationDate": "2025-09-17T05:57:31.733Z",
+          "registrationNumber": "EMIM/00206/2021",
+          "lastUpdated": "2025-09-18T21:02:28.177Z",
+          "paymentStatus": "confirmed",
+          "memberNumber": "197",
+          "paymentReference": "TIH29R067S",
+          "phone": "(075) 994-9154",
+          "membershipType": "ordinary"
+        }
+      },
+      {
+        "id": "ooiR0vJ5w7WMRg1MY9kU",
+        "data": {
+          "membershipType": "pending",
+          "paymentStatus": "pending",
+          "name": "Telvin Mwangi Wanjohi",
+          "phone": "(071) 574-5808",
+          "paymentReference": "TJ79C6NU4R",
+          "department": "DCRE",
+          "lastUpdated": "2025-10-07T11:46:20.139Z",
+          "registrationDate": "2025-10-07T11:46:20.139Z",
+          "registrationNumber": "ECSM/01049/2024",
+          "memberNumber": "232",
+          "email": "telvinmwa26@gmail.com"
+        }
+      },
+      {
+        "id": "pGlzFeZc8sFKbTyIQT8a",
+        "data": {
+          "membershipType": "pending",
+          "paymentStatus": "confirmed",
+          "email": "kanyingilee7@gmail.com",
+          "registrationNumber": "EFCN)02641/2024",
+          "phone": "(074) 559-8244",
+          "memberNumber": "025",
+          "paymentReference": "THG3OCZ8Y5",
+          "registrationDate": "2025-08-16T19:06:09.236Z",
+          "name": "Lee Kanyingi",
+          "lastUpdated": "2025-08-16T20:20:15.839Z",
+          "department": "DCPS"
+        }
+      },
+      {
+        "id": "pS8TcyOq10Zxrl66GU8e",
+        "data": {
+          "lastUpdated": "2025-09-19T15:54:04.181Z",
+          "registrationDate": "2025-09-19T15:54:04.181Z",
+          "name": "Catherine Yamame",
+          "memberNumber": "202",
+          "membershipType": "pending",
+          "phone": "(070) 460-8264",
+          "department": "DCRE",
+          "registrationNumber": "ECSI/01465/2023",
+          "paymentReference": "TIJ6N50MAQ",
+          "email": "yamamecatherine@gmail.com",
+          "paymentStatus": "pending"
+        }
+      },
+      {
+        "id": "pYjp65o4LQTApdkwAFG9",
+        "data": {
+          "paymentStatus": "confirmed",
+          "phone": "(245) 740-628556",
+          "department": "DMAE",
+          "registrationNumber": "EMIM /05233P/2022",
+          "registrationDate": "2025-09-16T08:19:36.869Z",
+          "name": "Macharia Milkah",
+          "lastUpdated": "2025-09-18T09:06:15.408Z",
+          "paymentReference": "TIG255TQSY",
+          "email": "milkahmacha@gmail.com",
+          "memberNumber": "177",
+          "membershipType": "ordinary"
+        }
+      },
+      {
+        "id": "ppQpQuAjh4Jw9vOaNPU7",
+        "data": {
+          "paymentStatus": "pending",
+          "registrationNumber": "ECSM/05835P/2025S",
+          "membershipType": "pending",
+          "registrationDate": "2025-09-19T18:33:56.867Z",
+          "phone": "(071) 452-2472",
+          "name": "Abdulrahman Humbe Mohamed",
+          "memberNumber": "206",
+          "department": "DCRE",
+          "lastUpdated": "2025-09-19T18:33:56.867Z",
+          "email": "m1humbe@gmail.com",
+          "paymentReference": "TIJ8O8S2T2 Confirmed. Ksh200.00 sent to IM BANK C2B for account 515405 on 19/9/25 at 9:16 PM New M-PESA balance is Ksh547.19. Transaction cost, Ksh5.00.Amount you can transact within the day is 499,530.00. Save frequent paybills for quick payment on M-PESA app https://bit.ly/mpesalnk"
+        }
+      },
+      {
+        "id": "qgmGuXXuS279Ag4o2F9o",
+        "data": {
+          "department": "DCRE",
+          "memberNumber": "174",
+          "lastUpdated": "2025-09-18T20:30:33.612Z",
+          "email": "jessekipkosgei1@gmail.com",
+          "registrationNumber": "ECSI/01424/2021",
+          "phone": "(254) 716-043930",
+          "membershipType": "ordinary",
+          "registrationDate": "2025-09-14T18:17:40.048Z",
+          "name": "Jesse Chepngotie",
+          "paymentReference": "TIE8X8HJ6U",
+          "paymentStatus": "confirmed"
+        }
+      },
+      {
+        "id": "qpshKaXHz1CD9dTJE5QI",
+        "data": {
+          "name": "Elizabeth Wanyonyi",
+          "paymentReference": "0114155472",
+          "registrationNumber": "ECSE/02653/2023",
+          "email": "wanyonyisharon148@gmail.com",
+          "paymentStatus": "confirmed",
+          "memberNumber": "116",
+          "membershipType": "ordinary",
+          "registrationDate": "2025-08-29T05:44:48.386Z",
+          "lastUpdated": "2025-08-29T08:23:01.635Z",
+          "department": "DCRE",
+          "phone": "(254) 114-155472"
+        }
+      },
+      {
+        "id": "rJ23lN8sG4v4o9EngExp",
+        "data": {
+          "registrationDate": "2025-08-14T12:01:42.706Z",
+          "department": "DCRE",
+          "paymentReference": "THE4BN67S4",
+          "registrationNumber": "ECSI/02633/2023",
+          "paymentStatus": "confirmed",
+          "email": "petershemmoguchee@gmail.com",
+          "memberNumber": "012",
+          "phone": "(074) 277-6164",
+          "membershipType": "ordinary",
+          "lastUpdated": "2025-08-14T12:02:09.876Z",
+          "name": "Peter Shem"
+        }
+      },
+      {
+        "id": "rNLHvX8T8HBDz8jLy1S2",
+        "data": {
+          "lastUpdated": "2025-09-18T20:57:11.967Z",
+          "membershipType": "ordinary",
+          "department": "DEEE",
+          "registrationDate": "2025-09-16T19:49:55.239Z",
+          "paymentReference": "TIG18XAII9",
+          "registrationNumber": "EEEI/01295/2023",
+          "email": "mwikalilaura7@gmail.com",
+          "name": "Emily Laura Mwikali",
+          "paymentStatus": "confirmed",
+          "memberNumber": "190",
+          "phone": "0745855333"
+        }
+      },
+      {
+        "id": "rPJ0NA24uuEB5kILB9v9",
+        "data": {
+          "membershipType": "ordinary",
+          "name": "Sharoun Madoya",
+          "paymentStatus": "confirmed",
+          "phone": "(070) 881-0442",
+          "paymentReference": "TI69LYOCH",
+          "department": "DEEE",
+          "registrationDate": "2025-09-06T06:03:52.290Z",
+          "lastUpdated": "2025-09-18T20:19:48.401Z",
+          "email": "madoyasharoun@gmail.com",
+          "registrationNumber": "EEEI/05711P/2024",
+          "memberNumber": "160"
+        }
+      },
+      {
+        "id": "ryVTu9cvwx7r4QreTWke",
+        "data": {
+          "department": "DCPS",
+          "email": "yvonnekagwiria98@gmail.com",
+          "membershipType": "pending",
+          "paymentStatus": "pending",
+          "registrationNumber": "EFCM/01731/2023",
+          "paymentReference": "Mpesa",
+          "phone": "(074) 276-0648",
+          "lastUpdated": "2025-08-21T08:13:09.349Z",
+          "name": "Yvonne Kagwiria",
+          "memberNumber": "065",
+          "registrationDate": "2025-08-21T08:13:09.349Z"
+        }
+      },
+      {
+        "id": "sZCqB7eKdEiB6yEctc10",
+        "data": {
+          "phone": "(011) 263-4806",
+          "registrationDate": "2025-08-23T20:01:27.834Z",
+          "lastUpdated": "2025-08-23T20:20:53.526Z",
+          "registrationNumber": "ECSI/03409/2024",
+          "paymentReference": "THN1O1RQXF",
+          "membershipType": "pending",
+          "department": "DCRE",
+          "name": "Gordon",
+          "memberNumber": "088",
+          "email": "gordonzablon01@gmail.com",
+          "paymentStatus": "confirmed"
+        }
+      },
+      {
+        "id": "skhj70kgGKYS2a3wSrhP",
+        "data": {
+          "registrationDate": "2025-08-12T20:26:01.299Z",
+          "department": "DCRE",
+          "paymentReference": "THC54BMY6X",
+          "registrationNumber": "ECSI/02013/2024",
+          "paymentStatus": "confirmed",
+          "email": "shammahpaul3@gmail.com",
+          "memberNumber": "003",
+          "phone": "0723681185",
+          "lastUpdated": "2025-08-13T07:40:31.320Z",
+          "membershipType": "ordinary",
+          "name": "Shammah Busungu"
+        }
+      },
+      {
+        "id": "t6PkcTuSCxdR4nFw8Tzg",
+        "data": {
+          "phone": "(079) 552-7444",
+          "membershipType": "ordinary",
+          "department": "DCRE",
+          "paymentStatus": "confirmed",
+          "memberNumber": "120",
+          "lastUpdated": "2025-09-01T04:03:04.661Z",
+          "paymentReference": "THV1TY0UE9",
+          "name": "Owen Richard",
+          "email": "owenrichard361@gmail.com",
+          "registrationDate": "2025-08-31T20:13:23.019Z",
+          "registrationNumber": "ECSM/00379/2022"
+        }
+      },
+      {
+        "id": "uY4jS2s3frBsHDQd8xEx",
+        "data": {
+          "membershipType": "ordinary",
+          "registrationDate": "2025-09-05T13:17:29.180Z",
+          "email": "gertrudewanjiru0430@gmail.com",
+          "registrationNumber": null,
+          "lastUpdated": "2025-09-05T19:27:42.998Z",
+          "department": "DCPS",
+          "name": "Gertrude Benedict Wanjiru",
+          "paymentReference": "TI55IX5J69",
+          "phone": "(070) 055-2223",
+          "memberNumber": "158",
+          "paymentStatus": "confirmed"
+        }
+      },
+      {
+        "id": "udYtJ3EPga6bGyawOZNX",
+        "data": {
+          "registrationDate": "2025-09-16T08:52:02.696Z",
+          "name": "Kihia Joy Gathoni",
+          "paymentReference": "TIG85ARIOO",
+          "paymentStatus": "confirmed",
+          "phone": "(079) 831-8226",
+          "email": "gathonijoy9@gmail.com",
+          "membershipType": "ordinary",
+          "lastUpdated": "2025-09-18T20:31:39.246Z",
+          "registrationNumber": "EEEI/02620/2022",
+          "department": "DEEE",
+          "memberNumber": "178"
+        }
+      },
+      {
+        "id": "vMQazaKLd86Ux9QC902n",
+        "data": {
+          "paymentReference": "THT3GFQJN5",
+          "paymentStatus": "confirmed",
+          "phone": "(254) 793-306115",
+          "membershipType": "ordinary",
+          "department": "DCRE",
+          "registrationDate": "2025-08-29T10:29:31.558Z",
+          "lastUpdated": "2025-08-29T10:31:57.065Z",
+          "registrationNumber": "ECSI/01641/2025S",
+          "email": "sydneykipruto01@gmail.com",
+          "name": "Sydney Kipruto",
+          "memberNumber": "119"
+        }
+      },
+      {
+        "id": "wRFxGkRsNNmwb5zQQP36",
+        "data": {
+          "email": "manwasamuel24@students.tukenya.ac.ke",
+          "paymentReference": "Chapter Representative",
+          "registrationDate": "2025-08-16T20:02:17.082Z",
+          "phone": "(072) 855-9959",
+          "lastUpdated": "2025-08-19T20:12:30.314Z",
+          "membershipType": "ordinary",
+          "registrationNumber": "EEEI/06551P/2024",
+          "memberNumber": "026",
+          "name": "Samuel Mosoti",
+          "paymentStatus": "pending",
+          "department": "DEEE"
+        }
+      },
+      {
+        "id": "wv8sweOiyvNY1GhAjluy",
+        "data": {
+          "membershipType": "ordinary",
+          "department": "DMAE",
+          "phone": "(070) 203-7898",
+          "registrationNumber": "EMIM/00199/2021",
+          "name": "Eric Njoroge",
+          "lastUpdated": "2025-08-18T13:39:44.422Z",
+          "paymentReference": "THI7VUWJ19",
+          "memberNumber": "063",
+          "email": "njorogeeric822@gmail.com",
+          "registrationDate": "2025-08-18T13:38:40.151Z",
+          "paymentStatus": "confirmed"
+        }
+      },
+      {
+        "id": "wzWTolDyKpiaw4SXxT2g",
+        "data": {
+          "lastUpdated": "2025-09-04T20:07:50.735Z",
+          "name": "Joy Juliet",
+          "email": "joybachooo@gmail.com",
+          "paymentReference": "Real Estate Chapter Representative",
+          "memberNumber": "151",
+          "department": "DCPS",
+          "membershipType": "ordinary",
+          "registrationDate": "2025-09-04T18:37:45.935Z",
+          "registrationNumber": "EFRM/01659/2024",
+          "paymentStatus": "pending",
+          "phone": "(074) 131-7685"
+        }
+      },
+      {
+        "id": "y3elTqAS8aq9BeGZ9y6K",
+        "data": {
+          "membershipType": "ordinary",
+          "department": "DCBE",
+          "paymentStatus": "confirmed",
+          "memberNumber": "176",
+          "phone": "(070) 526-7468",
+          "lastUpdated": "2025-09-18T09:06:36.024Z",
+          "registrationDate": "2025-09-16T07:34:43.037Z",
+          "email": "bensonkinene.me@gmail.com",
+          "paymentReference": "TIG94N4GRP",
+          "name": "Benson Musyimi",
+          "registrationNumber": "EDCM/00323/2022"
+        }
+      },
+      {
+        "id": "yiKrRuvd2bPW5GXqIIcK",
+        "data": {
+          "department": null,
+          "memberNumber": "183",
+          "paymentReference": "TIG96LDMKH",
+          "phone": "(011) 336-9129",
+          "paymentStatus": "confirmed",
+          "registrationDate": "2025-09-16T13:24:49.616Z",
+          "lastUpdated": "2025-09-18T20:48:48.161Z",
+          "email": "michaelmusilamagu@students.tukenya.ac.ke",
+          "registrationNumber": "EAAM/00038/2022",
+          "name": "Michael Musila",
+          "membershipType": "ordinary"
+        }
+      },
+      {
+        "id": "yz3orSzcZcdJd8KkyClu",
+        "data": {
+          "registrationDate": "2025-09-20T16:28:45.798Z",
+          "lastUpdated": "2025-09-20T16:28:45.798Z",
+          "department": "DCBE",
+          "membershipType": "pending",
+          "phone": "(254) 732-024855",
+          "paymentStatus": "pending",
+          "paymentReference": "I3D4K6CSGDL",
+          "registrationNumber": "EDCM/02675/2024",
+          "name": "Bianca Kioko",
+          "memberNumber": "212",
+          "email": "muthikebiela@gmail.com"
+        }
+      }
+    ],
+    "admins": [
+      {
+        "id": "0s1G63wYWmn5C1VnUq1F",
+        "data": {
+          "username": "theaecsa",
+          "createdAt": "2025-08-12T16:31:52.474Z",
+          "password": "$2b$10$ABVW2kZwsrW.XT7KfjV4Lup9.DkcW5Nxbmg4QwGdx2T0HbPiA/GZ6",
+          "isActive": true,
+          "name": "AECSA Administrator",
+          "role": "admin"
+        }
+      },
+      {
+        "id": "pRoxm8EuW30vBDLD09vB",
+        "data": {
+          "name": "Administrator",
+          "createdAt": "2025-10-10T19:17:00.890Z",
+          "role": "admin",
+          "password": "$2b$10$.nyc6fLya/LjgM1SkAEpHumoWgTX0SVx9wuEQpcOyJCwA2VQ6zm0a",
+          "username": "administrator",
+          "isActive": true
+        }
+      }
+    ]
+  }
+}

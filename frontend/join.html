@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join AECAS - Member Registration</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="home.html" class="nav-logo">
+                <img src="css/logo.jpg" alt="AECAS Logo">
+                <div class="nav-logo-text">
+                    <span class="nav-logo-title">AECAS</span>
+                    <span class="nav-logo-subtitle">The Association of Engineering Construction and Architecture Students</span>
+                </div>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="home.html">Home</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="leadership.html">Leadership</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="announcements.html">Announcements</a></li>
+                <li><a href="join.html" class="active">Join AECAS</a></li>
+            </ul>
+            <div class="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Registration Form -->
+        <section class="section" style="padding-top: 40px;">
+            <div class="container" style="max-width: 600px;">
+                <div class="section-title">
+                    <h2>Member Registration</h2>
+                    <p>Fill out the form below to join our community</p>
+                </div>
+
+                <div class="card">
+                    <form id="registrationForm">
+                        <div class="form-group">
+                            <label for="name">Full Name *</label>
+                            <input type="text" id="name" name="name" required style="width: 100%; padding: 12px; border: 2px solid var(--gray-200); border-radius: 12px; font-family: 'Montserrat', sans-serif;">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" required style="width: 100%; padding: 12px; border: 2px solid var(--gray-200); border-radius: 12px; font-family: 'Montserrat', sans-serif;">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">Phone Number *</label>
+                            <input type="text" id="phone" name="phone" placeholder="e.g., 0712345678" required style="width: 100%; padding: 12px; border: 2px solid var(--gray-200); border-radius: 12px; font-family: 'Montserrat', sans-serif;">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="registrationNumber">School Registration Number</label>
+                            <input type="text" id="registrationNumber" name="registrationNumber" placeholder="e.g., ECSM/01234/2022" style="width: 100%; padding: 12px; border: 2px solid var(--gray-200); border-radius: 12px; font-family: 'Montserrat', sans-serif;">
+                            <small style="color: var(--gray-600); font-size: 0.9rem;">Optional</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="department">Department</label>
+                            <select id="department" name="department" style="width: 100%; padding: 12px; border: 2px solid var(--gray-200); border-radius: 12px; font-family: 'Montserrat', sans-serif;">
+                                <option value="">Select Department (Optional)</option>
+                                <option value="DADP">Architecture, Design and Planning (DADP)</option>
+                                <option value="DCRE">Civil and Resource Engineering (DCRE)</option>
+                                <option value="DCPS">Construction and Property Studies (DCPS)</option>
+                                <option value="DEEE">Electrical and Electronics Engineering (DEEE)</option>
+                                <option value="DMAE">Mechanical and Aerospace Engineering (DMAE)</option>
+                                <option value="DSSS">Surveying and Spatial Sciences (DSSS)</option>
+                                <option value="DCBE">Chemical and Biosystems Engineering (DCBE)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="paymentReference">Payment Reference *</label>
+                            <div style="display: flex; gap: 10px;">
+                                <input type="text" id="paymentReference" name="paymentReference" placeholder="M-Pesa transaction code" required style="flex: 1; padding: 12px; border: 2px solid var(--gray-200); border-radius: 12px; font-family: 'Montserrat', sans-serif;">
+                                <button type="button" class="btn btn-secondary" onclick="showPaymentModal()">Pay Now</button>
+                            </div>
+                            <small style="color: var(--gray-600); font-size: 0.9rem;">Registration fee: KSh 200</small>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 20px;">
+                            Register Now
+                        </button>
+                    </form>
+                </div>
+                
+                <div style="text-align: center; margin-top: 30px;">
+                    <p>Need help? <a href="contact.html" style="color: var(--primary-orange);">Contact Support</a></p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>AECAS</h3>
+                    <p>The Association of Engineering Construction and Architecture Students at Technical University of Kenya.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <a href="home.html">Home</a>
+                    <a href="events.html">Events</a>
+                    <a href="leadership.html">Leadership</a>
+                    <a href="contact.html">Contact</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Info</h3>
+                    <p><i class="fas fa-envelope"></i> henryodida5@gmail.com</p>
+                    <p><i class="fas fa-phone"></i> +254 748188081</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 AECAS. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Payment Modal -->
+    <div id="paymentModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close" onclick="closePaymentModal()">&times;</span>
+                <h3>Registration Fee Payment</h3>
+            </div>
+            <div class="modal-body">
+                <h4>Payment Details</h4>
+                <p><strong>Amount: KSh 200</strong></p>
+                <p><strong>Paybill: 542542</strong></p>
+                <p><strong>Account: 515405</strong></p>
+                <ol>
+                    <li>Go to M-Pesa</li>
+                    <li>Select "Lipa na M-Pesa" → "Pay Bill"</li>
+                    <li>Enter Business Number: 542542</li>
+                    <li>Enter Account: 515405</li>
+                    <li>Enter Amount: 200</li>
+                    <li>Copy the transaction code and paste above</li>
+                </ol>
+            </div>
+            <div class="modal-footer">
+                <button onclick="closePaymentModal()" class="btn btn-secondary">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <h3>Registration Successful!</h3>
+            </div>
+            <div class="modal-body">
+                <p>✅ Your registration has been submitted successfully!</p>
+                <p><strong>Member ID:</strong> <span id="memberId"></span></p>
+                <p><strong>Member Number:</strong> <span id="memberNumber"></span></p>
+                <p>Your payment will be verified by our team. You'll receive confirmation once approved.</p>
+            </div>
+            <div class="modal-footer">
+                <button onclick="registerAnother()" class="btn btn-primary">Register Another</button>
+                <button onclick="closeModal()" class="btn btn-secondary">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error Modal -->
+    <div id="errorModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close" onclick="closeErrorModal()">&times;</span>
+                <h3>Registration Error</h3>
+            </div>
+            <div class="modal-body">
+                <p id="errorMessage">An error occurred during registration.</p>
+            </div>
+            <div class="modal-footer">
+                <button onclick="closeErrorModal()" class="btn btn-primary">Try Again</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/registration.js"></script>
+    <script>
+        const navToggle = document.querySelector('.nav-toggle');
+        const navMenu = document.querySelector('.nav-menu');
+
+        navToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+
+        function showPaymentModal() {
+            document.getElementById('paymentModal').style.display = 'block';
+        }
+        
+        function closePaymentModal() {
+            document.getElementById('paymentModal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

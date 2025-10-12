@@ -1,17 +1,19 @@
 // Registration form functionality
 document.addEventListener('DOMContentLoaded', function() {
     const registrationForm = document.getElementById('registrationForm');
-    const submitBtn = registrationForm.querySelector('.submit-btn');
-    const btnText = submitBtn.querySelector('.btn-text');
-    const loadingSpinner = submitBtn.querySelector('.loading-spinner');
+    const submitBtn = registrationForm.querySelector('button[type="submit"]');
+    
+    if (!submitBtn) {
+        console.error('Submit button not found');
+        return;
+    }
     
     registrationForm.addEventListener('submit', async function(e) {
         e.preventDefault();
         
         // Disable submit button and show loading
         submitBtn.disabled = true;
-        btnText.style.display = 'none';
-        loadingSpinner.style.display = 'inline-block';
+        submitBtn.textContent = 'Registering...';
         
         try {
             // Get form data
@@ -19,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const memberData = {
                 name: formData.get('name').trim(),
                 email: formData.get('email').trim(),
-                phone: formData.get('phone').trim(),
+                phone: formData.get('phone').replace(/\D/g, ''),
                 registrationNumber: formData.get('registrationNumber') ? formData.get('registrationNumber').trim() : null,
                 department: formData.get('department') || null,
                 paymentReference: formData.get('paymentReference').trim()
@@ -62,8 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } finally {
             // Re-enable submit button
             submitBtn.disabled = false;
-            btnText.style.display = 'inline';
-            loadingSpinner.style.display = 'none';
+            submitBtn.textContent = 'Register Now';
         }
     });
 });
@@ -128,15 +129,11 @@ window.addEventListener('click', function(event) {
 
 // Form enhancements
 document.addEventListener('DOMContentLoaded', function() {
-    // Auto-format phone number
+    // Clean phone number input - only allow digits
     const phoneInput = document.getElementById('phone');
     phoneInput.addEventListener('input', function(e) {
-        let value = e.target.value.replace(/\D/g, '');
-        if (value.length >= 10) {
-            // Format as (XXX) XXX-XXXX
-            value = value.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
-        }
-        e.target.value = value;
+        // Remove all non-digit characters
+        e.target.value = e.target.value.replace(/\D/g, '');
     });
     
     // Email validation feedback
