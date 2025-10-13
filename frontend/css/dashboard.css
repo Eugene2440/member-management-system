@@ -1096,3 +1096,20 @@ body {
         font-size: 1.3rem;
     }
 }
+
+/* Leadership Avatar Icon Centering */
+.leader-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: #dbeafe;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+}
+
+.leader-avatar i {
+    font-size: 3rem;
+    color: var(--primary-orange);
+}

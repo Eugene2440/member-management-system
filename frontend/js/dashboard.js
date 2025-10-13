@@ -1501,8 +1501,8 @@ function renderLeadership(leaders) {
             <div style="text-align: center; margin-bottom: 15px;">
                 ${l.photo ? 
                     `<img src="${l.photo}" alt="${escapeHtml(l.name)}" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin: 0 auto;">` :
-                    `<div style="width: 120px; height: 120px; background: var(--light-blue); border-radius: 50%; margin: 0 auto; display: flex; align-items: center; justify-content: center; color: var(--primary-blue); font-size: 3rem;">
-                        <i class="fas fa-user"></i>
+                    `<div style="width: 120px; height: 120px; background: #dbeafe; border-radius: 50%; margin: 0 auto; display: flex; align-items: center; justify-content: center; color: #eab308; line-height: 0;">
+                        <i class="fas fa-user" style="font-size: 3rem; display: block;"></i>
                     </div>`
                 }
             </div>

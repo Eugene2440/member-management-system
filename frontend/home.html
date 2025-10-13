@@ -256,18 +256,10 @@
                 const day = eventDate.getDate();
                 
                 const eventCard = `
-                    <div class="card" style="text-align: left;">
-                        <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
-                            <div style="background: var(--primary-color); color: white; padding: 10px 15px; border-radius: 8px; text-align: center; min-width: 60px;">
-                                <div style="font-size: 12px; font-weight: 600;">${month}</div>
-                                <div style="font-size: 24px; font-weight: 700;">${day}</div>
-                            </div>
-                            <div>
-                                <h3 style="margin: 0; font-size: 18px;">${event.title}</h3>
-                                <p style="margin: 5px 0 0 0; font-size: 14px; color: var(--text-secondary);"><i class="fas fa-clock"></i> ${event.time}</p>
-                            </div>
-                        </div>
-                        <p style="margin: 10px 0;"><i class="fas fa-map-marker-alt"></i> ${event.location}</p>
+                    <div class="card" style="text-align: center;">
+                        <h3 style="margin: 0 0 15px 0; font-size: 18px;">${event.title}</h3>
+                        <p style="margin: 10px 0; font-size: 14px;"><strong>Time:</strong> ${event.time}</p>
+                        <p style="margin: 10px 0;"><strong>Location:</strong> ${event.location}</p>
                         <p style="margin: 10px 0; color: var(--text-secondary);">${event.description ? event.description.substring(0, 100) + '...' : 'Join us for this exciting event!'}</p>
                     </div>
                 `;
