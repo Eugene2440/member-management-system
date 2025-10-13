@@ -15,7 +15,7 @@ const PORT = process.env.PORT || 3000;
 // Middleware
 const corsOptions = {
     origin: process.env.NODE_ENV === 'production' 
-        ? ['https://member-management-system-e52u.onrender.com', 'https://eugene2440.github.io']
+        ? ['https://member-management-system-e52u.onrender.com', 'https://eugene2440.github.io', 'https://www.aecas.co.ke', 'https://aecas.co.ke']
         : ['http://localhost:3000', 'http://127.0.0.1:5500'],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
