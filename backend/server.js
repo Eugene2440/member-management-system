@@ -27,6 +27,11 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
 app.use(express.static(path.join(__dirname, '../frontend')));
 
+// Health check endpoint for uptime monitoring
+app.get('/health', (req, res) => {
+    res.status(200).json({ status: 'OK', timestamp: new Date().toISOString() });
+});
+
 // Routes
 app.use('/api/members', memberRoutes);
 app.use('/api/auth', authRoutes);
