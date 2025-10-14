@@ -62,13 +62,13 @@
                 </div>
                 <div class="footer-section">
                     <h3>Contact Info</h3>
-                    <p><i class="fas fa-envelope"></i> henryodida5@gmail.com</p>
-                    <p><i class="fas fa-phone"></i> +254 748188081</p>
+                    <p><i class="fas fa-envelope"></i> aecas.students@gmail.com</p>
+                    <p><i class="fas fa-phone"></i> +254 713077328</p>
                     <p><i class="fas fa-map-marker-alt"></i> Technical University of Kenya</p>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2024 AECAS. All rights reserved.</p>
+                <p>&copy; 2025 AECAS. All rights reserved.</p>
             </div>
         </div>
     </footer>
@@ -117,7 +117,7 @@
                                     <h3 style="margin: 0; color: var(--primary-blue); font-size: 1.3rem;">${a.title}</h3>
                                     <span style="background: ${a.priority === 'urgent' ? '#fee2e2' : a.priority === 'high' ? 'var(--light-orange)' : 'var(--light-blue)'}; color: ${a.priority === 'urgent' ? '#991b1b' : a.priority === 'high' ? 'var(--secondary-orange)' : 'var(--primary-blue)'}; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase;">${a.priority}</span>
                                 </div>
-                                <p style="color: var(--gray-600); line-height: 1.6; margin: 15px 0;">${a.message}</p>
+                                <p style="color: var(--gray-600); line-height: 1.6; margin: 15px 0;">${a.message.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" style="color: var(--primary-orange); text-decoration: underline; font-weight: 600;">$1</a>')}</p>
                                 <div style="display: flex; align-items: center; gap: 8px; color: var(--gray-600); font-size: 0.9rem;">
                                     <i class="fas fa-calendar-alt"></i>
                                     <span>${date}</span>
