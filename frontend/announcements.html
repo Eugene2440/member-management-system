@@ -120,26 +120,17 @@
         function displayAnnouncements(announcements) {
             const list = document.getElementById('announcementsList');
             list.innerHTML = announcements.map(a => {
-                const priorityClass = a.priority === 'urgent' ? 'urgent' : a.priority === 'high' ? 'high' : 'normal';
-                const priorityIcon = a.priority === 'urgent' ? 'fa-exclamation-circle' : a.priority === 'high' ? 'fa-exclamation-triangle' : 'fa-info-circle';
                 const date = new Date(a.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
                 return `
-                    <div class="card" style="margin-bottom: 25px; border-left: 4px solid ${a.priority === 'urgent' ? '#dc2626' : a.priority === 'high' ? 'var(--primary-orange)' : 'var(--primary-blue)'}; position: relative;">
-                        <div style="display: flex; align-items: start; gap: 20px;">
-                            <div style="flex-shrink: 0; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;" class="${priorityClass === 'urgent' ? 'card-icon' : priorityClass === 'high' ? 'card-icon' : 'card-icon'}" style="background: ${a.priority === 'urgent' ? '#fee2e2' : a.priority === 'high' ? 'var(--light-orange)' : 'var(--light-blue)'}; color: ${a.priority === 'urgent' ? '#dc2626' : a.priority === 'high' ? 'var(--primary-orange)' : 'var(--primary-blue)'}">
-                                <i class="fas ${priorityIcon}"></i>
-                            </div>
-                            <div style="flex: 1;">
-                                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 10px;">
-                                    <h3 style="margin: 0; color: var(--primary-blue); font-size: 1.3rem;">${a.title}</h3>
-                                    <span style="background: ${a.priority === 'urgent' ? '#fee2e2' : a.priority === 'high' ? 'var(--light-orange)' : 'var(--light-blue)'}; color: ${a.priority === 'urgent' ? '#991b1b' : a.priority === 'high' ? 'var(--secondary-orange)' : 'var(--primary-blue)'}; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase;">${a.priority}</span>
-                                </div>
-                                <p style="color: var(--gray-600); line-height: 1.6; margin: 15px 0;">${a.message.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" style="color: var(--primary-orange); text-decoration: underline; font-weight: 600;">$1</a>')}</p>
-                                <div style="display: flex; align-items: center; gap: 8px; color: var(--gray-600); font-size: 0.9rem;">
-                                    <i class="fas fa-calendar-alt"></i>
-                                    <span>${date}</span>
-                                </div>
-                            </div>
+                    <div class="card" style="margin-bottom: 25px; text-align: left;">
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 10px;">
+                            <h3 style="margin: 0; color: var(--primary-blue); font-size: 1.3rem;">${a.title}</h3>
+                            <span style="background: ${a.priority === 'urgent' ? '#fee2e2' : a.priority === 'high' ? 'var(--light-orange)' : 'var(--light-blue)'}; color: ${a.priority === 'urgent' ? '#991b1b' : a.priority === 'high' ? 'var(--secondary-orange)' : 'var(--primary-blue)'}; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase;">${a.priority}</span>
+                        </div>
+                        <p style="color: var(--gray-600); line-height: 1.6; margin: 15px 0;">${a.message.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" style="color: var(--primary-orange); text-decoration: underline; font-weight: 600;">$1</a>')}</p>
+                        <div style="display: flex; align-items: center; gap: 8px; color: var(--gray-600); font-size: 0.9rem;">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>${date}</span>
                         </div>
                     </div>
                 `;
