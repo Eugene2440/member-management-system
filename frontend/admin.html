@@ -6,14 +6,43 @@
     <title>Admin Dashboard - AECAS</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/dashboard.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <div class="dashboard-container">
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="home.html" class="nav-logo">
+                <img src="css/logo.jpg" alt="AECAS Logo">
+                <div class="nav-logo-text">
+                    <span class="nav-logo-title">AECAS</span>
+                    <span class="nav-logo-subtitle">The Association of Engineering Construction and Architecture Students</span>
+                </div>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="home.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="admin.html" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li>
+                    <div class="user-info" style="display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-user-circle" style="font-size: 1.5rem;"></i>
+                        <span id="userWelcome" style="font-size: 0.9rem;">Admin</span>
+                    </div>
+                </li>
+                <li><button onclick="logout()" class="btn btn-secondary" style="padding: 10px 20px; border-radius: 25px;"><i class="fas fa-sign-out-alt"></i> Logout</button></li>
+            </ul>
+            <div class="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="dashboard-container" style="margin-top: 80px;">
         <!-- Header -->
         <header class="dashboard-header">
             <div class="header-content">
@@ -25,23 +54,6 @@
                         <h1>AECAS Dashboard</h1>
                         <p>Member Management System</p>
                     </div>
-                </div>
-                <div class="header-right">
-                    <div class="user-info">
-                        <i class="fas fa-user-circle"></i>
-                        <div class="user-details">
-                            <span id="userWelcome">Welcome, Admin</span>
-                            <span id="userRole" class="role-badge"></span>
-                        </div>
-                    </div>
-                    <button onclick="logout()" class="logout-btn">
-                        <i class="fas fa-sign-out-alt"></i>
-                        Logout
-                    </button>
-                    <a href="home.html" class="website-btn">
-                        <i class="fas fa-globe"></i>
-                        Website
-                    </a>
                 </div>
             </div>
         </header>

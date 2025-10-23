@@ -6,7 +6,7 @@
     <title>Join AECAS - Member Registration</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/main.css">
 </head>
@@ -22,12 +22,12 @@
                 </div>
             </a>
             <ul class="nav-menu">
-                <li><a href="home.html">Home</a></li>
-                <li><a href="events.html">Events</a></li>
-                <li><a href="leadership.html">Leadership</a></li>
-                <li><a href="contact.html">Contact</a></li>
-                <li><a href="announcements.html">Announcements</a></li>
-                <li><a href="join.html" class="active">Join AECAS</a></li>
+                <li><a href="home.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="events.html"><i class="fas fa-calendar-alt"></i> Events</a></li>
+                <li><a href="leadership.html"><i class="fas fa-users"></i> Leadership</a></li>
+                <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+                <li><a href="announcements.html"><i class="fas fa-bullhorn"></i> Announcements</a></li>
+                <li><a href="join.html" class="btn btn-primary active" style="padding: 10px 20px; border-radius: 25px; color: var(--white);"><i class="fas fa-user-plus"></i> Join AECAS</a></li>
             </ul>
             <div class="nav-toggle">
                 <span></span>
@@ -51,28 +51,28 @@
                     <form id="registrationForm">
                         <div class="form-group">
                             <label for="name">Full Name *</label>
-                            <input type="text" id="name" name="name" required style="width: 100%; padding: 12px; border: 2px solid var(--gray-200); border-radius: 12px; font-family: 'Montserrat', sans-serif;">
+                            <input type="text" id="name" name="name" required style="width: 100%; padding: 12px; border: 2px solid var(--gray-200); border-radius: 12px; font-family: 'Afacad Flux', sans-serif;">
                         </div>
                         
                         <div class="form-group">
                             <label for="email">Email Address *</label>
-                            <input type="email" id="email" name="email" required style="width: 100%; padding: 12px; border: 2px solid var(--gray-200); border-radius: 12px; font-family: 'Montserrat', sans-serif;">
+                            <input type="email" id="email" name="email" required style="width: 100%; padding: 12px; border: 2px solid var(--gray-200); border-radius: 12px; font-family: 'Afacad Flux', sans-serif;">
                         </div>
                         
                         <div class="form-group">
                             <label for="phone">Phone Number *</label>
-                            <input type="text" id="phone" name="phone" placeholder="e.g., 0712345678" required style="width: 100%; padding: 12px; border: 2px solid var(--gray-200); border-radius: 12px; font-family: 'Montserrat', sans-serif;">
+                            <input type="text" id="phone" name="phone" placeholder="e.g., 0712345678" required style="width: 100%; padding: 12px; border: 2px solid var(--gray-200); border-radius: 12px; font-family: 'Afacad Flux', sans-serif;">
                         </div>
                         
                         <div class="form-group">
                             <label for="registrationNumber">School Registration Number</label>
-                            <input type="text" id="registrationNumber" name="registrationNumber" placeholder="e.g., ECSM/01234/2022" style="width: 100%; padding: 12px; border: 2px solid var(--gray-200); border-radius: 12px; font-family: 'Montserrat', sans-serif;">
+                            <input type="text" id="registrationNumber" name="registrationNumber" placeholder="e.g., ECSM/01234/2022" style="width: 100%; padding: 12px; border: 2px solid var(--gray-200); border-radius: 12px; font-family: 'Afacad Flux', sans-serif;">
                             <small style="color: var(--gray-600); font-size: 0.9rem;">Optional</small>
                         </div>
                         
                         <div class="form-group">
                             <label for="department">Department</label>
-                            <select id="department" name="department" style="width: 100%; padding: 12px; border: 2px solid var(--gray-200); border-radius: 12px; font-family: 'Montserrat', sans-serif;">
+                            <select id="department" name="department" style="width: 100%; padding: 12px; border: 2px solid var(--gray-200); border-radius: 12px; font-family: 'Afacad Flux', sans-serif;">
                                 <option value="">Select Department (Optional)</option>
                                 <option value="DADP">Architecture, Design and Planning (DADP)</option>
                                 <option value="DCRE">Civil and Resource Engineering (DCRE)</option>
@@ -87,7 +87,7 @@
                         <div class="form-group">
                             <label for="paymentReference">Payment Reference *</label>
                             <div style="display: flex; gap: 10px;">
-                                <input type="text" id="paymentReference" name="paymentReference" placeholder="M-Pesa transaction code" required style="flex: 1; padding: 12px; border: 2px solid var(--gray-200); border-radius: 12px; font-family: 'Montserrat', sans-serif;">
+                                <input type="text" id="paymentReference" name="paymentReference" placeholder="M-Pesa transaction code" required style="flex: 1; padding: 12px; border: 2px solid var(--gray-200); border-radius: 12px; font-family: 'Afacad Flux', sans-serif;">
                                 <button type="button" class="btn btn-secondary" onclick="showPaymentModal()">Pay Now</button>
                             </div>
                             <small style="color: var(--gray-600); font-size: 0.9rem;">Registration fee: KSh 200</small>
@@ -141,6 +141,11 @@
             </div>
         </div>
     </footer>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" id="scrollToTop" aria-label="Scroll to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
 
     <!-- Payment Modal -->
     <div id="paymentModal" class="modal" style="display: none;">
@@ -221,6 +226,60 @@
         function closePaymentModal() {
             document.getElementById('paymentModal').style.display = 'none';
         }
+        
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        // Scroll to Top Button
+        const scrollToTopBtn = document.getElementById('scrollToTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollToTopBtn.classList.add('show');
+            } else {
+                scrollToTopBtn.classList.remove('show');
+            }
+        });
+        
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.section').forEach(section => {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(30px)';
+                section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(section);
+            });
+            
+            // Animate form groups with stagger effect
+            const formGroups = document.querySelectorAll('.form-group');
+            formGroups.forEach((group, index) => {
+                group.style.opacity = '0';
+                group.style.transform = 'translateX(-20px)';
+                group.style.transition = 'all 0.5s ease';
+                setTimeout(() => {
+                    group.style.opacity = '1';
+                    group.style.transform = 'translateX(0)';
+                }, index * 80);
+            });
+        });
     </script>
 </body>
 </html>

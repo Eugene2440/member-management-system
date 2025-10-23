@@ -6,7 +6,7 @@
     <title>Contact Us - AECAS</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/main.css">
 </head>
@@ -22,12 +22,12 @@
                 </div>
             </a>
             <ul class="nav-menu">
-                <li><a href="home.html">Home</a></li>
-                <li><a href="events.html">Events</a></li>
-                <li><a href="leadership.html">Leadership</a></li>
-                <li><a href="contact.html" class="active">Contact</a></li>
-                <li><a href="announcements.html">Announcements</a></li>
-                <li><a href="join.html" class="btn btn-primary" style="padding: 10px 20px; border-radius: 25px;">Join AECAS</a></li>
+                <li><a href="home.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="events.html"><i class="fas fa-calendar-alt"></i> Events</a></li>
+                <li><a href="leadership.html"><i class="fas fa-users"></i> Leadership</a></li>
+                <li><a href="contact.html" class="active"><i class="fas fa-envelope"></i> Contact</a></li>
+                <li><a href="announcements.html"><i class="fas fa-bullhorn"></i> Announcements</a></li>
+                <li><a href="join.html" class="btn btn-primary" style="padding: 10px 20px; border-radius: 25px;"><i class="fas fa-user-plus"></i> Join AECAS</a></li>
             </ul>
             <div class="nav-toggle">
                 <span></span>
@@ -56,7 +56,7 @@
                 </div>
                 <div class="cards-grid">
                     <div class="card" style="text-align: center;">
-                        <div class="card-icon">
+                        <div class="card-icon" style="display: block; width: 60px; height: 60px; background: var(--light-blue); border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; color: var(--primary-blue); font-size: 1.5rem;">
                             <i class="fas fa-envelope"></i>
                         </div>
                         <h3>Email Us</h3>
@@ -65,7 +65,7 @@
                     </div>
                     
                     <div class="card" style="text-align: center;">
-                        <div class="card-icon">
+                        <div class="card-icon" style="display: block; width: 60px; height: 60px; background: var(--light-orange); border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; color: var(--primary-orange); font-size: 1.5rem;">
                             <i class="fas fa-phone"></i>
                         </div>
                         <h3>Call Us</h3>
@@ -75,7 +75,7 @@
                     </div>
                     
                     <div class="card" style="text-align: center;">
-                        <div class="card-icon">
+                        <div class="card-icon" style="display: block; width: 60px; height: 60px; background: var(--light-blue); border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; color: var(--primary-blue); font-size: 1.5rem;">
                             <i class="fas fa-map-marker-alt"></i>
                         </div>
                         <h3>Visit Us</h3>
@@ -196,6 +196,11 @@
         </div>
     </footer>
 
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" id="scrollToTop" aria-label="Scroll to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
     <script>
         // Mobile menu toggle
         const navToggle = document.querySelector('.nav-toggle');
@@ -208,6 +213,72 @@
         document.querySelectorAll('.nav-menu a').forEach(link => {
             link.addEventListener('click', () => {
                 navMenu.classList.remove('active');
+            });
+        });
+        
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        // Scroll to Top Button
+        const scrollToTopBtn = document.getElementById('scrollToTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollToTopBtn.classList.add('show');
+            } else {
+                scrollToTopBtn.classList.remove('show');
+            }
+        });
+        
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.section').forEach(section => {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(30px)';
+                section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(section);
+            });
+            
+            // Animate cards with stagger effect
+            const cardObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const cards = entry.target.querySelectorAll('.card');
+                        cards.forEach((card, index) => {
+                            setTimeout(() => {
+                                card.style.opacity = '1';
+                                card.style.transform = 'translateY(0) scale(1)';
+                            }, index * 100);
+                        });
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            document.querySelectorAll('.cards-grid').forEach(grid => {
+                grid.querySelectorAll('.card').forEach(card => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px) scale(0.95)';
+                    card.style.transition = 'all 0.5s ease';
+                });
+                cardObserver.observe(grid);
             });
         });
     </script>

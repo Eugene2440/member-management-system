@@ -6,7 +6,7 @@
     <title>Announcements - AECAS</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/main.css">
 </head>
@@ -21,12 +21,12 @@
                 </div>
             </a>
             <ul class="nav-menu">
-                <li><a href="home.html">Home</a></li>
-                <li><a href="events.html">Events</a></li>
-                <li><a href="leadership.html">Leadership</a></li>
-                <li><a href="contact.html">Contact</a></li>
-                <li><a href="announcements.html" class="active">Announcements</a></li>
-                <li><a href="join.html" class="btn btn-primary" style="padding: 10px 20px; border-radius: 25px;">Join AECAS</a></li>
+                <li><a href="home.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="events.html"><i class="fas fa-calendar-alt"></i> Events</a></li>
+                <li><a href="leadership.html"><i class="fas fa-users"></i> Leadership</a></li>
+                <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+                <li><a href="announcements.html" class="active"><i class="fas fa-bullhorn"></i> Announcements</a></li>
+                <li><a href="join.html" class="btn btn-primary" style="padding: 10px 20px; border-radius: 25px;"><i class="fas fa-user-plus"></i> Join AECAS</a></li>
             </ul>
             <div class="nav-toggle">
                 <span></span>
@@ -40,7 +40,10 @@
         <section class="section" style="padding-top: 120px;">
             <div class="container">
                 <div id="announcementsList" style="max-width: 800px; margin: 0 auto;">
-                    <p style="text-align: center; padding: 40px;">Loading announcements...</p>
+                    <div style="text-align: center; padding: 40px;">
+                        <div class="loading-spinner" style="margin: 0 auto;"></div>
+                        <p style="margin-top: 15px; color: var(--gray-600);">Loading announcements...</p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -81,6 +84,11 @@
             </div>
         </div>
     </footer>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" id="scrollToTop" aria-label="Scroll to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
 
     <script>
         const navToggle = document.querySelector('.nav-toggle');
@@ -138,7 +146,48 @@
             }).join('');
         }
 
-        document.addEventListener('DOMContentLoaded', loadAnnouncements);
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        // Scroll to Top Button
+        const scrollToTopBtn = document.getElementById('scrollToTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollToTopBtn.classList.add('show');
+            } else {
+                scrollToTopBtn.classList.remove('show');
+            }
+        });
+        
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            loadAnnouncements();
+            document.querySelectorAll('.section').forEach(section => {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(30px)';
+                section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(section);
+            });
+        });
     </script>
 </body>
 </html>
