@@ -24,8 +24,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
 async function initializeDashboard() {
     // Update user info in header
-    document.getElementById('userWelcome').textContent = `Welcome, ${currentUser.name}`;
-    document.getElementById('userRole').textContent = currentUser.role.toUpperCase();
+    const welcomeEl = document.getElementById('userWelcome');
+    if (welcomeEl) {
+        welcomeEl.textContent = `Welcome, ${currentUser.name}`;
+    }
     
     // Set role-specific permissions
     setupRolePermissions();
@@ -509,7 +511,7 @@ function createRegistrationChart() {
             plugins: {
                 legend: {
                     display: false,
-                    labels: { font: { family: 'Montserrat' } }
+                    labels: { font: { family: 'Afacad Flux' } }
                 }
             },
             scales: {
@@ -517,11 +519,11 @@ function createRegistrationChart() {
                     beginAtZero: true,
                     ticks: {
                         stepSize: 1,
-                        font: { family: 'Montserrat' }
+                        font: { family: 'Afacad Flux' }
                     }
                 },
                 x: {
-                    ticks: { font: { family: 'Montserrat' } }
+                    ticks: { font: { family: 'Afacad Flux' } }
                 }
             }
         }
@@ -553,7 +555,7 @@ function createDepartmentChart() {
                     labels: {
                         padding: 15,
                         usePointStyle: true,
-                        font: { family: 'Montserrat' }
+                        font: { family: 'Afacad Flux' }
                     }
                 }
             }
@@ -581,7 +583,7 @@ function createPaymentChart() {
             plugins: {
                 legend: {
                     display: false,
-                    labels: { font: { family: 'Montserrat' } }
+                    labels: { font: { family: 'Afacad Flux' } }
                 }
             },
             scales: {
@@ -589,11 +591,11 @@ function createPaymentChart() {
                     beginAtZero: true,
                     ticks: {
                         stepSize: 1,
-                        font: { family: 'Montserrat' }
+                        font: { family: 'Afacad Flux' }
                     }
                 },
                 x: {
-                    ticks: { font: { family: 'Montserrat' } }
+                    ticks: { font: { family: 'Afacad Flux' } }
                 }
             }
         }
@@ -674,11 +676,11 @@ function toggleSidebar() {
 
 function showSection(section) {
     // Update active nav link
-    document.querySelectorAll('.nav-link').forEach(link => {
+    document.querySelectorAll('.nav-menu a').forEach(link => {
         link.classList.remove('active');
     });
     
-    event.target.closest('.nav-link').classList.add('active');
+    event.target.classList.add('active');
     
     // Show/hide sections based on selection
     if (section === 'members') {

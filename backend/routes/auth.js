@@ -11,6 +11,8 @@ router.post('/login', async (req, res) => {
     try {
         const { username, password } = req.body;
         
+        console.log('Login attempt:', username);
+        
         if (!username || !password) {
             return res.status(400).json({ error: 'Username and password are required' });
         }
@@ -19,18 +21,26 @@ router.post('/login', async (req, res) => {
         const q = query(collection(db, 'admins'), where('username', '==', username));
         const querySnapshot = await getDocs(q);
         
+        console.log('Query result:', querySnapshot.empty ? 'No user found' : 'User found');
+        
         if (querySnapshot.empty) {
+            console.log('User not found in database');
             return res.status(401).json({ error: 'Invalid credentials' });
         }
         
         const userDoc = querySnapshot.docs[0];
         const userData = userDoc.data();
         
+        console.log('Verifying password...');
+        
         // Verify password
         const isValidPassword = await bcrypt.compare(password, userData.password);
         if (!isValidPassword) {
+            console.log('Password verification failed');
             return res.status(401).json({ error: 'Invalid credentials' });
         }
+        
+        console.log('Login successful for:', username);
         
         // Generate JWT token
         const token = jwt.sign(

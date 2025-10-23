@@ -24,14 +24,10 @@
                 </div>
             </a>
             <ul class="nav-menu">
-                <li><a href="home.html"><i class="fas fa-home"></i> Home</a></li>
-                <li><a href="admin.html" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-                <li>
-                    <div class="user-info" style="display: flex; align-items: center; gap: 10px;">
-                        <i class="fas fa-user-circle" style="font-size: 1.5rem;"></i>
-                        <span id="userWelcome" style="font-size: 0.9rem;">Admin</span>
-                    </div>
-                </li>
+                <li><a href="#" onclick="showSection('members')" class="active"><i class="fas fa-users"></i> Members</a></li>
+                <li><a href="#" onclick="showSection('events')"><i class="fas fa-calendar-alt"></i> Events</a></li>
+                <li><a href="#" onclick="showSection('announcements')"><i class="fas fa-bullhorn"></i> Announcements</a></li>
+                <li><a href="#" onclick="showSection('leadership')"><i class="fas fa-user-tie"></i> Leadership</a></li>
                 <li><button onclick="logout()" class="btn btn-secondary" style="padding: 10px 20px; border-radius: 25px;"><i class="fas fa-sign-out-alt"></i> Logout</button></li>
             </ul>
             <div class="nav-toggle">
@@ -43,44 +39,7 @@
     </nav>
 
     <div class="dashboard-container" style="margin-top: 80px;">
-        <!-- Header -->
-        <header class="dashboard-header">
-            <div class="header-content">
-                <div class="header-left">
-                    <button class="sidebar-toggle" onclick="toggleSidebar()">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                    <div class="header-text">
-                        <h1>AECAS Dashboard</h1>
-                        <p>Member Management System</p>
-                    </div>
-                </div>
-            </div>
-        </header>
 
-        <!-- Sidebar -->
-        <aside class="sidebar" id="sidebar">
-            <nav class="sidebar-nav">
-                <ul>
-                    <li><a href="#" onclick="showSection('members')" class="nav-link active">
-                        <i class="fas fa-tachometer-alt"></i>
-                        <span>Dashboard</span>
-                    </a></li>
-                    <li><a href="#" onclick="showSection('events')" class="nav-link">
-                        <i class="fas fa-calendar-alt"></i>
-                        <span>Events</span>
-                    </a></li>
-                    <li><a href="#" onclick="showSection('announcements')" class="nav-link">
-                        <i class="fas fa-bullhorn"></i>
-                        <span>Announcements</span>
-                    </a></li>
-                    <li><a href="#" onclick="showSection('leadership')" class="nav-link">
-                        <i class="fas fa-user-tie"></i>
-                        <span>Leadership</span>
-                    </a></li>
-                </ul>
-            </nav>
-        </aside>
         
         <!-- Main Content -->
         <main class="dashboard-main" id="dashboardMain">

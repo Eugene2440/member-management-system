@@ -3,7 +3,7 @@ body {
     background: var(--gray-100);
     padding: 0;
     margin: 0;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Afacad Flux', sans-serif;
 }
 
 .dashboard-container {
@@ -218,7 +218,7 @@ body {
     cursor: pointer;
     font-size: 0.9rem;
     font-weight: 500;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Afacad Flux', sans-serif;
     transition: all 0.3s ease;
     text-decoration: none;
     display: flex;
@@ -383,7 +383,7 @@ body {
     border: 2px solid var(--gray-200);
     border-radius: 10px;
     font-size: 1rem;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Afacad Flux', sans-serif;
     transition: border-color 0.3s ease;
     resize: vertical;
 }
@@ -570,7 +570,7 @@ body {
     border: 2px solid #e1e8ed;
     border-radius: 10px;
     font-size: 1rem;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Afacad Flux', sans-serif;
     transition: border-color 0.3s ease;
 }
 
@@ -590,7 +590,7 @@ body {
     font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Afacad Flux', sans-serif;
 }
 
 .search-btn,
@@ -630,7 +630,7 @@ body {
     border: 2px solid #e1e8ed;
     border-radius: 10px;
     font-size: 0.95rem;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Afacad Flux', sans-serif;
     background: white;
     min-width: 180px;
 }
@@ -738,7 +738,7 @@ body {
     font-size: 0.7rem;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Afacad Flux', sans-serif;
 }
 
 .btn-edit {
@@ -961,7 +961,7 @@ body {
     border: 2px solid var(--gray-200);
     border-radius: 10px;
     font-size: 1rem;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Afacad Flux', sans-serif;
     transition: border-color 0.3s ease;
 }
 
@@ -993,7 +993,7 @@ body {
     font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Afacad Flux', sans-serif;
 }
 
 .btn-primary:hover {
@@ -1012,7 +1012,7 @@ body {
     font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Afacad Flux', sans-serif;
 }
 
 .btn-secondary:hover {
@@ -1029,7 +1029,7 @@ body {
     font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Afacad Flux', sans-serif;
 }
 
 .btn-danger:hover {
