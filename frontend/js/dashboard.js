@@ -483,7 +483,6 @@ let charts = {};
 function initializeAnalytics() {
     createRegistrationChart();
     createDepartmentChart();
-    createPaymentChart();
 }
 
 function createRegistrationChart() {
@@ -563,46 +562,6 @@ function createDepartmentChart() {
     });
 }
 
-function createPaymentChart() {
-    const ctx = document.getElementById('paymentChart').getContext('2d');
-    const paymentData = getPaymentStatusData();
-    
-    charts.payment = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: paymentData.labels,
-            datasets: [{
-                label: 'Members',
-                data: paymentData.data,
-                backgroundColor: ['#eab308', '#10b981', '#dc2626']
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    display: false,
-                    labels: { font: { family: 'Afacad Flux' } }
-                }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        stepSize: 1,
-                        font: { family: 'Afacad Flux' }
-                    }
-                },
-                x: {
-                    ticks: { font: { family: 'Afacad Flux' } }
-                }
-            }
-        }
-    });
-}
-
-
 
 function getLast6MonthsData() {
     const months = [];
@@ -639,20 +598,6 @@ function getDepartmentDistribution() {
         data: Object.values(departments)
     };
 }
-
-function getPaymentStatusData() {
-    const statuses = { pending: 0, confirmed: 0, rejected: 0 };
-    
-    allMembers.forEach(member => {
-        statuses[member.paymentStatus]++;
-    });
-    
-    return {
-        labels: ['Pending', 'Confirmed', 'Rejected'],
-        data: [statuses.pending, statuses.confirmed, statuses.rejected]
-    };
-}
-
 
 
 function updateAnalytics() {
