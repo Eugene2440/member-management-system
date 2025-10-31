@@ -90,7 +90,7 @@
             <section class="filters-section">
                 <div class="filters-container">
                     <div class="search-group">
-                        <input type="text" id="searchInput" placeholder="Search by name, email, phone, member number, department...">
+                        <input type="text" id="searchInput" placeholder="Search by name, email, phone, member number, department, course...">
                         <button onclick="searchMembers()" class="search-btn">Search</button>
                     </div>
                     
@@ -247,6 +247,32 @@
                             </select>
                             <small style="color: var(--gray-600); font-size: 0.9rem;">Registration number will be generated when course is selected and payment is confirmed</small>
                         </div>
+                        <div class="form-group">
+                            <label for="memberCourse">Course</label>
+                            <select id="memberCourse" name="course">
+                                <option value="">Select Course (Optional)</option>
+                                <option value="URP">Urban & Regional Planning</option>
+                                <option value="URD">Urban & Regional Development</option>
+                                <option value="CE">Civil Engineering</option>
+                                <option value="CM">Construction Management</option>
+                                <option value="QS">Quantity Surveying</option>
+                                <option value="CT">Construction Technology</option>
+                                <option value="RE">Real Estate</option>
+                                <option value="EEE">Electrical and Electronics Engineering</option>
+                                <option value="ME">Mechanical Engineering</option>
+                                <option value="AAE">Aerospace and Aeronautical</option>
+                                <option value="GE">Geospatial Engineering</option>
+                                <option value="GIC">Geoinformatics</option>
+                                <option value="GIN">Geoinformation</option>
+                                <option value="SV">Survey</option>
+                                <option value="LA">Land Administration</option>
+                                <option value="CHE">Chemical Engineering</option>
+                                <option value="ARC">Architecture</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
                         <div class="form-group">
                             <label for="memberRegistrationNumber">Registration Number</label>
                             <input type="text" id="memberRegistrationNumber" name="registrationNumber" placeholder="eg., ECSM/01234/2022">
