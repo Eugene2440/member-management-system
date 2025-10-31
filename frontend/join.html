@@ -65,23 +65,42 @@
                         </div>
                         
                         <div class="form-group">
-                            <label for="registrationNumber">School Registration Number</label>
-                            <input type="text" id="registrationNumber" name="registrationNumber" placeholder="e.g., ECSM/01234/2022" style="width: 100%; padding: 12px; border: 2px solid var(--gray-200); border-radius: 12px; font-family: 'Afacad Flux', sans-serif;">
-                            <small style="color: var(--gray-600); font-size: 0.9rem;">Optional</small>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="department">Department</label>
-                            <select id="department" name="department" style="width: 100%; padding: 12px; border: 2px solid var(--gray-200); border-radius: 12px; font-family: 'Afacad Flux', sans-serif;">
-                                <option value="">Select Department (Optional)</option>
-                                <option value="DADP">Architecture, Design and Planning (DADP)</option>
-                                <option value="DCRE">Civil and Resource Engineering (DCRE)</option>
-                                <option value="DCPS">Construction and Property Studies (DCPS)</option>
-                                <option value="DEEE">Electrical and Electronics Engineering (DEEE)</option>
-                                <option value="DMAE">Mechanical and Aerospace Engineering (DMAE)</option>
-                                <option value="DSSS">Surveying and Spatial Sciences (DSSS)</option>
-                                <option value="DCBE">Chemical and Biosystems Engineering (DCBE)</option>
+                            <label for="course">Course *</label>
+                            <select id="course" name="course" required style="width: 100%; padding: 12px; border: 2px solid var(--gray-200); border-radius: 12px; font-family: 'Afacad Flux', sans-serif;">
+                                <option value="">Select Your Course</option>
+                                <optgroup label="Architecture, Design and Planning (DADP)">
+                                    <option value="URP">Urban & Regional Planning</option>
+                                    <option value="URD">Urban & Regional Development</option>
+                                    <option value="ARC">Architecture</option>
+                                </optgroup>
+                                <optgroup label="Civil and Resource Engineering (DCRE)">
+                                    <option value="CE">Civil Engineering</option>
+                                </optgroup>
+                                <optgroup label="Construction and Property Studies (DCPS)">
+                                    <option value="CM">Construction Management</option>
+                                    <option value="QS">Quantity Surveying</option>
+                                    <option value="CT">Construction Technology</option>
+                                    <option value="RE">Real Estate</option>
+                                </optgroup>
+                                <optgroup label="Electrical and Electronics Engineering (DEEE)">
+                                    <option value="EEE">Electrical and Electronics Engineering</option>
+                                </optgroup>
+                                <optgroup label="Mechanical and Aerospace Engineering (DMAE)">
+                                    <option value="ME">Mechanical Engineering</option>
+                                    <option value="AAE">Aerospace and Aeronautical</option>
+                                </optgroup>
+                                <optgroup label="Surveying and Spatial Sciences (DSSS)">
+                                    <option value="GE">Geospatial Engineering</option>
+                                    <option value="GIC">Geoinformatics</option>
+                                    <option value="GIN">Geoinformation</option>
+                                    <option value="SV">Survey</option>
+                                    <option value="LA">Land Administration</option>
+                                </optgroup>
+                                <optgroup label="Chemical and Biosystems Engineering (DCBE)">
+                                    <option value="CHE">Chemical Engineering</option>
+                                </optgroup>
                             </select>
+                            <small style="color: var(--gray-600); font-size: 0.9rem;">Your registration number will be assigned when payment is confirmed</small>
                         </div>
                         
                         <div class="form-group">

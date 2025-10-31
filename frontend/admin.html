@@ -132,6 +132,7 @@
                                 <th>Phone</th>
                                 <th>Member Number</th>
                                 <th>Department</th>
+                                <th>Course</th>
                                 <th>Registration Number</th>
                                 <th>Payment Reference</th>
                                 <th>Membership Type</th>
@@ -204,6 +205,47 @@
                                 <option value="DSSS">DEPARTMENT OF SURVEYING AND SPATIAL SCIENCES (DSSS)</option>
                                 <option value="DCBE">DEPARTMENT OF CHEMICAL AND BIOSYSTEMS ENGINEERING (DCBEs)</option>
                             </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="memberCourse">Course</label>
+                            <select id="memberCourse" name="course">
+                                <option value="">Select Course (Required for Registration Number)</option>
+                                <optgroup label="Architecture, Design and Planning (DADP)">
+                                    <option value="URP">Urban & Regional Planning</option>
+                                    <option value="URD">Urban & Regional Development</option>
+                                    <option value="ARC">Architecture</option>
+                                </optgroup>
+                                <optgroup label="Civil and Resource Engineering (DCRE)">
+                                    <option value="CE">Civil Engineering</option>
+                                </optgroup>
+                                <optgroup label="Construction and Property Studies (DCPS)">
+                                    <option value="CM">Construction Management</option>
+                                    <option value="QS">Quantity Surveying</option>
+                                    <option value="CT">Construction Technology</option>
+                                    <option value="RE">Real Estate</option>
+                                </optgroup>
+                                <optgroup label="Electrical and Electronics Engineering (DEEE)">
+                                    <option value="EEE">Electrical and Electronics Engineering</option>
+                                </optgroup>
+                                <optgroup label="Mechanical and Aerospace Engineering (DMAE)">
+                                    <option value="ME">Mechanical Engineering</option>
+                                    <option value="AAE">Aerospace and Aeronautical</option>
+                                </optgroup>
+                                <optgroup label="Surveying and Spatial Sciences (DSSS)">
+                                    <option value="GE">Geospatial Engineering</option>
+                                    <option value="GIC">Geoinformatics</option>
+                                    <option value="GIN">Geoinformation</option>
+                                    <option value="SV">Survey</option>
+                                    <option value="LA">Land Administration</option>
+                                </optgroup>
+                                <optgroup label="Chemical and Biosystems Engineering (DCBE)">
+                                    <option value="CHE">Chemical Engineering</option>
+                                </optgroup>
+                            </select>
+                            <small style="color: var(--gray-600); font-size: 0.9rem;">Registration number will be generated when course is selected and payment is confirmed</small>
                         </div>
                         <div class="form-group">
                             <label for="memberRegistrationNumber">Registration Number</label>

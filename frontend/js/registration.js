@@ -22,14 +22,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 name: formData.get('name').trim(),
                 email: formData.get('email').trim(),
                 phone: formData.get('phone').replace(/\D/g, ''),
-                registrationNumber: formData.get('registrationNumber') ? formData.get('registrationNumber').trim() : null,
-                department: formData.get('department') || null,
+                course: formData.get('course') || null,
                 paymentReference: formData.get('paymentReference').trim()
             };
             
             // Validate required fields
-            if (!memberData.name || !memberData.email || !memberData.phone || !memberData.paymentReference) {
-                throw new Error('Please fill in all required fields including payment reference');
+            if (!memberData.name || !memberData.email || !memberData.phone || !memberData.course || !memberData.paymentReference) {
+                throw new Error('Please fill in all required fields including course and payment reference');
             }
             
             // Validate email format

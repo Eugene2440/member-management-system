@@ -1,5 +1,5 @@
 const express = require('express');
-const { collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, where, orderBy } = require('firebase/firestore');
+const { collection, addDoc, getDocs, doc, getDoc, updateDoc, deleteDoc, query, where, orderBy } = require('firebase/firestore');
 const { db } = require('../config/firebase');
 const { verifyToken, verifyRole } = require('../middleware/auth');
 
@@ -8,11 +8,11 @@ const router = express.Router();
 // Public route - Member registration
 router.post('/register', async (req, res) => {
     try {
-        const { name, email, phone, registrationNumber, department, paymentReference } = req.body;
+        const { name, email, phone, course, paymentReference } = req.body;
         
         // Validate required fields
-        if (!name || !email || !phone || !paymentReference) {
-            return res.status(400).json({ error: 'Name, email, phone, and payment reference are required' });
+        if (!name || !email || !phone || !course || !paymentReference) {
+            return res.status(400).json({ error: 'Name, email, phone, course, and payment reference are required' });
         }
         
         // Check for duplicate email
@@ -23,26 +23,19 @@ router.post('/register', async (req, res) => {
             return res.status(400).json({ error: 'A member with this email address is already registered' });
         }
         
-        // Check for duplicate registration number (if provided)
-        if (registrationNumber && registrationNumber.trim()) {
-            const regNumQuery = query(collection(db, 'members'), where('registrationNumber', '==', registrationNumber.trim().toUpperCase()));
-            const regNumSnapshot = await getDocs(regNumQuery);
-            
-            if (!regNumSnapshot.empty) {
-                return res.status(400).json({ error: 'A member with this registration number is already registered' });
-            }
-        }
+
         
-        // Generate member number
-        const memberNumber = await generateMemberNumber();
+        // Generate member number with course format when payment is confirmed
+        const memberNumber = null; // Will be generated when payment is confirmed
         
-        // Create member object - Admin will assign membership type later
+        // Create member object - Registration number will be assigned when payment is confirmed
         const memberData = {
             name: name.trim(),
             email: email.toLowerCase().trim(),
             phone,
-            registrationNumber: registrationNumber ? registrationNumber.trim().toUpperCase() : null,
-            department: department || null,
+            course: course.trim(),
+            department: null, // Will be set by admin if needed
+            registrationNumber: null, // Keep existing field for backward compatibility
             paymentReference: paymentReference.trim(),
             memberNumber,
             membershipType: 'pending', // Default type, admin will assign proper type
@@ -66,36 +59,62 @@ router.post('/register', async (req, res) => {
     }
 });
 
-// Helper function to generate member number
-async function generateMemberNumber() {
+// Helper function to generate member number with course format
+async function generateMemberNumber(courseCode) {
     try {
-        // Get all members to find the highest member number
-        const membersQuery = query(collection(db, 'members'), orderBy('memberNumber', 'desc'));
+        const courseMapping = {
+            'URP': 'AECAS/URP',
+            'URD': 'AECAS/URD', 
+            'CE': 'AECAS/CE',
+            'CM': 'AECAS/CM',
+            'QS': 'AECAS/QS',
+            'CT': 'AECAS/CT',
+            'RE': 'AECAS/RE',
+            'EEE': 'AECAS/EEE',
+            'ME': 'AECAS/ME',
+            'AAE': 'AECAS/AAE',
+            'GE': 'AECAS/GE',
+            'GIC': 'AECAS/GIC',
+            'GIN': 'AECAS/GIN',
+            'SV': 'AECAS/SV',
+            'LA': 'AECAS/LA',
+            'CHE': 'AECAS/CHE',
+            'ARC': 'AECAS/ARC'
+        };
+        
+        const prefix = courseMapping[courseCode] || 'AECAS/GEN';
+        
+        const membersQuery = query(collection(db, 'members'), where('course', '==', courseCode));
         const membersSnapshot = await getDocs(membersQuery);
         
         let nextNumber = 1;
+        const existingNumbers = [];
         
-        if (!membersSnapshot.empty) {
-            const firstDoc = membersSnapshot.docs[0];
-            const lastMemberNumber = firstDoc.data().memberNumber;
-            
-            if (lastMemberNumber) {
-                // Extract the numeric part from the member number (e.g., "001" from member number "001")
-                const numericPart = parseInt(lastMemberNumber);
-                if (!isNaN(numericPart)) {
-                    nextNumber = numericPart + 1;
+        membersSnapshot.forEach(doc => {
+            const data = doc.data();
+            if (data.memberNumber) {
+                const parts = data.memberNumber.split('/');
+                if (parts.length === 3) {
+                    const num = parseInt(parts[2]);
+                    if (!isNaN(num)) {
+                        existingNumbers.push(num);
+                    }
                 }
             }
+        });
+        
+        if (existingNumbers.length > 0) {
+            nextNumber = Math.max(...existingNumbers) + 1;
         }
         
-        // Format as 3-digit number with leading zeros
-        return nextNumber.toString().padStart(3, '0');
+        return `${prefix}/${nextNumber.toString().padStart(3, '0')}`;
     } catch (error) {
         console.error('Error generating member number:', error);
-        // Fallback to timestamp-based number if there's an error
-        return Date.now().toString().slice(-3);
+        return `AECAS/GEN/${Date.now().toString().slice(-3)}`;
     }
 }
+
+
 
 // Protected routes - Require authentication
 router.use(verifyToken);
@@ -160,6 +179,17 @@ router.put('/:id', verifyRole(['registrar', 'admin']), async (req, res) => {
         delete updateData.id;
         delete updateData.registrationDate;
         
+        // If course is being updated, regenerate member number for confirmed members
+        if (updateData.course) {
+            const memberDoc = await getDoc(doc(db, 'members', id));
+            if (memberDoc.exists()) {
+                const memberData = memberDoc.data();
+                if (memberData.paymentStatus === 'confirmed') {
+                    updateData.memberNumber = await generateMemberNumber(updateData.course);
+                }
+            }
+        }
+        
         const memberRef = doc(db, 'members', id);
         await updateDoc(memberRef, updateData);
         
@@ -181,10 +211,23 @@ router.patch('/:id/payment', verifyRole(['treasurer', 'admin']), async (req, res
         }
         
         const memberRef = doc(db, 'members', id);
-        await updateDoc(memberRef, { 
+        const updateData = { 
             paymentStatus,
             lastUpdated: new Date().toISOString()
-        });
+        };
+        
+        // Generate member number when payment is confirmed
+        if (paymentStatus === 'confirmed') {
+            const memberDoc = await getDoc(memberRef);
+            if (memberDoc.exists()) {
+                const memberData = memberDoc.data();
+                if (!memberData.memberNumber && memberData.course) {
+                    updateData.memberNumber = await generateMemberNumber(memberData.course);
+                }
+            }
+        }
+        
+        await updateDoc(memberRef, updateData);
         
         res.json({ success: true, message: 'Payment status updated successfully' });
     } catch (error) {
