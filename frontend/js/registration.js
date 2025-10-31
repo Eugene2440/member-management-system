@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 email: formData.get('email').trim(),
                 phone: formData.get('phone').replace(/\D/g, ''),
                 registrationNumber: formData.get('registrationNumber') ? formData.get('registrationNumber').trim() : null,
-                department: formData.get('department') || null,
+                course: formData.get('course') || null,
                 paymentReference: formData.get('paymentReference').trim()
             };
             
@@ -71,10 +71,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function showSuccessModal(memberId, memberNumber) {
     const modal = document.getElementById('successModal');
-    const memberIdSpan = document.getElementById('memberId');
     const memberNumberSpan = document.getElementById('memberNumber');
     
-    memberIdSpan.textContent = memberId;
     memberNumberSpan.textContent = memberNumber || 'Not assigned';
     modal.style.display = 'block';
     

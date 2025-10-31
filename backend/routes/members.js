@@ -8,7 +8,7 @@ const router = express.Router();
 // Public route - Member registration
 router.post('/register', async (req, res) => {
     try {
-        const { name, email, phone, registrationNumber, department, paymentReference } = req.body;
+        const { name, email, phone, registrationNumber, course, paymentReference } = req.body;
         
         // Validate required fields
         if (!name || !email || !phone || !paymentReference) {
@@ -33,8 +33,8 @@ router.post('/register', async (req, res) => {
             }
         }
         
-        // Generate member number
-        const memberNumber = await generateMemberNumber();
+        // Generate member number based on course
+        const memberNumber = await generateMemberNumber(course);
         
         // Create member object - Admin will assign membership type later
         const memberData = {
@@ -42,7 +42,7 @@ router.post('/register', async (req, res) => {
             email: email.toLowerCase().trim(),
             phone,
             registrationNumber: registrationNumber ? registrationNumber.trim().toUpperCase() : null,
-            department: department || null,
+            course: course || null,
             paymentReference: paymentReference.trim(),
             memberNumber,
             membershipType: 'pending', // Default type, admin will assign proper type
@@ -67,33 +67,49 @@ router.post('/register', async (req, res) => {
 });
 
 // Helper function to generate member number
-async function generateMemberNumber() {
+async function generateMemberNumber(course) {
     try {
         // Get all members to find the highest member number
-        const membersQuery = query(collection(db, 'members'), orderBy('memberNumber', 'desc'));
-        const membersSnapshot = await getDocs(membersQuery);
+        const membersSnapshot = await getDocs(collection(db, 'members'));
         
         let nextNumber = 1;
         
         if (!membersSnapshot.empty) {
-            const firstDoc = membersSnapshot.docs[0];
-            const lastMemberNumber = firstDoc.data().memberNumber;
-            
-            if (lastMemberNumber) {
-                // Extract the numeric part from the member number (e.g., "001" from member number "001")
-                const numericPart = parseInt(lastMemberNumber);
-                if (!isNaN(numericPart)) {
-                    nextNumber = numericPart + 1;
+            // Extract all numeric parts from existing member numbers
+            const numbers = [];
+            membersSnapshot.forEach(doc => {
+                const memberNumber = doc.data().memberNumber;
+                if (memberNumber) {
+                    // Extract number from formats like "001" or "AECAS/CE/001"
+                    const parts = memberNumber.split('/');
+                    const numPart = parts[parts.length - 1];
+                    const num = parseInt(numPart);
+                    if (!isNaN(num)) {
+                        numbers.push(num);
+                    }
                 }
+            });
+            
+            if (numbers.length > 0) {
+                nextNumber = Math.max(...numbers) + 1;
             }
         }
         
         // Format as 3-digit number with leading zeros
-        return nextNumber.toString().padStart(3, '0');
+        const formattedNumber = nextNumber.toString().padStart(3, '0');
+        
+        // If course is provided, format as AECAS/COURSE/NUMBER
+        if (course) {
+            return `AECAS/${course}/${formattedNumber}`;
+        }
+        
+        // Otherwise return just the number
+        return formattedNumber;
     } catch (error) {
         console.error('Error generating member number:', error);
         // Fallback to timestamp-based number if there's an error
-        return Date.now().toString().slice(-3);
+        const fallbackNum = Date.now().toString().slice(-3);
+        return course ? `AECAS/${course}/${fallbackNum}` : fallbackNum;
     }
 }
 
@@ -159,6 +175,13 @@ router.put('/:id', verifyRole(['registrar', 'admin']), async (req, res) => {
         // Remove fields that shouldn't be updated
         delete updateData.id;
         delete updateData.registrationDate;
+        
+        // If course is provided, regenerate member number
+        if (updateData.course && updateData.memberNumber) {
+            const courseAbbr = updateData.course;
+            const currentNumber = updateData.memberNumber;
+            updateData.memberNumber = `AECAS/${courseAbbr}/${currentNumber}`;
+        }
         
         const memberRef = doc(db, 'members', id);
         await updateDoc(memberRef, updateData);

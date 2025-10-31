@@ -127,6 +127,7 @@ function renderMembersTable() {
                 <td>${escapeHtml(member.phone)}</td>
                 <td>${escapeHtml(member.memberNumber || 'N/A')}</td>
                 <td>${escapeHtml(member.department || 'N/A')}</td>
+                <td>${escapeHtml(member.course || 'N/A')}</td>
                 <td>${escapeHtml(member.registrationNumber || 'N/A')}</td>
                 <td>${escapeHtml(member.paymentReference || 'N/A')}</td>
                 <td>${escapeHtml(member.membershipType)}</td>
@@ -200,6 +201,7 @@ function applyFilters() {
             member.phone.includes(searchTerm) ||
             (member.memberNumber && member.memberNumber.toLowerCase().includes(searchTerm)) ||
             (member.department && member.department.toLowerCase().includes(searchTerm)) ||
+            (member.course && member.course.toLowerCase().includes(searchTerm)) ||
             (member.registrationNumber && member.registrationNumber.toLowerCase().includes(searchTerm)) ||
             (member.paymentReference && member.paymentReference.toLowerCase().includes(searchTerm));
         
@@ -268,6 +270,7 @@ function editMember(memberId) {
     document.getElementById('memberPhone').value = member.phone;
     document.getElementById('memberNumber').value = member.memberNumber || '';
     document.getElementById('memberDepartment').value = member.department || '';
+    document.getElementById('memberCourse').value = member.course || '';
     document.getElementById('memberRegistrationNumber').value = member.registrationNumber || '';
     document.getElementById('memberMembershipType').value = member.membershipType;
     document.getElementById('memberPaymentReference').value = member.paymentReference || '';
@@ -309,6 +312,7 @@ async function saveMember() {
             phone: formData.get('phone').replace(/\D/g, ''),
             memberNumber: formData.get('memberNumber').trim(),
             department: formData.get('department') || null,
+            course: formData.get('course') || null,
             registrationNumber: formData.get('registrationNumber').trim() || null,
             membershipType: formData.get('membershipType'),
             paymentReference: formData.get('paymentReference').trim(),
