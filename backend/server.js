@@ -8,6 +8,7 @@ const authRoutes = require('./routes/auth');
 const eventRoutes = require('./routes/events');
 const announcementRoutes = require('./routes/announcements');
 const leadershipRoutes = require('./routes/leadership');
+const partnershipRoutes = require('./routes/partnerships');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -38,6 +39,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/events', eventRoutes);
 app.use('/api/announcements', announcementRoutes);
 app.use('/api/leadership', leadershipRoutes);
+app.use('/api/partnerships', partnershipRoutes);
 
 // Serve frontend
 app.get('/', (req, res) => {
@@ -66,6 +68,10 @@ app.get('/contact', (req, res) => {
 
 app.get('/announcements', (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend/announcements.html'));
+});
+
+app.get('/partnerships', (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/partnerships.html'));
 });
 
 // Legacy routes for admin functionality

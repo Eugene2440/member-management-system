@@ -646,6 +646,8 @@ function showSection(section) {
         showEventsSection();
     } else if (section === 'announcements') {
         showAnnouncementsSection();
+    } else if (section === 'partnerships') {
+        showPartnershipsSection();
     } else if (section === 'leadership') {
         showLeadershipSection();
     }
@@ -698,11 +700,37 @@ function showAnnouncementsSection() {
     const leadershipSection = document.getElementById('leadershipSection');
     if (leadershipSection) leadershipSection.style.display = 'none';
     
+    const partnershipsSection = document.getElementById('partnershipsSection');
+    if (partnershipsSection) partnershipsSection.style.display = 'none';
+    
     let announcementsSection = document.getElementById('announcementsSection');
     if (!announcementsSection) {
         createAnnouncementsSection();
     } else {
         announcementsSection.style.display = 'block';
+    }
+}
+
+function showPartnershipsSection() {
+    document.querySelector('.stats-section').style.display = 'none';
+    document.querySelector('.analytics-section').style.display = 'none';
+    document.querySelector('.filters-section').style.display = 'none';
+    document.querySelector('.members-section').style.display = 'none';
+    
+    const eventsSection = document.getElementById('eventsSection');
+    if (eventsSection) eventsSection.style.display = 'none';
+    
+    const announcementsSection = document.getElementById('announcementsSection');
+    if (announcementsSection) announcementsSection.style.display = 'none';
+    
+    const leadershipSection = document.getElementById('leadershipSection');
+    if (leadershipSection) leadershipSection.style.display = 'none';
+    
+    let partnershipsSection = document.getElementById('partnershipsSection');
+    if (!partnershipsSection) {
+        createPartnershipsSection();
+    } else {
+        partnershipsSection.style.display = 'block';
     }
 }
 
@@ -717,6 +745,9 @@ function showLeadershipSection() {
     
     const announcementsSection = document.getElementById('announcementsSection');
     if (announcementsSection) announcementsSection.style.display = 'none';
+    
+    const partnershipsSection = document.getElementById('partnershipsSection');
+    if (partnershipsSection) partnershipsSection.style.display = 'none';
     
     let leadershipSection = document.getElementById('leadershipSection');
     if (!leadershipSection) {
@@ -1633,5 +1664,261 @@ async function deleteLeader(id) {
         }
     } catch (error) {
         showNotification('Error deleting leader', 'error');
+    }
+}
+
+function createPartnershipsSection() {
+    const main = document.getElementById('dashboardMain');
+    
+    const html = `
+        <section id="partnershipsSection" class="events-management-section">
+            <div class="section-header">
+                <h2>Partnerships Management</h2>
+                <button onclick="addPartnership()" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Add Partnership
+                </button>
+            </div>
+            <div class="events-grid" id="partnershipsGrid">
+                <div class="loading-indicator"><div class="loading-spinner"></div><p>Loading...</p></div>
+            </div>
+        </section>
+    `;
+    
+    main.insertAdjacentHTML('beforeend', html);
+    loadPartnerships();
+}
+
+async function loadPartnerships() {
+    try {
+        const token = localStorage.getItem('adminToken');
+        const response = await fetch('/api/partnerships', {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        
+        const result = await response.json();
+        if (response.ok && result.success) {
+            renderPartnerships(result.partnerships);
+        }
+    } catch (error) {
+        console.error('Error loading partnerships:', error);
+        document.getElementById('partnershipsGrid').innerHTML = '<p>Error loading partnerships</p>';
+    }
+}
+
+function renderPartnerships(partnerships) {
+    const grid = document.getElementById('partnershipsGrid');
+    
+    if (partnerships.length === 0) {
+        grid.innerHTML = '<p>No partnerships yet.</p>';
+        return;
+    }
+    
+    grid.style.display = 'grid';
+    grid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(250px, 1fr))';
+    grid.style.gap = '20px';
+    
+    grid.innerHTML = partnerships.map(p => `
+        <div class="event-card" style="padding: 0; overflow: hidden;">
+            ${p.photo ? 
+                `<img src="${p.photo}" alt="${escapeHtml(p.name)}" style="width: 100%; height: 150px; object-fit: cover; display: block;">` :
+                `<div style="width: 100%; height: 150px; background: #dbeafe; display: flex; align-items: center; justify-content: center; color: #eab308;">
+                    <i class="fas fa-handshake" style="font-size: 3rem;"></i>
+                </div>`
+            }
+            <div style="padding: 15px; text-align: center;">
+                <h3 style="margin: 0 0 10px 0; font-size: 1.1rem;">${escapeHtml(p.name)}</h3>
+                ${p.description ? `<p style="color: var(--gray-600); margin: 10px 0; font-size: 0.85rem; line-height: 1.4;">${escapeHtml(p.description)}</p>` : ''}
+                ${p.link ? `<p style="margin: 8px 0; font-size: 0.9rem;"><a href="${escapeHtml(p.link)}" target="_blank" style="color: var(--primary-orange);"><i class="fas fa-link"></i> Visit</a></p>` : ''}
+                ${p.email ? `<p style="margin: 8px 0; font-size: 0.9rem;"><i class="fas fa-envelope"></i> ${escapeHtml(p.email)}</p>` : ''}
+                ${p.phone ? `<p style="margin: 8px 0; font-size: 0.9rem;"><i class="fas fa-phone"></i> ${escapeHtml(p.phone)}</p>` : ''}
+                <div class="event-actions" style="margin-top: 15px;">
+                    <button class="btn btn-secondary" onclick="editPartnership('${p.id}')">
+                        <i class="fas fa-edit"></i> Edit
+                    </button>
+                    <button class="btn btn-danger" onclick="deletePartnership('${p.id}')">
+                        <i class="fas fa-trash"></i> Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+function addPartnership() {
+    showPartnershipModal();
+}
+
+function editPartnership(id) {
+    fetch('/api/partnerships', {
+        headers: { 'Authorization': `Bearer ${localStorage.getItem('adminToken')}` }
+    })
+    .then(r => r.json())
+    .then(data => {
+        const partnership = data.partnerships.find(p => p.id === id);
+        if (partnership) showPartnershipModal(partnership);
+    });
+}
+
+function showPartnershipModal(partnership = null) {
+    const isEdit = partnership !== null;
+    const modalHTML = `
+        <div id="partnershipModal" class="modal" style="display: block;">
+            <div class="modal-content large">
+                <div class="modal-header">
+                    <h2>${isEdit ? 'Edit' : 'Add'} Partnership</h2>
+                    <button onclick="closePartnershipModal()" class="close-btn">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Name *</label>
+                            <input type="text" id="partnershipName" value="${partnership ? escapeHtml(partnership.name) : ''}" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea id="partnershipDescription" rows="3" placeholder="Brief description of the partnership">${partnership ? escapeHtml(partnership.description || '') : ''}</textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Website Link</label>
+                            <input type="url" id="partnershipLink" value="${partnership ? escapeHtml(partnership.link || '') : ''}" placeholder="https://example.com">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="partnershipEmail" value="${partnership ? escapeHtml(partnership.email || '') : ''}" placeholder="contact@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label>Phone</label>
+                            <input type="tel" id="partnershipPhone" value="${partnership ? escapeHtml(partnership.phone || '') : ''}" placeholder="+254 700 000000">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Photo (Rectangular format recommended)</label>
+                        <div class="file-upload-area" onclick="document.getElementById('partnershipPhotoInput').click()" style="cursor: pointer;">
+                            <input type="file" id="partnershipPhotoInput" accept="image/*" style="display: none;" onchange="handlePartnershipPhotoUpload(event)">
+                            <div id="partnershipPhotoPreview" class="flyer-preview" style="min-height: 150px; display: flex; align-items: center; justify-content: center;">
+                                ${partnership && partnership.photo ? 
+                                    `<img src="${partnership.photo}" alt="Partnership photo" style="width: 100%; max-width: 300px; height: 150px; object-fit: cover; border-radius: 8px;" />` : 
+                                    `<div class="upload-placeholder" style="text-align: center; padding: 20px;">
+                                        <i class="fas fa-cloud-upload-alt" style="font-size: 2rem; color: var(--primary-blue); margin-bottom: 10px;"></i>
+                                        <p style="margin: 10px 0; color: var(--gray-700);">Click to upload photo</p>
+                                        <small style="color: var(--gray-600);">PNG, JPG up to 2MB</small>
+                                    </div>`
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Display Order</label>
+                            <input type="number" id="partnershipOrder" value="${partnership ? partnership.order || 0 : 0}" min="0">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button onclick="closePartnershipModal()" class="btn btn-secondary">Cancel</button>
+                    <button onclick="savePartnership(${isEdit ? `'${partnership.id}'` : 'null'})" class="btn btn-primary">
+                        ${isEdit ? 'Update Partnership' : 'Create Partnership'}
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+}
+
+function closePartnershipModal() {
+    const modal = document.getElementById('partnershipModal');
+    if (modal) modal.remove();
+}
+
+function handlePartnershipPhotoUpload(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    
+    if (file.size > 2 * 1024 * 1024) {
+        showNotification('File size must be less than 2MB', 'error');
+        return;
+    }
+    
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        compressImage(e.target.result, (compressedImage) => {
+            const preview = document.getElementById('partnershipPhotoPreview');
+            preview.innerHTML = `<img src="${compressedImage}" alt="Partnership photo" style="width: 100%; max-width: 300px; height: 150px; object-fit: cover; border-radius: 8px;" />`;
+        });
+    };
+    reader.readAsDataURL(file);
+}
+
+async function savePartnership(id) {
+    try {
+        const name = document.getElementById('partnershipName').value.trim();
+        const description = document.getElementById('partnershipDescription').value.trim();
+        const link = document.getElementById('partnershipLink').value.trim();
+        const email = document.getElementById('partnershipEmail').value.trim();
+        const phone = document.getElementById('partnershipPhone').value.trim();
+        const order = parseInt(document.getElementById('partnershipOrder').value) || 0;
+        
+        if (!name) {
+            throw new Error('Name is required');
+        }
+        
+        let photo = null;
+        const photoPreview = document.querySelector('#partnershipPhotoPreview img');
+        if (photoPreview) {
+            photo = photoPreview.src;
+        }
+        
+        const data = { name, description, link, email, phone, photo, order };
+        const token = localStorage.getItem('adminToken');
+        
+        const response = await fetch(`/api/partnerships${id ? `/${id}` : ''}`, {
+            method: id ? 'PUT' : 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+        
+        const result = await response.json();
+        if (response.ok && result.success) {
+            showNotification(`Partnership ${id ? 'updated' : 'added'} successfully`, 'success');
+            closePartnershipModal();
+            loadPartnerships();
+        } else {
+            throw new Error(result.error);
+        }
+    } catch (error) {
+        showNotification('Error: ' + error.message, 'error');
+    }
+}
+
+async function deletePartnership(id) {
+    if (!confirm('Delete this partnership?')) return;
+    
+    try {
+        const token = localStorage.getItem('adminToken');
+        const response = await fetch(`/api/partnerships/${id}`, {
+            method: 'DELETE',
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        
+        const result = await response.json();
+        if (response.ok && result.success) {
+            showNotification('Partnership deleted', 'success');
+            loadPartnerships();
+        }
+    } catch (error) {
+        showNotification('Error deleting partnership', 'error');
     }
 }
