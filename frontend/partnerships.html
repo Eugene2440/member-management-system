@@ -132,6 +132,14 @@
             }
         }
 
+        function ensureProtocol(url) {
+            if (!url) return '';
+            if (url.startsWith('http://') || url.startsWith('https://')) {
+                return url;
+            }
+            return 'https://' + url;
+        }
+
         function displayPartnerships(partnerships) {
             const grid = document.getElementById('partnershipsGrid');
             grid.style.display = 'grid';
@@ -142,6 +150,7 @@
                 const isBlue = index % 2 === 0;
                 const bgColor = isBlue ? 'var(--light-blue)' : 'var(--light-orange)';
                 const iconColor = isBlue ? 'var(--primary-blue)' : 'var(--primary-orange)';
+                const fullLink = ensureProtocol(partner.link);
                 
                 return `
                     <div class="card" style="padding: 0; overflow: hidden; text-align: center;">
@@ -154,7 +163,7 @@
                         <div style="padding: 20px;">
                             <h3 style="margin: 0 0 10px 0; font-size: 1.1rem;">${partner.name}</h3>
                             ${partner.description ? `<p style="color: var(--gray-600); margin: 10px 0; font-size: 0.85rem; line-height: 1.4;">${partner.description}</p>` : ''}
-                            ${partner.link ? `<p style="margin: 8px 0;"><a href="${partner.link}" target="_blank" style="color: var(--primary-orange); font-size: 0.9rem;"><i class="fas fa-link"></i> Visit Website</a></p>` : ''}
+                            ${partner.link ? `<p style="margin: 8px 0;"><a href="${fullLink}" target="_blank" style="color: var(--primary-orange); font-size: 0.9rem;"><i class="fas fa-link"></i> Visit Website</a></p>` : ''}
                             ${partner.email ? `<p style="color: var(--gray-600); margin: 8px 0; font-size: 0.9rem;"><i class="fas fa-envelope"></i> ${partner.email}</p>` : ''}
                             ${partner.phone ? `<p style="color: var(--gray-600); margin: 8px 0; font-size: 0.9rem;"><i class="fas fa-phone"></i> ${partner.phone}</p>` : ''}
                         </div>
