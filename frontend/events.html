@@ -41,7 +41,12 @@
     <!-- Main Content -->
     <main class="main-content">
         <!-- Hero Section -->
-        <section class="hero" style="padding: 60px 0;">
+        <section class="hero">
+            <div class="hero-slideshow">
+                <div class="slide active" style="background-image: url('images/construction-site-4686908.jpg');"></div>
+                <div class="slide" style="background-image: url('images/excavator-800996.jpg');"></div>
+                <div class="slide" style="background-image: url('images/pexels-matej-117839-716661.jpg');"></div>
+            </div>
             <div class="hero-container">
                 <h1>AECAS Events</h1>
                 <p>Stay updated with our upcoming events, workshops, and activities designed to enhance your professional development.</p>
@@ -252,6 +257,19 @@
                 behavior: 'smooth'
             });
         });
+        
+        // Slideshow functionality
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        
+        function nextSlide() {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].classList.add('active');
+        }
+        
+        // Auto-advance slides every 5 seconds
+        setInterval(nextSlide, 5000);
         
         document.addEventListener('DOMContentLoaded', () => {
             loadPastEvents();
