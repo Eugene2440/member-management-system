@@ -8,7 +8,7 @@ const router = express.Router();
 // Public route - Member registration
 router.post('/register', async (req, res) => {
     try {
-        const { name, email, phone, course, paymentReference } = req.body;
+        const { name, email, phone, course, registrationNumber, paymentReference } = req.body;
         
         // Validate required fields
         if (!name || !email || !phone || !course || !paymentReference) {
@@ -35,7 +35,7 @@ router.post('/register', async (req, res) => {
             phone,
             course: course.trim(),
             department: null, // Will be set by admin if needed
-            registrationNumber: null, // Keep existing field for backward compatibility
+            registrationNumber: registrationNumber ? registrationNumber.trim() : null,
             paymentReference: paymentReference.trim(),
             memberNumber,
             membershipType: 'pending', // Default type, admin will assign proper type
@@ -59,32 +59,33 @@ router.post('/register', async (req, res) => {
     }
 });
 
-// Helper function to generate member number with course format
+// Helper function to generate member number with global incrementing format
 async function generateMemberNumber(courseCode) {
     try {
         const courseMapping = {
-            'URP': 'AECAS/URP',
-            'URD': 'AECAS/URD', 
-            'CE': 'AECAS/CE',
-            'CM': 'AECAS/CM',
-            'QS': 'AECAS/QS',
-            'CT': 'AECAS/CT',
-            'RE': 'AECAS/RE',
-            'EEE': 'AECAS/EEE',
-            'ME': 'AECAS/ME',
-            'AAE': 'AECAS/AAE',
-            'GE': 'AECAS/GE',
-            'GIC': 'AECAS/GIC',
-            'GIN': 'AECAS/GIN',
-            'SV': 'AECAS/SV',
-            'LA': 'AECAS/LA',
-            'CHE': 'AECAS/CHE',
-            'ARC': 'AECAS/ARC'
+            'URP': 'URP',
+            'URD': 'URD', 
+            'CE': 'CE',
+            'CM': 'CM',
+            'QS': 'QS',
+            'CT': 'CT',
+            'RE': 'RE',
+            'EEE': 'EEE',
+            'ME': 'ME',
+            'AAE': 'AAE',
+            'GE': 'GE',
+            'GIC': 'GIC',
+            'GIN': 'GIN',
+            'SV': 'SV',
+            'LA': 'LA',
+            'CHE': 'CHE',
+            'ARC': 'ARC'
         };
         
-        const prefix = courseMapping[courseCode] || 'AECAS/GEN';
+        const courseAbbr = courseMapping[courseCode] || 'GEN';
         
-        const membersQuery = query(collection(db, 'members'), where('course', '==', courseCode));
+        // Get all members to find the highest member number globally
+        const membersQuery = query(collection(db, 'members'));
         const membersSnapshot = await getDocs(membersQuery);
         
         let nextNumber = 1;
@@ -107,7 +108,7 @@ async function generateMemberNumber(courseCode) {
             nextNumber = Math.max(...existingNumbers) + 1;
         }
         
-        return `${prefix}/${nextNumber.toString().padStart(3, '0')}`;
+        return `AECAS/${courseAbbr}/${nextNumber.toString().padStart(3, '0')}`;
     } catch (error) {
         console.error('Error generating member number:', error);
         return `AECAS/GEN/${Date.now().toString().slice(-3)}`;

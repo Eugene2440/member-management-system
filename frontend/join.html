@@ -66,6 +66,12 @@
                         </div>
                         
                         <div class="form-group">
+                            <label for="registrationNumber">School Registration Number</label>
+                            <input type="text" id="registrationNumber" name="registrationNumber" placeholder="e.g., ENG/001/2024 (Optional)" style="width: 100%; padding: 12px; border: 2px solid var(--gray-200); border-radius: 12px; font-family: 'Afacad Flux', sans-serif;">
+                            <small style="color: var(--gray-600); font-size: 0.9rem;">Your university registration number (optional)</small>
+                        </div>
+                        
+                        <div class="form-group">
                             <label for="course">Course *</label>
                             <select id="course" name="course" required style="width: 100%; padding: 12px; border: 2px solid var(--gray-200); border-radius: 12px; font-family: 'Afacad Flux', sans-serif;">
                                 <option value="">Select Your Course</option>
@@ -80,7 +86,7 @@
                                 <optgroup label="Construction and Property Studies (DCPS)">
                                     <option value="CM">Construction Management</option>
                                     <option value="QS">Quantity Surveying</option>
-                                    <option value="CT">Construction Technology</option>
+                                    <option value="CT">Building Construction Technology</option>
                                     <option value="RE">Real Estate</option>
                                 </optgroup>
                                 <optgroup label="Electrical and Electronics Engineering (DEEE)">
@@ -202,14 +208,11 @@
                 <h3>Registration Successful!</h3>
             </div>
             <div class="modal-body">
-                <p>✅ Your registration has been submitted successfully!</p>
-                <p><strong>Member ID:</strong> <span id="memberId"></span></p>
-                <p><strong>Member Number:</strong> <span id="memberNumber"></span></p>
-                <p>Your payment will be verified by our team. You'll receive confirmation once approved.</p>
+                <p>Your registration has been submitted successfully!</p>
+                <p>Your membership number will be shared with you after confirmation of payment.</p>
             </div>
             <div class="modal-footer">
-                <button onclick="registerAnother()" class="btn btn-primary">Register Another</button>
-                <button onclick="closeModal()" class="btn btn-secondary">Close</button>
+                <button onclick="closeModal()" class="btn btn-primary">Close</button>
             </div>
         </div>
     </div>

@@ -126,7 +126,6 @@ function renderMembersTable() {
                 <td>${escapeHtml(member.email)}</td>
                 <td>${escapeHtml(member.phone)}</td>
                 <td>${escapeHtml(member.memberNumber || 'N/A')}</td>
-                <td>${escapeHtml(member.department || 'N/A')}</td>
                 <td>${escapeHtml(member.course || 'N/A')}</td>
                 <td>${escapeHtml(member.registrationNumber || 'N/A')}</td>
                 <td>${escapeHtml(member.paymentReference || 'N/A')}</td>
@@ -192,6 +191,7 @@ function applyFilters() {
     const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
     const paymentStatusFilter = document.getElementById('paymentStatusFilter').value;
     const membershipTypeFilter = document.getElementById('membershipTypeFilter').value;
+    const courseFilter = document.getElementById('courseFilter').value;
     
     filteredMembers = allMembers.filter(member => {
         // Search filter - expanded to include new fields
@@ -213,7 +213,11 @@ function applyFilters() {
         const matchesMembershipType = !membershipTypeFilter || 
             member.membershipType === membershipTypeFilter;
         
-        return matchesSearch && matchesPaymentStatus && matchesMembershipType;
+        // Course filter
+        const matchesCourse = !courseFilter || 
+            member.course === courseFilter;
+        
+        return matchesSearch && matchesPaymentStatus && matchesMembershipType && matchesCourse;
     });
     
     renderMembersTable();
@@ -223,6 +227,7 @@ function clearFilters() {
     document.getElementById('searchInput').value = '';
     document.getElementById('paymentStatusFilter').value = '';
     document.getElementById('membershipTypeFilter').value = '';
+    document.getElementById('courseFilter').value = '';
     
     filteredMembers = [...allMembers];
     renderMembersTable();

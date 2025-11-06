@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 email: formData.get('email').trim(),
                 phone: formData.get('phone').replace(/\D/g, ''),
                 course: formData.get('course') || null,
+                registrationNumber: formData.get('registrationNumber')?.trim() || null,
                 paymentReference: formData.get('paymentReference').trim()
             };
             
@@ -51,8 +52,9 @@ document.addEventListener('DOMContentLoaded', function() {
             const result = await response.json();
             
             if (response.ok && result.success) {
-                // Show success modal
-                showSuccessModal(result.memberId, result.memberNumber);
+                // Reset form and show success modal
+                registrationForm.reset();
+                showSuccessModal();
             } else {
                 throw new Error(result.error || 'Registration failed');
             }
@@ -68,21 +70,16 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-function showSuccessModal(memberId, memberNumber) {
+function showSuccessModal() {
     const modal = document.getElementById('successModal');
-    const memberIdSpan = document.getElementById('memberId');
-    const memberNumberSpan = document.getElementById('memberNumber');
-    
-    memberIdSpan.textContent = memberId;
-    memberNumberSpan.textContent = memberNumber || 'Not assigned';
     modal.style.display = 'block';
     
-    // Auto-close after 10 seconds
+    // Auto-close after 8 seconds
     setTimeout(() => {
         if (modal.style.display === 'block') {
             closeModal();
         }
-    }, 10000);
+    }, 8000);
 }
 
 function showErrorModal(message) {
@@ -101,15 +98,6 @@ function closeModal() {
 function closeErrorModal() {
     const modal = document.getElementById('errorModal');
     modal.style.display = 'none';
-}
-
-function registerAnother() {
-    // Reset form and close modal
-    document.getElementById('registrationForm').reset();
-    closeModal();
-    
-    // Scroll to top
-    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 // Close modal when clicking outside
