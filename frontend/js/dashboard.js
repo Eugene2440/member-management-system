@@ -603,16 +603,16 @@ function getLast6MonthsData() {
 }
 
 function getDepartmentDistribution() {
-    const departments = {};
+    const courses = {};
     
     allMembers.forEach(member => {
-        const dept = member.department || 'Not Specified';
-        departments[dept] = (departments[dept] || 0) + 1;
+        const course = member.course || 'Not Specified';
+        courses[course] = (courses[course] || 0) + 1;
     });
     
     return {
-        labels: Object.keys(departments),
-        data: Object.values(departments)
+        labels: Object.keys(courses),
+        data: Object.values(courses)
     };
 }
 
@@ -1718,9 +1718,10 @@ function renderPartnerships(partnerships) {
         return;
     }
     
-    grid.style.display = 'grid';
-    grid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(250px, 1fr))';
-    grid.style.gap = '20px';
+    // Remove any inline styles that might interfere with CSS
+    grid.style.display = '';
+    grid.style.gridTemplateColumns = '';
+    grid.style.gap = '';
     
     grid.innerHTML = partnerships.map(p => `
         <div class="event-card" style="padding: 0; overflow: hidden;">
