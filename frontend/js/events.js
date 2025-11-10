@@ -43,7 +43,10 @@ function displayEvents(events) {
                 </div>
                 <div class="event-description">
                     <p>${event.description || 'Join us for this exciting event!'}</p>
-                    ${event.flyerImage ? `<button class="btn btn-primary" onclick="showFlyer('${event.flyerImage}', '${event.title}')">Check Flyer</button>` : ''}
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        ${event.flyerImage ? `<button class="btn btn-secondary" onclick="showFlyer('${event.flyerImage}', '${event.title}')">Check Flyer</button>` : ''}
+                        ${event.lumaRegistrationLink ? `<button class="btn btn-primary" onclick="window.open('${event.lumaRegistrationLink}', '_blank')">Register for Event</button>` : ''}
+                    </div>
                 </div>
             </div>
         `;

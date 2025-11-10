@@ -969,6 +969,10 @@ function showEventModal(event = null) {
                             <label for="eventDescription">Description</label>
                             <textarea id="eventDescription" rows="3">${event ? escapeHtml(event.description || '') : ''}</textarea>
                         </div>
+                        <div class="form-group">
+                            <label for="eventLumaLink">Luma Registration Link</label>
+                            <input type="url" id="eventLumaLink" value="${event ? escapeHtml(event.lumaRegistrationLink || '') : ''}" placeholder="https://lu.ma/event-link">
+                        </div>
                         ${isPast ? `
                         <div class="form-group">
                             <label for="eventRemarks">Remarks (for past events)</label>
@@ -1045,6 +1049,7 @@ async function saveEvent(eventId) {
         const time = document.getElementById('eventTime').value.trim();
         const location = document.getElementById('eventLocation').value.trim();
         const description = document.getElementById('eventDescription').value.trim();
+        const lumaRegistrationLink = document.getElementById('eventLumaLink').value.trim();
         const remarksField = document.getElementById('eventRemarks');
         const remarks = remarksField ? remarksField.value.trim() : '';
         
@@ -1058,7 +1063,7 @@ async function saveEvent(eventId) {
             flyerImage = flyerPreview.src;
         }
         
-        const eventData = { title, date, time, location, description, flyerImage, remarks };
+        const eventData = { title, date, time, location, description, flyerImage, lumaRegistrationLink, remarks };
         const token = localStorage.getItem('adminToken');
         
         const response = await fetch(`/api/events${eventId ? `/${eventId}` : ''}`, {

@@ -74,7 +74,7 @@ router.get('/', verifyRole(['admin']), async (req, res) => {
 // Add new event (admin only)
 router.post('/', verifyRole(['admin']), async (req, res) => {
     try {
-        const { title, date, time, location, description, flyerImage } = req.body;
+        const { title, date, time, location, description, flyerImage, lumaRegistrationLink } = req.body;
         
         if (!title || !date || !time || !location) {
             return res.status(400).json({ error: 'Title, date, time, and location are required' });
@@ -87,6 +87,7 @@ router.post('/', verifyRole(['admin']), async (req, res) => {
             location: location.trim(),
             description: description ? description.trim() : '',
             flyerImage: flyerImage || null,
+            lumaRegistrationLink: lumaRegistrationLink ? lumaRegistrationLink.trim() : null,
             gallery: [],
             remarks: '',
             createdAt: new Date().toISOString(),
