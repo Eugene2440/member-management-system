@@ -1,74 +1,124 @@
 // Registration form functionality
 document.addEventListener('DOMContentLoaded', function() {
-    const registrationForm = document.getElementById('registrationForm');
-    const submitBtn = registrationForm.querySelector('button[type="submit"]');
+    // Handle TUK Student Registration
+    const studentRegistrationForm = document.getElementById('studentRegistrationForm');
+    if (studentRegistrationForm) {
+        const studentSubmitBtn = studentRegistrationForm.querySelector('button[type="submit"]');
+        
+        studentRegistrationForm.addEventListener('submit', async function(e) {
+            await handleRegistration(e, studentSubmitBtn, 'student');
+        });
+    }
+    
+    // Handle Non-Student Registration
+    const nonStudentRegistrationForm = document.getElementById('nonStudentRegistrationForm');
+    if (nonStudentRegistrationForm) {
+        const nonStudentSubmitBtn = nonStudentRegistrationForm.querySelector('button[type="submit"]');
+        
+        nonStudentRegistrationForm.addEventListener('submit', async function(e) {
+            await handleRegistration(e, nonStudentSubmitBtn, 'non-student');
+        });
+    }
+});
+
+async function handleRegistration(e, submitBtn, type) {
+    e.preventDefault();
     
     if (!submitBtn) {
         console.error('Submit button not found');
         return;
     }
     
-    registrationForm.addEventListener('submit', async function(e) {
-        e.preventDefault();
+    // Disable submit button and show loading
+    submitBtn.disabled = true;
+    const originalText = submitBtn.textContent;
+    submitBtn.textContent = 'Registering...';
+    
+    try {
+        // Get form data
+        const formData = new FormData(e.target);
+        let memberData;
         
-        // Disable submit button and show loading
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Registering...';
-        
-        try {
-            // Get form data
-            const formData = new FormData(registrationForm);
-            const memberData = {
+        if (type === 'student') {
+            memberData = {
                 name: formData.get('name').trim(),
                 email: formData.get('email').trim(),
                 phone: formData.get('phone').replace(/\D/g, ''),
                 course: formData.get('course') || null,
                 registrationNumber: formData.get('registrationNumber')?.trim() || null,
-                paymentReference: formData.get('paymentReference').trim()
+                paymentReference: formData.get('paymentReference').trim(),
+                memberType: 'student'
             };
             
-            // Validate required fields
+            // Validate required fields for students
             if (!memberData.name || !memberData.email || !memberData.phone || !memberData.course || !memberData.paymentReference) {
                 throw new Error('Please fill in all required fields including course and payment reference');
             }
+        } else {
+            memberData = {
+                name: formData.get('name').trim(),
+                email: formData.get('email').trim(),
+                phone: formData.get('phone').replace(/\D/g, ''),
+                areaOfInterest: formData.get('areaOfInterest') || null,
+                paymentReference: formData.get('paymentReference').trim(),
+                memberType: 'non-student'
+            };
             
-            // Validate email format
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(memberData.email)) {
-                throw new Error('Please enter a valid email address');
+            // Validate required fields for non-students
+            if (!memberData.name || !memberData.email || !memberData.phone || !memberData.areaOfInterest || !memberData.paymentReference) {
+                throw new Error('Please fill in all required fields including area of interest and payment reference');
             }
-            
-            // Phone number is saved as-is without format validation
-            
-            // Submit to API
-            const response = await fetch('/api/members/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(memberData)
-            });
-            
-            const result = await response.json();
-            
-            if (response.ok && result.success) {
-                // Reset form and show success modal
-                registrationForm.reset();
-                showSuccessModal();
-            } else {
-                throw new Error(result.error || 'Registration failed');
-            }
-            
-        } catch (error) {
-            console.error('Registration error:', error);
-            showErrorModal(error.message);
-        } finally {
-            // Re-enable submit button
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Register Now';
         }
+        
+        // Validate email format
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(memberData.email)) {
+            throw new Error('Please enter a valid email address');
+        }
+        
+        // Submit to API
+        const response = await fetch('/api/members/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(memberData)
+        });
+        
+        const result = await response.json();
+        
+        if (response.ok && result.success) {
+            // Reset form and show success modal
+            e.target.reset();
+            showSuccessModal();
+        } else {
+            throw new Error(result.error || 'Registration failed');
+        }
+        
+    } catch (error) {
+        console.error('Registration error:', error);
+        showErrorModal(error.message);
+    } finally {
+        // Re-enable submit button
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
+    }
+}
+
+// Legacy support for old registration form
+function initLegacyForm() {
+    const registrationForm = document.getElementById('registrationForm');
+    if (!registrationForm) return;
+    
+    const submitBtn = registrationForm.querySelector('button[type="submit"]');
+    
+    registrationForm.addEventListener('submit', async function(e) {
+        await handleRegistration(e, submitBtn, 'student');
     });
-});
+}
+
+// Initialize legacy form if present
+initLegacyForm();
 
 function showSuccessModal() {
     const modal = document.getElementById('successModal');
@@ -116,33 +166,38 @@ window.addEventListener('click', function(event) {
 
 // Form enhancements
 document.addEventListener('DOMContentLoaded', function() {
-    // Clean phone number input - only allow digits
-    const phoneInput = document.getElementById('phone');
-    phoneInput.addEventListener('input', function(e) {
-        // Remove all non-digit characters
-        e.target.value = e.target.value.replace(/\D/g, '');
+    // Clean phone number input - only allow digits (for all phone inputs)
+    const phoneInputs = document.querySelectorAll('input[name="phone"]');
+    phoneInputs.forEach(phoneInput => {
+        phoneInput.addEventListener('input', function(e) {
+            e.target.value = e.target.value.replace(/\D/g, '');
+        });
     });
     
-    // Email validation feedback
-    const emailInput = document.getElementById('email');
-    emailInput.addEventListener('blur', function(e) {
-        const email = e.target.value.trim();
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        
-        if (email && !emailRegex.test(email)) {
-            e.target.style.borderColor = '#ff6b6b';
-        } else {
-            e.target.style.borderColor = '#e1e8ed';
-        }
+    // Email validation feedback (for all email inputs)
+    const emailInputs = document.querySelectorAll('input[name="email"]');
+    emailInputs.forEach(emailInput => {
+        emailInput.addEventListener('blur', function(e) {
+            const email = e.target.value.trim();
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            
+            if (email && !emailRegex.test(email)) {
+                e.target.style.borderColor = '#ff6b6b';
+            } else {
+                e.target.style.borderColor = '#e1e8ed';
+            }
+        });
     });
     
-    // Name capitalization
-    const nameInput = document.getElementById('name');
-    nameInput.addEventListener('blur', function(e) {
-        const words = e.target.value.toLowerCase().split(' ');
-        const capitalizedWords = words.map(word => 
-            word.charAt(0).toUpperCase() + word.slice(1)
-        );
-        e.target.value = capitalizedWords.join(' ');
+    // Name capitalization (for all name inputs)
+    const nameInputs = document.querySelectorAll('input[name="name"]');
+    nameInputs.forEach(nameInput => {
+        nameInput.addEventListener('blur', function(e) {
+            const words = e.target.value.toLowerCase().split(' ');
+            const capitalizedWords = words.map(word => 
+                word.charAt(0).toUpperCase() + word.slice(1)
+            );
+            e.target.value = capitalizedWords.join(' ');
+        });
     });
 });

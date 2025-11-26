@@ -126,7 +126,7 @@ function renderMembersTable() {
                 <td>${escapeHtml(member.email)}</td>
                 <td>${escapeHtml(member.phone)}</td>
                 <td>${escapeHtml(member.memberNumber || 'N/A')}</td>
-                <td>${escapeHtml(member.course || 'N/A')}</td>
+                <td>${escapeHtml(member.course || member.areaOfInterest || 'N/A')}</td>
                 <td>${escapeHtml(member.registrationNumber || 'N/A')}</td>
                 <td>${escapeHtml(member.paymentReference || 'N/A')}</td>
                 <td>${escapeHtml(member.membershipType)}</td>
@@ -202,6 +202,7 @@ function applyFilters() {
             (member.memberNumber && member.memberNumber.toLowerCase().includes(searchTerm)) ||
             (member.department && member.department.toLowerCase().includes(searchTerm)) ||
             (member.course && member.course.toLowerCase().includes(searchTerm)) ||
+            (member.areaOfInterest && member.areaOfInterest.toLowerCase().includes(searchTerm)) ||
             (member.registrationNumber && member.registrationNumber.toLowerCase().includes(searchTerm)) ||
             (member.paymentReference && member.paymentReference.toLowerCase().includes(searchTerm));
         
@@ -215,7 +216,7 @@ function applyFilters() {
         
         // Course filter
         const matchesCourse = !courseFilter || 
-            member.course === courseFilter;
+            member.course === courseFilter || member.areaOfInterest === courseFilter;
         
         return matchesSearch && matchesPaymentStatus && matchesMembershipType && matchesCourse;
     });
@@ -275,7 +276,7 @@ function editMember(memberId) {
     document.getElementById('memberPhone').value = member.phone;
     document.getElementById('memberNumber').value = member.memberNumber || '';
     document.getElementById('memberDepartment').value = member.department || '';
-    document.getElementById('memberCourse').value = member.course || '';
+    document.getElementById('memberCourse').value = member.course || member.areaOfInterest || '';
     document.getElementById('memberRegistrationNumber').value = member.registrationNumber || '';
     document.getElementById('memberMembershipType').value = member.membershipType;
     document.getElementById('memberPaymentReference').value = member.paymentReference || '';
@@ -311,6 +312,9 @@ async function saveMember() {
         const memberId = document.getElementById('memberId').value;
         const formData = new FormData(document.getElementById('memberForm'));
         
+        // Get current member data first
+        const currentMember = allMembers.find(m => m.id === memberId);
+        
         const memberData = {
             name: formData.get('name').trim(),
             email: formData.get('email').trim(),
@@ -318,6 +322,7 @@ async function saveMember() {
             memberNumber: formData.get('memberNumber').trim(),
             department: formData.get('department') || null,
             course: formData.get('course') || null,
+            areaOfInterest: currentMember && currentMember.memberType === 'non-student' ? formData.get('course') : null,
             registrationNumber: formData.get('registrationNumber').trim() || null,
             membershipType: formData.get('membershipType'),
             paymentReference: formData.get('paymentReference').trim(),
@@ -329,10 +334,10 @@ async function saveMember() {
             throw new Error('Please fill in all required fields');
         }
         
-        // Show warning if course is not selected for confirmed members without registration number
-        const currentMember = allMembers.find(m => m.id === memberId);
-        if (currentMember && currentMember.paymentStatus === 'confirmed' && !currentMember.registrationNumber && !memberData.course) {
-            if (!confirm('This member has confirmed payment but no course selected. Registration number cannot be generated without a course. Continue anyway?')) {
+        // Show warning if course/area of interest is not selected for confirmed members
+        if (currentMember && currentMember.paymentStatus === 'confirmed' && !memberData.course) {
+            const fieldName = currentMember.memberType === 'non-student' ? 'area of interest' : 'course';
+            if (!confirm(`This member has confirmed payment but no ${fieldName} selected. Member number cannot be generated without a ${fieldName}. Continue anyway?`)) {
                 return;
             }
         }
@@ -606,7 +611,7 @@ function getDepartmentDistribution() {
     const courses = {};
     
     allMembers.forEach(member => {
-        const course = member.course || 'Not Specified';
+        const course = member.course || member.areaOfInterest || 'Not Specified';
         courses[course] = (courses[course] || 0) + 1;
     });
     
@@ -620,8 +625,13 @@ function getDepartmentDistribution() {
 function updateAnalytics() {
     // Destroy existing charts
     Object.values(charts).forEach(chart => {
-        if (chart) chart.destroy();
+        if (chart && typeof chart.destroy === 'function') {
+            chart.destroy();
+        }
     });
+    
+    // Clear charts object
+    charts = {};
     
     // Recreate charts with new data
     initializeAnalytics();

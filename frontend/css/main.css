@@ -946,3 +946,107 @@ body {
         font-size: 0.9rem;
     }
 }
+
+/* Student Type Selection Styles */
+.student-type-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 30px 0;
+}
+
+.student-type-buttons .btn {
+    min-width: 200px;
+    padding: 20px 30px;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.student-type-buttons .btn i {
+    font-size: 1.3rem;
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--primary-blue);
+    border: 2px solid var(--primary-blue);
+}
+
+.btn-outline:hover {
+    background: var(--primary-blue);
+    color: var(--white);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(30, 58, 138, 0.3);
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--gray-800);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid var(--gray-200);
+    border-radius: 12px;
+    font-family: 'Afacad Flux', sans-serif;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
+}
+
+.form-group small {
+    display: block;
+    margin-top: 5px;
+    color: var(--gray-600);
+    font-size: 0.9rem;
+}
+
+/* Back button styling */
+.btn-outline {
+    background: transparent;
+    color: var(--primary-blue);
+    border: 2px solid var(--primary-blue);
+    padding: 10px 20px;
+    font-size: 0.9rem;
+}
+
+.btn-outline:hover {
+    background: var(--primary-blue);
+    color: var(--white);
+}
+
+/* Mobile responsiveness for student type selection */
+@media (max-width: 768px) {
+    .student-type-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .student-type-buttons .btn {
+        width: 100%;
+        max-width: 300px;
+    }
+}

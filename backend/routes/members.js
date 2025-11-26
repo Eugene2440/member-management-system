@@ -8,11 +8,19 @@ const router = express.Router();
 // Public route - Member registration
 router.post('/register', async (req, res) => {
     try {
-        const { name, email, phone, course, registrationNumber, paymentReference } = req.body;
+        const { name, email, phone, course, registrationNumber, paymentReference, memberType, areaOfInterest } = req.body;
         
-        // Validate required fields
-        if (!name || !email || !phone || !course || !paymentReference) {
-            return res.status(400).json({ error: 'Name, email, phone, course, and payment reference are required' });
+        // Validate required fields based on member type
+        if (!name || !email || !phone || !paymentReference) {
+            return res.status(400).json({ error: 'Name, email, phone, and payment reference are required' });
+        }
+        
+        if (memberType === 'student' && !course) {
+            return res.status(400).json({ error: 'Course is required for student registration' });
+        }
+        
+        if (memberType === 'non-student' && !areaOfInterest) {
+            return res.status(400).json({ error: 'Area of interest is required for non-student registration' });
         }
         
         // Check for duplicate email
@@ -28,21 +36,28 @@ router.post('/register', async (req, res) => {
         // Generate member number with course format when payment is confirmed
         const memberNumber = null; // Will be generated when payment is confirmed
         
-        // Create member object - Registration number will be assigned when payment is confirmed
+        // Create member object based on type
         const memberData = {
             name: name.trim(),
             email: email.toLowerCase().trim(),
             phone,
-            course: course.trim(),
-            department: null, // Will be set by admin if needed
-            registrationNumber: registrationNumber ? registrationNumber.trim() : null,
             paymentReference: paymentReference.trim(),
             memberNumber,
+            memberType: memberType || 'student',
             membershipType: 'pending', // Default type, admin will assign proper type
             paymentStatus: 'pending',
             registrationDate: new Date().toISOString(),
             lastUpdated: new Date().toISOString()
         };
+        
+        // Add fields specific to member type
+        if (memberType === 'student') {
+            memberData.course = course.trim();
+            memberData.registrationNumber = registrationNumber ? registrationNumber.trim() : null;
+            memberData.department = null; // Will be set by admin if needed
+        } else {
+            memberData.areaOfInterest = areaOfInterest.trim();
+        }
         
         // Add to Firebase
         const docRef = await addDoc(collection(db, 'members'), memberData);
@@ -59,8 +74,8 @@ router.post('/register', async (req, res) => {
     }
 });
 
-// Helper function to generate member number with global incrementing format
-async function generateMemberNumber(courseCode) {
+// Helper function to generate member number based on member type
+async function generateMemberNumber(memberData) {
     try {
         const courseMapping = {
             'URP': 'URP',
@@ -82,8 +97,6 @@ async function generateMemberNumber(courseCode) {
             'ARC': 'ARC'
         };
         
-        const courseAbbr = courseMapping[courseCode] || 'GEN';
-        
         // Get all members to find the highest member number globally
         const membersQuery = query(collection(db, 'members'));
         const membersSnapshot = await getDocs(membersQuery);
@@ -95,8 +108,8 @@ async function generateMemberNumber(courseCode) {
             const data = doc.data();
             if (data.memberNumber) {
                 const parts = data.memberNumber.split('/');
-                if (parts.length === 3) {
-                    const num = parseInt(parts[2]);
+                if (parts.length >= 3) {
+                    const num = parseInt(parts[parts.length - 1]);
                     if (!isNaN(num)) {
                         existingNumbers.push(num);
                     }
@@ -108,10 +121,20 @@ async function generateMemberNumber(courseCode) {
             nextNumber = Math.max(...existingNumbers) + 1;
         }
         
-        return `AECAS/${courseAbbr}/${nextNumber.toString().padStart(3, '0')}`;
+        // Generate member number based on type
+        if (memberData.memberType === 'non-student') {
+            const courseAbbr = courseMapping[memberData.areaOfInterest] || 'GEN';
+            return `AECAS/ASS/${courseAbbr}/${nextNumber.toString().padStart(3, '0')}`;
+        } else {
+            const courseAbbr = courseMapping[memberData.course] || 'GEN';
+            return `AECAS/${courseAbbr}/${nextNumber.toString().padStart(3, '0')}`;
+        }
     } catch (error) {
         console.error('Error generating member number:', error);
-        return `AECAS/GEN/${Date.now().toString().slice(-3)}`;
+        const timestamp = Date.now().toString().slice(-3);
+        return memberData.memberType === 'non-student' ? 
+            `AECAS/ASS/GEN/${timestamp}` : 
+            `AECAS/GEN/${timestamp}`;
     }
 }
 
@@ -180,13 +203,13 @@ router.put('/:id', verifyRole(['registrar', 'admin']), async (req, res) => {
         delete updateData.id;
         delete updateData.registrationDate;
         
-        // If course is being updated, regenerate member number for confirmed members
-        if (updateData.course) {
+        // If course/area of interest is being updated, regenerate member number for confirmed members
+        if (updateData.course || updateData.areaOfInterest) {
             const memberDoc = await getDoc(doc(db, 'members', id));
             if (memberDoc.exists()) {
-                const memberData = memberDoc.data();
+                const memberData = { ...memberDoc.data(), ...updateData };
                 if (memberData.paymentStatus === 'confirmed') {
-                    updateData.memberNumber = await generateMemberNumber(updateData.course);
+                    updateData.memberNumber = await generateMemberNumber(memberData);
                 }
             }
         }
@@ -222,8 +245,8 @@ router.patch('/:id/payment', verifyRole(['treasurer', 'admin']), async (req, res
             const memberDoc = await getDoc(memberRef);
             if (memberDoc.exists()) {
                 const memberData = memberDoc.data();
-                if (!memberData.memberNumber && memberData.course) {
-                    updateData.memberNumber = await generateMemberNumber(memberData.course);
+                if (!memberData.memberNumber && (memberData.course || memberData.areaOfInterest)) {
+                    updateData.memberNumber = await generateMemberNumber(memberData);
                 }
             }
         }

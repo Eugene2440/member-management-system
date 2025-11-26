@@ -10,6 +10,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/main.css">
     <link rel="icon" type="image/jpeg" href="css/logo.jpg">
+    <link rel="apple-touch-icon" href="css/logo.jpg">
+    <meta property="og:image" content="css/logo.jpg">
+    <meta property="og:title" content="AECAS - Association of Engineering Construction and Architecture Students">
+    <meta property="og:description" content="Join AECAS - The Association of Engineering Construction and Architecture Students at Technical University of Kenya.">
+    <meta name="description" content="Join AECAS - The Association of Engineering Construction and Architecture Students at Technical University of Kenya.">
 </head>
 <body>
     <!-- Navigation -->
@@ -41,16 +46,41 @@
 
     <!-- Main Content -->
     <main class="main-content">
-        <!-- Registration Form -->
-        <section class="section" style="padding-top: 40px;">
+        <!-- Student Type Selection -->
+        <section class="section" id="studentTypeSection" style="padding-top: 40px;">
             <div class="container" style="max-width: 600px;">
                 <div class="section-title">
-                    <h2>Member Registration</h2>
+                    <h2>Join AECAS</h2>
+                    <p>Select your registration type to continue</p>
+                </div>
+                
+                <div class="card" style="text-align: center;">
+                    <h3 style="margin-bottom: 30px;">Are you a TUK student?</h3>
+                    <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                        <button onclick="showStudentForm()" class="btn btn-primary" style="padding: 15px 30px; font-size: 16px;">
+                            <i class="fas fa-graduation-cap"></i> Yes, I'm a TUK Student
+                        </button>
+                        <button onclick="showNonStudentForm()" class="btn btn-secondary" style="padding: 15px 30px; font-size: 16px;">
+                            <i class="fas fa-user"></i> No, I'm not a TUK Student
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TUK Student Registration Form -->
+        <section class="section" id="studentFormSection" style="padding-top: 40px; display: none;">
+            <div class="container" style="max-width: 600px;">
+                <div class="section-title">
+                    <h2>TUK Student Registration</h2>
                     <p>Fill out the form below to join our community</p>
+                    <button onclick="showStudentTypeSelection()" class="btn btn-outline" style="margin-bottom: 20px;">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </button>
                 </div>
 
                 <div class="card">
-                    <form id="registrationForm">
+                    <form id="studentRegistrationForm">
                         <div class="form-group">
                             <label for="name">Full Name *</label>
                             <input type="text" id="name" name="name" required style="width: 100%; padding: 12px; border: 2px solid var(--gray-200); border-radius: 12px; font-family: 'Afacad Flux', sans-serif;">
@@ -125,6 +155,89 @@
                         </button>
                     </form>
                 </div>
+            </div>
+        </section>
+
+        <!-- Non-Student Registration Form -->
+        <section class="section" id="nonStudentFormSection" style="padding-top: 40px; display: none;">
+            <div class="container" style="max-width: 600px;">
+                <div class="section-title">
+                    <h2>Associate Member Registration</h2>
+                    <p>Join AECAS as an associate member</p>
+                    <button onclick="showStudentTypeSelection()" class="btn btn-outline" style="margin-bottom: 20px;">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </button>
+                </div>
+
+                <div class="card">
+                    <form id="nonStudentRegistrationForm">
+                        <div class="form-group">
+                            <label for="nonStudentName">Full Name *</label>
+                            <input type="text" id="nonStudentName" name="name" required style="width: 100%; padding: 12px; border: 2px solid var(--gray-200); border-radius: 12px; font-family: 'Afacad Flux', sans-serif;">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="nonStudentEmail">Email Address *</label>
+                            <input type="email" id="nonStudentEmail" name="email" required style="width: 100%; padding: 12px; border: 2px solid var(--gray-200); border-radius: 12px; font-family: 'Afacad Flux', sans-serif;">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="nonStudentPhone">Phone Number *</label>
+                            <input type="text" id="nonStudentPhone" name="phone" placeholder="e.g., 0712345678" required style="width: 100%; padding: 12px; border: 2px solid var(--gray-200); border-radius: 12px; font-family: 'Afacad Flux', sans-serif;">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="areaOfInterest">Area of Interest *</label>
+                            <select id="areaOfInterest" name="areaOfInterest" required style="width: 100%; padding: 12px; border: 2px solid var(--gray-200); border-radius: 12px; font-family: 'Afacad Flux', sans-serif;">
+                                <option value="">Select Your Area of Interest</option>
+                                <optgroup label="Architecture, Design and Planning">
+                                    <option value="URP">Urban & Regional Planning</option>
+                                    <option value="URD">Urban & Regional Development</option>
+                                    <option value="ARC">Architecture</option>
+                                </optgroup>
+                                <optgroup label="Civil and Resource Engineering">
+                                    <option value="CE">Civil Engineering</option>
+                                </optgroup>
+                                <optgroup label="Construction and Property Studies">
+                                    <option value="CM">Construction Management</option>
+                                    <option value="QS">Quantity Surveying</option>
+                                    <option value="CT">Building Construction Technology</option>
+                                    <option value="RE">Real Estate</option>
+                                </optgroup>
+                                <optgroup label="Electrical and Electronics Engineering">
+                                    <option value="EEE">Electrical and Electronics Engineering</option>
+                                </optgroup>
+                                <optgroup label="Mechanical and Aerospace Engineering">
+                                    <option value="ME">Mechanical Engineering</option>
+                                    <option value="AAE">Aerospace and Aeronautical</option>
+                                </optgroup>
+                                <optgroup label="Surveying and Spatial Sciences">
+                                    <option value="GE">Geospatial Engineering</option>
+                                    <option value="GIC">Geoinformatics</option>
+                                    <option value="GIN">Geoinformation</option>
+                                    <option value="SV">Survey</option>
+                                    <option value="LA">Land Administration</option>
+                                </optgroup>
+                                <optgroup label="Chemical and Biosystems Engineering">
+                                    <option value="CHE">Chemical Engineering</option>
+                                </optgroup>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="nonStudentPaymentReference">Payment Reference *</label>
+                            <div style="display: flex; gap: 10px;">
+                                <input type="text" id="nonStudentPaymentReference" name="paymentReference" placeholder="M-Pesa transaction code" required style="flex: 1; padding: 12px; border: 2px solid var(--gray-200); border-radius: 12px; font-family: 'Afacad Flux', sans-serif;">
+                                <button type="button" class="btn btn-secondary" onclick="showPaymentModal()">Pay Now</button>
+                            </div>
+                            <small style="color: var(--gray-600); font-size: 0.9rem;">Registration fee: KSh 500</small>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 20px;">
+                            Register as Associate Member
+                        </button>
+                    </form>
+                </div>
                 
                 <div style="text-align: center; margin-top: 30px;">
                     <p>Need help? <a href="contact.html" style="color: var(--primary-orange);">Contact Support</a></p>
@@ -183,7 +296,7 @@
             </div>
             <div class="modal-body">
                 <h4>Payment Details</h4>
-                <p><strong>Amount: KSh 200</strong></p>
+                <p><strong>Amount: KSh 200 (Students) / KSh 500 (Non-Students)</strong></p>
                 <p><strong>Paybill: 542542</strong></p>
                 <p><strong>Account: 153119</strong></p>
                 <ol>
@@ -191,7 +304,7 @@
                     <li>Select "Lipa na M-Pesa" → "Pay Bill"</li>
                     <li>Enter Business Number: 542542</li>
                     <li>Enter Account: 153119</li>
-                    <li>Enter Amount: 200</li>
+                    <li>Enter Amount: 200 (Students) or 500 (Non-Students)</li>
                     <li>Copy the transaction code and paste above</li>
                 </ol>
             </div>
@@ -242,6 +355,24 @@
         navToggle.addEventListener('click', () => {
             navMenu.classList.toggle('active');
         });
+        
+        function showStudentTypeSelection() {
+            document.getElementById('studentTypeSection').style.display = 'block';
+            document.getElementById('studentFormSection').style.display = 'none';
+            document.getElementById('nonStudentFormSection').style.display = 'none';
+        }
+        
+        function showStudentForm() {
+            document.getElementById('studentTypeSection').style.display = 'none';
+            document.getElementById('studentFormSection').style.display = 'block';
+            document.getElementById('nonStudentFormSection').style.display = 'none';
+        }
+        
+        function showNonStudentForm() {
+            document.getElementById('studentTypeSection').style.display = 'none';
+            document.getElementById('studentFormSection').style.display = 'none';
+            document.getElementById('nonStudentFormSection').style.display = 'block';
+        }
 
         function showPaymentModal() {
             document.getElementById('paymentModal').style.display = 'block';
@@ -292,17 +423,25 @@
                 observer.observe(section);
             });
             
+            // Show student type selection by default
+            showStudentTypeSelection();
+            
             // Animate form groups with stagger effect
-            const formGroups = document.querySelectorAll('.form-group');
-            formGroups.forEach((group, index) => {
-                group.style.opacity = '0';
-                group.style.transform = 'translateX(-20px)';
-                group.style.transition = 'all 0.5s ease';
-                setTimeout(() => {
-                    group.style.opacity = '1';
-                    group.style.transform = 'translateX(0)';
-                }, index * 80);
-            });
+            const animateFormGroups = () => {
+                const formGroups = document.querySelectorAll('.form-group');
+                formGroups.forEach((group, index) => {
+                    group.style.opacity = '0';
+                    group.style.transform = 'translateX(-20px)';
+                    group.style.transition = 'all 0.5s ease';
+                    setTimeout(() => {
+                        group.style.opacity = '1';
+                        group.style.transform = 'translateX(0)';
+                    }, index * 80);
+                });
+            };
+            
+            // Initial animation
+            setTimeout(animateFormGroups, 500);
         });
     </script>
 </body>
