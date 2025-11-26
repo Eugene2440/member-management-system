@@ -32,14 +32,55 @@ async function initializeDashboard() {
     // Set role-specific permissions
     setupRolePermissions();
     
-    // Load initial data
-    await loadMembers();
-    updateStats();
-    initializeAnalytics();
+    // Load initial data only for roles that have access to members
+    if (['registrar', 'admin'].includes(currentUser.role)) {
+        await loadMembers();
+        updateStats();
+        initializeAnalytics();
+    }
 }
 
 function setupRolePermissions() {
     const role = currentUser.role;
+    
+    // Hide/show navigation items based on role
+    const navItems = {
+        'members': ['registrar', 'admin'],
+        'events': ['communications', 'admin'],
+        'announcements': ['communications', 'admin'],
+        'leadership': ['admin'],
+        'partnerships': ['admin']
+    };
+    
+    // Hide navigation items user doesn't have access to
+    Object.keys(navItems).forEach(item => {
+        const navLink = document.querySelector(`[onclick="showSection('${item}')"]`);
+        if (navLink) {
+            if (navItems[item].includes(role)) {
+                navLink.style.display = 'block';
+            } else {
+                navLink.style.display = 'none';
+            }
+        }
+    });
+    
+    // Show appropriate default section based on role
+    if (role === 'registrar') {
+        showMembersSection();
+        // Set active nav link
+        const membersLink = document.querySelector(`[onclick="showSection('members')"]`);
+        if (membersLink) membersLink.classList.add('active');
+    } else if (role === 'communications') {
+        showEventsSection();
+        // Set active nav link
+        const eventsLink = document.querySelector(`[onclick="showSection('events')"]`);
+        if (eventsLink) eventsLink.classList.add('active');
+    } else {
+        showMembersSection(); // admin sees members by default
+        // Set active nav link
+        const membersLink = document.querySelector(`[onclick="showSection('members')"]`);
+        if (membersLink) membersLink.classList.add('active');
+    }
     
     // Hide delete button for non-admin users
     if (role !== 'admin') {
@@ -47,14 +88,6 @@ function setupRolePermissions() {
         if (deleteBtn) {
             deleteBtn.style.display = 'none';
         }
-    }
-    
-    // Disable editing for view-only roles
-    if (!['registrar', 'admin'].includes(role)) {
-        const editButtons = document.querySelectorAll('.btn-edit');
-        editButtons.forEach(btn => {
-            btn.style.display = 'none';
-        });
     }
 }
 
@@ -151,8 +184,8 @@ function getActionButtons(member) {
         buttons += `<button class="action-btn btn-edit" onclick="editMember('${member.id}')">Edit</button>`;
     }
     
-    // Payment status buttons for treasurer and admin
-    if (['treasurer', 'admin'].includes(role)) {
+    // Payment status buttons for registrar and admin
+    if (['registrar', 'admin'].includes(role)) {
         if (member.paymentStatus !== 'confirmed') {
             buttons += `<button class="action-btn btn-confirm" onclick="updatePaymentStatus('${member.id}', 'confirmed')">Confirm</button>`;
         }
@@ -295,9 +328,9 @@ function editMember(memberId) {
         deleteBtn.style.display = 'none';
     }
     
-    // Disable payment status field for non-treasurer/admin
+    // Disable payment status field for non-registrar/admin
     const paymentStatusField = document.getElementById('memberPaymentStatus');
-    if (!['treasurer', 'admin'].includes(role)) {
+    if (!['registrar', 'admin'].includes(role)) {
         paymentStatusField.disabled = true;
     } else {
         paymentStatusField.disabled = false;
@@ -652,7 +685,14 @@ function showSection(section) {
         link.classList.remove('active');
     });
     
-    event.target.classList.add('active');
+    // Add active class to the clicked element if event is available
+    if (typeof event !== 'undefined' && event.target) {
+        event.target.classList.add('active');
+    } else {
+        // Fallback: find and activate the correct nav link
+        const navLink = document.querySelector(`[onclick="showSection('${section}')"]`);
+        if (navLink) navLink.classList.add('active');
+    }
     
     // Show/hide sections based on selection
     if (section === 'members') {

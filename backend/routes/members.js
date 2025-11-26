@@ -143,8 +143,8 @@ async function generateMemberNumber(memberData) {
 // Protected routes - Require authentication
 router.use(verifyToken);
 
-// Get all members (all admin roles)
-router.get('/', verifyRole(['registrar', 'treasurer', 'admin']), async (req, res) => {
+// Get all members (registrar and admin only)
+router.get('/', verifyRole(['registrar', 'admin']), async (req, res) => {
     try {
         const { search, paymentStatus, membershipType } = req.query;
         
@@ -224,8 +224,8 @@ router.put('/:id', verifyRole(['registrar', 'admin']), async (req, res) => {
     }
 });
 
-// Update payment status (treasurer and admin only)
-router.patch('/:id/payment', verifyRole(['treasurer', 'admin']), async (req, res) => {
+// Update payment status (registrar and admin only)
+router.patch('/:id/payment', verifyRole(['registrar', 'admin']), async (req, res) => {
     try {
         const { id } = req.params;
         const { paymentStatus } = req.body;

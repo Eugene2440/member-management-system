@@ -1,62 +1,17 @@
 const express = require('express');
-const { collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, orderBy } = require('firebase/firestore');
+const { collection, addDoc, getDocs, doc, updateDoc, deleteDoc, orderBy, query } = require('firebase/firestore');
 const { db } = require('../config/firebase');
 const { verifyToken, verifyRole } = require('../middleware/auth');
 
 const router = express.Router();
 
-// Public routes (must be before verifyToken middleware)
-router.get('/public', async (req, res) => {
-    try {
-        const now = new Date().toISOString().split('T')[0];
-        const eventsRef = collection(db, 'events');
-        const q = query(eventsRef, orderBy('date', 'asc'));
-        const querySnapshot = await getDocs(q);
-        const events = [];
-        
-        querySnapshot.forEach((doc) => {
-            const eventData = { id: doc.id, ...doc.data() };
-            if (eventData.date >= now) {
-                events.push(eventData);
-            }
-        });
-        
-        res.json({ success: true, events });
-    } catch (error) {
-        console.error('Error fetching public events:', error);
-        res.status(500).json({ error: 'Failed to fetch events' });
-    }
-});
-
-router.get('/past/public', async (req, res) => {
-    try {
-        const now = new Date().toISOString().split('T')[0];
-        const eventsRef = collection(db, 'events');
-        const q = query(eventsRef, orderBy('date', 'desc'));
-        const querySnapshot = await getDocs(q);
-        const events = [];
-        
-        querySnapshot.forEach((doc) => {
-            const eventData = { id: doc.id, ...doc.data() };
-            if (eventData.date < now) {
-                events.push(eventData);
-            }
-        });
-        
-        res.json({ success: true, events });
-    } catch (error) {
-        console.error('Error fetching past events:', error);
-        res.status(500).json({ error: 'Failed to fetch past events' });
-    }
-});
-
 // Protected routes - Require authentication
 router.use(verifyToken);
 
-// Get all events (admin only)
-router.get('/', verifyRole(['admin']), async (req, res) => {
+// Get all events (communications and admin only)
+router.get('/', verifyRole(['communications', 'admin']), async (req, res) => {
     try {
-        const q = query(collection(db, 'events'), orderBy('date', 'asc'));
+        const q = query(collection(db, 'events'), orderBy('createdAt', 'desc'));
         const querySnapshot = await getDocs(q);
         const events = [];
         
@@ -71,27 +26,23 @@ router.get('/', verifyRole(['admin']), async (req, res) => {
     }
 });
 
-// Add new event (admin only)
-router.post('/', verifyRole(['admin']), async (req, res) => {
+// Create event (communications and admin only)
+router.post('/', verifyRole(['communications', 'admin']), async (req, res) => {
     try {
-        const { title, date, time, location, description, flyerImage, lumaRegistrationLink } = req.body;
+        const { title, description, date, location, type } = req.body;
         
-        if (!title || !date || !time || !location) {
-            return res.status(400).json({ error: 'Title, date, time, and location are required' });
+        if (!title || !description || !date) {
+            return res.status(400).json({ error: 'Title, description, and date are required' });
         }
         
         const eventData = {
             title: title.trim(),
+            description: description.trim(),
             date,
-            time: time.trim(),
-            location: location.trim(),
-            description: description ? description.trim() : '',
-            flyerImage: flyerImage || null,
-            lumaRegistrationLink: lumaRegistrationLink ? lumaRegistrationLink.trim() : null,
-            gallery: [],
-            remarks: '',
+            location: location?.trim() || '',
+            type: type || 'general',
             createdAt: new Date().toISOString(),
-            lastUpdated: new Date().toISOString()
+            createdBy: req.user.username
         };
         
         const docRef = await addDoc(collection(db, 'events'), eventData);
@@ -107,15 +58,18 @@ router.post('/', verifyRole(['admin']), async (req, res) => {
     }
 });
 
-// Update event (admin only)
-router.put('/:id', verifyRole(['admin']), async (req, res) => {
+// Update event (communications and admin only)
+router.put('/:id', verifyRole(['communications', 'admin']), async (req, res) => {
     try {
         const { id } = req.params;
         const updateData = { ...req.body };
         
         updateData.lastUpdated = new Date().toISOString();
+        updateData.updatedBy = req.user.username;
+        
         delete updateData.id;
         delete updateData.createdAt;
+        delete updateData.createdBy;
         
         const eventRef = doc(db, 'events', id);
         await updateDoc(eventRef, updateData);

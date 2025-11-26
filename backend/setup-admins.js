@@ -1,14 +1,15 @@
 require('dotenv').config();
 const { collection, addDoc, getDocs, query, where } = require('firebase/firestore');
 const { db } = require('./config/firebase');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 async function setupAdmins() {
     try {
         const admins = [
-            { username: 'admin', password: 'admin123', name: 'System Admin', role: 'admin' },
-            { username: 'registrar', password: 'reg123', name: 'Registrar', role: 'registrar' },
-            { username: 'treasurer', password: 'treas123', name: 'Treasurer', role: 'treasurer' }
+            { username: 'spooky', password: 'aecas1028', name: 'Spooky Admin', role: 'admin' },
+            { username: 'bethel', password: 'aecas8279', name: 'Bethel Admin', role: 'admin' },
+            { username: 'aecas@registrar', password: 'registrar@4629', name: 'Registrar', role: 'registrar' },
+            { username: 'aecas@comm', password: 'comm@9842', name: 'Communications Head', role: 'communications' }
         ];
 
         for (const admin of admins) {
@@ -33,8 +34,9 @@ async function setupAdmins() {
         console.log('\n✅ Admin setup complete!');
         console.log('Default credentials:');
         console.log('Admin: admin / admin123');
-        console.log('Registrar: registrar / reg123');
-        console.log('Treasurer: treasurer / treas123');
+        console.log('Admin: bethel / aecas8279');
+        console.log('Registrar: aecas@registrar / registrar@4629');
+        console.log('Communications: aecas@comm / comm@9842');
         
     } catch (error) {
         console.error('❌ Error setting up admins:', error);
