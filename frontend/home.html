@@ -259,7 +259,21 @@
                 const data = await response.json();
                 
                 if (data.success && data.events.length > 0) {
-                    displayHomeEvents(data.events.slice(0, 3));
+                    const now = new Date().toISOString().split('T')[0];
+                    const upcomingEvents = data.events.filter(event => event.date >= now);
+                    if (upcomingEvents.length > 0) {
+                        displayHomeEvents(upcomingEvents.slice(0, 3));
+                    } else {
+                        document.getElementById('homeEventsGrid').innerHTML = `
+                            <div style="text-align: center; width: 100%; padding: 40px;">
+                                <div style="width: 80px; height: 80px; background: var(--gray-100); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; color: var(--gray-600); font-size: 2rem;">
+                                    <i class="fas fa-calendar-times"></i>
+                                </div>
+                                <h3 style="color: var(--gray-800); margin-bottom: 10px;">No Upcoming Events</h3>
+                                <p style="color: var(--gray-600);">Check back soon for exciting events and activities!</p>
+                            </div>
+                        `;
+                    }
                 } else {
                     document.getElementById('homeEventsGrid').innerHTML = `
                         <div style="text-align: center; width: 100%; padding: 40px;">

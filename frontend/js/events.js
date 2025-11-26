@@ -8,7 +8,9 @@ async function loadUpcomingEvents() {
         const data = await response.json();
         
         if (data.success && data.events.length > 0) {
-            displayEvents(data.events);
+            const now = new Date().toISOString().split('T')[0];
+            const upcomingEvents = data.events.filter(event => event.date >= now);
+            displayEvents(upcomingEvents);
         }
     } catch (error) {
         console.error('Error loading events:', error);
