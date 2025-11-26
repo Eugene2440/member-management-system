@@ -5,6 +5,45 @@ const { verifyToken, verifyRole } = require('../middleware/auth');
 
 const router = express.Router();
 
+// Public routes - No authentication required
+router.get('/public', async (req, res) => {
+    try {
+        const q = query(collection(db, 'events'), orderBy('createdAt', 'desc'));
+        const querySnapshot = await getDocs(q);
+        const events = [];
+        
+        querySnapshot.forEach((doc) => {
+            events.push({ id: doc.id, ...doc.data() });
+        });
+        
+        res.json({ success: true, events });
+    } catch (error) {
+        console.error('Error fetching public events:', error);
+        res.status(500).json({ error: 'Failed to fetch events' });
+    }
+});
+
+router.get('/past/public', async (req, res) => {
+    try {
+        const now = new Date().toISOString().split('T')[0];
+        const q = query(collection(db, 'events'), orderBy('createdAt', 'desc'));
+        const querySnapshot = await getDocs(q);
+        const events = [];
+        
+        querySnapshot.forEach((doc) => {
+            const eventData = { id: doc.id, ...doc.data() };
+            if (eventData.date < now) {
+                events.push(eventData);
+            }
+        });
+        
+        res.json({ success: true, events });
+    } catch (error) {
+        console.error('Error fetching past events:', error);
+        res.status(500).json({ error: 'Failed to fetch past events' });
+    }
+});
+
 // Protected routes - Require authentication
 router.use(verifyToken);
 

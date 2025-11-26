@@ -5,6 +5,27 @@ const { verifyToken, verifyRole } = require('../middleware/auth');
 
 const router = express.Router();
 
+// Public routes - No authentication required
+router.get('/public', async (req, res) => {
+    try {
+        const q = query(collection(db, 'announcements'), orderBy('createdAt', 'desc'));
+        const querySnapshot = await getDocs(q);
+        const announcements = [];
+        
+        querySnapshot.forEach((doc) => {
+            const data = doc.data();
+            if (data.active !== false) { // Only show active announcements
+                announcements.push({ id: doc.id, ...data });
+            }
+        });
+        
+        res.json({ success: true, announcements });
+    } catch (error) {
+        console.error('Error fetching public announcements:', error);
+        res.status(500).json({ error: 'Failed to fetch announcements' });
+    }
+});
+
 // Protected routes - Require authentication
 router.use(verifyToken);
 
