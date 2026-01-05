@@ -1,9 +1,33 @@
 const express = require('express');
-const { collection, addDoc, getDocs, doc, updateDoc, deleteDoc, orderBy, query } = require('firebase/firestore');
+const { collection, addDoc, getDocs, doc, updateDoc, deleteDoc, orderBy, query, where } = require('firebase/firestore');
 const { db } = require('../config/firebase');
 const { verifyToken, verifyRole } = require('../middleware/auth');
+const { sendAnnouncementEmail } = require('../services/email');
 
 const router = express.Router();
+
+// Helper function to get confirmed members who want announcement emails
+async function getNotifiableMembers() {
+    try {
+        const membersQuery = query(
+            collection(db, 'members'),
+            where('paymentStatus', '==', 'confirmed')
+        );
+        const snapshot = await getDocs(membersQuery);
+        const members = [];
+        snapshot.forEach(doc => {
+            const data = doc.data();
+            // Only include members who haven't unsubscribed from announcements
+            if (data.emailPreferences?.announcements !== false) {
+                members.push({ email: data.email, name: data.name });
+            }
+        });
+        return members;
+    } catch (error) {
+        console.error('Error fetching notifiable members:', error);
+        return [];
+    }
+}
 
 // Public routes - No authentication required
 router.get('/public', async (req, res) => {
@@ -50,7 +74,7 @@ router.get('/', verifyRole(['communications', 'admin']), async (req, res) => {
 // Create announcement (communications and admin only)
 router.post('/', verifyRole(['communications', 'admin']), async (req, res) => {
     try {
-        const { title, content, priority, expiryDate } = req.body;
+        const { title, content, notifyMembers } = req.body;
         
         if (!title || !content) {
             return res.status(400).json({ error: 'Title and content are required' });
@@ -59,14 +83,22 @@ router.post('/', verifyRole(['communications', 'admin']), async (req, res) => {
         const announcementData = {
             title: title.trim(),
             content: content.trim(),
-            priority: priority || 'normal',
-            expiryDate: expiryDate || null,
             createdAt: new Date().toISOString(),
             createdBy: req.user.username,
             active: true
         };
         
         const docRef = await addDoc(collection(db, 'announcements'), announcementData);
+        
+        // Send email notifications if requested
+        if (notifyMembers) {
+            const members = await getNotifiableMembers();
+            if (members.length > 0) {
+                sendAnnouncementEmail(announcementData, members).catch(err => {
+                    console.error('Failed to send announcement emails:', err);
+                });
+            }
+        }
         
         res.status(201).json({ 
             success: true, 

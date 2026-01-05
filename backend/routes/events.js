@@ -1,9 +1,33 @@
 const express = require('express');
-const { collection, addDoc, getDocs, doc, updateDoc, deleteDoc, orderBy, query } = require('firebase/firestore');
+const { collection, addDoc, getDocs, doc, updateDoc, deleteDoc, orderBy, query, where } = require('firebase/firestore');
 const { db } = require('../config/firebase');
 const { verifyToken, verifyRole } = require('../middleware/auth');
+const { sendNewEventEmail } = require('../services/email');
 
 const router = express.Router();
+
+// Helper function to get confirmed members who want email notifications
+async function getNotifiableMembers() {
+    try {
+        const membersQuery = query(
+            collection(db, 'members'),
+            where('paymentStatus', '==', 'confirmed')
+        );
+        const snapshot = await getDocs(membersQuery);
+        const members = [];
+        snapshot.forEach(doc => {
+            const data = doc.data();
+            // Only include members who haven't unsubscribed from events
+            if (data.emailPreferences?.events !== false) {
+                members.push({ email: data.email, name: data.name });
+            }
+        });
+        return members;
+    } catch (error) {
+        console.error('Error fetching notifiable members:', error);
+        return [];
+    }
+}
 
 // Public routes - No authentication required
 router.get('/public', async (req, res) => {
@@ -68,7 +92,7 @@ router.get('/', verifyRole(['communications', 'admin']), async (req, res) => {
 // Create event (communications and admin only)
 router.post('/', verifyRole(['communications', 'admin']), async (req, res) => {
     try {
-        const { title, description, date, location, type } = req.body;
+        const { title, description, date, time, location, type, notifyMembers } = req.body;
         
         if (!title || !description || !date) {
             return res.status(400).json({ error: 'Title, description, and date are required' });
@@ -78,6 +102,7 @@ router.post('/', verifyRole(['communications', 'admin']), async (req, res) => {
             title: title.trim(),
             description: description.trim(),
             date,
+            time: time || '',
             location: location?.trim() || '',
             type: type || 'general',
             createdAt: new Date().toISOString(),
@@ -85,6 +110,16 @@ router.post('/', verifyRole(['communications', 'admin']), async (req, res) => {
         };
         
         const docRef = await addDoc(collection(db, 'events'), eventData);
+        
+        // Send email notifications to confirmed members if requested
+        if (notifyMembers) {
+            const members = await getNotifiableMembers();
+            if (members.length > 0) {
+                sendNewEventEmail(eventData, members).catch(err => {
+                    console.error('Failed to send event notification emails:', err);
+                });
+            }
+        }
         
         res.status(201).json({ 
             success: true, 

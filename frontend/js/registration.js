@@ -47,8 +47,14 @@ async function handleRegistration(e, submitBtn, type) {
                 course: formData.get('course') || null,
                 registrationNumber: formData.get('registrationNumber')?.trim() || null,
                 paymentReference: formData.get('paymentReference').trim(),
-                memberType: 'student'
+                memberType: 'student',
+                consent: formData.get('consent') === 'on'
             };
+            
+            // Validate consent
+            if (!memberData.consent) {
+                throw new Error('You must agree to the Terms of Service and Privacy Policy');
+            }
             
             // Validate required fields for students
             if (!memberData.name || !memberData.email || !memberData.phone || !memberData.course || !memberData.paymentReference) {
@@ -61,8 +67,14 @@ async function handleRegistration(e, submitBtn, type) {
                 phone: formData.get('phone').replace(/\D/g, ''),
                 areaOfInterest: formData.get('areaOfInterest') || null,
                 paymentReference: formData.get('paymentReference').trim(),
-                memberType: 'non-student'
+                memberType: 'non-student',
+                consent: formData.get('consent') === 'on'
             };
+            
+            // Validate consent
+            if (!memberData.consent) {
+                throw new Error('You must agree to the Terms of Service and Privacy Policy');
+            }
             
             // Validate required fields for non-students
             if (!memberData.name || !memberData.email || !memberData.phone || !memberData.areaOfInterest || !memberData.paymentReference) {

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unsubscribe - AECAS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="icon" type="image/jpeg" href="css/logo.jpg">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="home.html" class="nav-logo">
+                <img src="css/logo.jpg" alt="AECAS Logo">
+                <div class="nav-logo-text">
+                    <span class="nav-logo-title">AECAS</span>
+                    <span class="nav-logo-subtitle">The Association of Engineering Construction and Architecture Students</span>
+                </div>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="home.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="events.html"><i class="fas fa-calendar-alt"></i> Events</a></li>
+                <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+            </ul>
+            <div class="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <section class="section" style="padding-top: 40px; min-height: 60vh;">
+            <div class="container" style="max-width: 500px;">
+                <div class="section-title">
+                    <h2>Email Preferences</h2>
+                    <p>Manage your email subscription settings</p>
+                </div>
+
+                <!-- Loading State -->
+                <div id="loadingState" class="card" style="text-align: center; padding: 40px;">
+                    <div class="loading-spinner" style="margin: 0 auto 20px;"></div>
+                    <p>Loading your preferences...</p>
+                </div>
+
+                <!-- Email Not Found -->
+                <div id="notFoundState" class="card" style="display: none; text-align: center;">
+                    <div style="font-size: 60px; margin-bottom: 20px;">📧</div>
+                    <h3 style="color: var(--gray-700); margin-bottom: 15px;">Email Not Found</h3>
+                    <p style="color: var(--gray-600);">We couldn't find this email in our system. If you believe this is an error, please contact us.</p>
+                    <a href="contact.html" class="btn btn-primary" style="margin-top: 20px;">Contact Support</a>
+                </div>
+
+                <!-- Preferences Form -->
+                <div id="preferencesForm" class="card" style="display: none;">
+                    <p style="margin-bottom: 20px; color: var(--gray-600);">
+                        Email: <strong id="userEmail"></strong>
+                    </p>
+                    
+                    <h3 style="margin-bottom: 15px; color: var(--primary-blue);">Choose which emails you want to receive:</h3>
+                    
+                    <div style="margin: 20px 0;">
+                        <label style="display: flex; align-items: center; gap: 12px; padding: 15px; background: var(--gray-100); border-radius: 10px; cursor: pointer; margin-bottom: 10px;">
+                            <input type="checkbox" id="prefEvents" style="width: 20px; height: 20px;">
+                            <div>
+                                <strong style="color: var(--gray-800);">📅 Event Notifications</strong>
+                                <p style="margin: 5px 0 0 0; font-size: 0.9rem; color: var(--gray-600);">New events, site visits, and workshops</p>
+                            </div>
+                        </label>
+                        
+                        <label style="display: flex; align-items: center; gap: 12px; padding: 15px; background: var(--gray-100); border-radius: 10px; cursor: pointer; margin-bottom: 10px;">
+                            <input type="checkbox" id="prefAnnouncements" style="width: 20px; height: 20px;">
+                            <div>
+                                <strong style="color: var(--gray-800);">📢 Announcements</strong>
+                                <p style="margin: 5px 0 0 0; font-size: 0.9rem; color: var(--gray-600);">Important updates and news from AECAS</p>
+                            </div>
+                        </label>
+                    </div>
+                    
+                    <div style="border-top: 1px solid var(--gray-200); padding-top: 20px; margin-top: 20px;">
+                        <button onclick="savePreferences()" class="btn btn-primary" style="width: 100%;">
+                            Save Preferences
+                        </button>
+                        
+                        <button onclick="unsubscribeAll()" class="btn btn-secondary" style="width: 100%; margin-top: 10px;">
+                            Unsubscribe from All Emails
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Success State -->
+                <div id="successState" class="card" style="display: none; text-align: center;">
+                    <div style="font-size: 60px; margin-bottom: 20px;">✅</div>
+                    <h3 style="color: var(--primary-blue); margin-bottom: 15px;">Preferences Updated!</h3>
+                    <p id="successMessage" style="color: var(--gray-600);">Your email preferences have been saved.</p>
+                    <a href="home.html" class="btn btn-primary" style="margin-top: 20px;">Back to Home</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>AECAS</h3>
+                    <p>The Association of Engineering Construction and Architecture Students at Technical University of Kenya.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Info</h3>
+                    <p><i class="fas fa-envelope"></i> support@aecas.co.ke</p>
+                    <p><i class="fas fa-phone"></i> +254 713077328</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 AECAS. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const API_URL = window.location.hostname === 'localhost' 
+            ? 'http://localhost:3000/api' 
+            : '/api';
+        
+        let memberEmail = '';
+        
+        // Get email from URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const email = urlParams.get('email');
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!email) {
+                showNotFound();
+                return;
+            }
+            
+            memberEmail = decodeURIComponent(email);
+            loadPreferences();
+        });
+        
+        async function loadPreferences() {
+            try {
+                const response = await fetch(`${API_URL}/members/preferences?email=${encodeURIComponent(memberEmail)}`);
+                const data = await response.json();
+                
+                if (response.ok && data.success) {
+                    document.getElementById('userEmail').textContent = memberEmail;
+                    document.getElementById('prefEvents').checked = data.preferences.events !== false;
+                    document.getElementById('prefAnnouncements').checked = data.preferences.announcements !== false;
+                    
+                    document.getElementById('loadingState').style.display = 'none';
+                    document.getElementById('preferencesForm').style.display = 'block';
+                } else {
+                    showNotFound();
+                }
+            } catch (error) {
+                console.error('Error loading preferences:', error);
+                showNotFound();
+            }
+        }
+        
+        async function savePreferences() {
+            const preferences = {
+                events: document.getElementById('prefEvents').checked,
+                announcements: document.getElementById('prefAnnouncements').checked
+            };
+            
+            try {
+                const response = await fetch(`${API_URL}/members/preferences`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: memberEmail, preferences })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok && data.success) {
+                    showSuccess('Your email preferences have been updated.');
+                } else {
+                    alert('Error: ' + (data.error || 'Failed to save preferences'));
+                }
+            } catch (error) {
+                console.error('Error saving preferences:', error);
+                alert('An error occurred. Please try again.');
+            }
+        }
+        
+        async function unsubscribeAll() {
+            if (!confirm('Are you sure you want to unsubscribe from all AECAS emails? You will no longer receive event notifications or announcements.')) {
+                return;
+            }
+            
+            const preferences = {
+                events: false,
+                announcements: false
+            };
+            
+            try {
+                const response = await fetch(`${API_URL}/members/preferences`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: memberEmail, preferences })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok && data.success) {
+                    showSuccess('You have been unsubscribed from all AECAS emails. You can re-subscribe anytime by visiting this page.');
+                } else {
+                    alert('Error: ' + (data.error || 'Failed to unsubscribe'));
+                }
+            } catch (error) {
+                console.error('Error unsubscribing:', error);
+                alert('An error occurred. Please try again.');
+            }
+        }
+        
+        function showNotFound() {
+            document.getElementById('loadingState').style.display = 'none';
+            document.getElementById('notFoundState').style.display = 'block';
+        }
+        
+        function showSuccess(message) {
+            document.getElementById('preferencesForm').style.display = 'none';
+            document.getElementById('successMessage').textContent = message;
+            document.getElementById('successState').style.display = 'block';
+        }
+        
+        // Mobile nav toggle
+        const navToggle = document.querySelector('.nav-toggle');
+        const navMenu = document.querySelector('.nav-menu');
+        navToggle.addEventListener('click', () => navMenu.classList.toggle('active'));
+    </script>
+</body>
+</html>

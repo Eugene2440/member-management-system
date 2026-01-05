@@ -74,6 +74,22 @@ app.get('/partnerships', (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend/partnerships.html'));
 });
 
+app.get('/privacy', (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/privacy.html'));
+});
+
+app.get('/terms', (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/terms.html'));
+});
+
+app.get('/unsubscribe', (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/unsubscribe.html'));
+});
+
+app.get('/email-preferences', (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/unsubscribe.html'));
+});
+
 // Legacy routes for admin functionality
 app.get('/admin', (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend/admin.html'));

@@ -1023,6 +1023,13 @@ function showEventModal(event = null) {
                             <label for="eventLumaLink">Luma Registration Link</label>
                             <input type="url" id="eventLumaLink" value="${event ? escapeHtml(event.lumaRegistrationLink || '') : ''}" placeholder="https://lu.ma/event-link">
                         </div>
+                        ${!isEdit ? `
+                        <div class="form-group" style="margin-top: 15px;">
+                            <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                                <input type="checkbox" id="notifyMembers" checked style="width: 18px; height: 18px;">
+                                <span>📧 Notify all members about this event via email</span>
+                            </label>
+                        </div>` : ''}
                         ${isPast ? `
                         <div class="form-group">
                             <label for="eventRemarks">Remarks (for past events)</label>
@@ -1113,7 +1120,11 @@ async function saveEvent(eventId) {
             flyerImage = flyerPreview.src;
         }
         
-        const eventData = { title, date, time, location, description, flyerImage, lumaRegistrationLink, remarks };
+        // Check if notify members checkbox is checked (only for new events)
+        const notifyCheckbox = document.getElementById('notifyMembers');
+        const notifyMembers = notifyCheckbox ? notifyCheckbox.checked : false;
+        
+        const eventData = { title, date, time, location, description, flyerImage, lumaRegistrationLink, remarks, notifyMembers };
         const token = localStorage.getItem('adminToken');
         
         const response = await fetch(`/api/events${eventId ? `/${eventId}` : ''}`, {
@@ -1345,9 +1356,9 @@ function renderAnnouncements(announcements) {
     
     grid.innerHTML = announcements.map(a => `
         <div class="event-card">
-            <h3>${escapeHtml(a.title)}</h3>
-            <p>${escapeHtml(a.message)}</p>
-            <p><small>Priority: ${a.priority} | Status: ${a.isActive ? 'Active' : 'Inactive'}</small></p>
+            <h3>${escapeHtml(a.title || '')}</h3>
+            <p>${escapeHtml(a.content || a.message || '')}</p>
+            <p><small>Created: ${new Date(a.createdAt).toLocaleDateString()}</small></p>
             <div class="event-actions">
                 <button class="btn btn-secondary" onclick="editAnnouncement('${a.id}')">
                     <i class="fas fa-edit"></i> Edit
@@ -1391,25 +1402,15 @@ function showAnnouncementModal(announcement = null) {
                     </div>
                     <div class="form-group">
                         <label>Message *</label>
-                        <textarea id="announcementMessage" rows="4" required>${announcement ? escapeHtml(announcement.message) : ''}</textarea>
+                        <textarea id="announcementMessage" rows="4" required>${announcement ? escapeHtml(announcement.content || announcement.message || '') : ''}</textarea>
                     </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Priority</label>
-                            <select id="announcementPriority">
-                                <option value="normal" ${announcement && announcement.priority === 'normal' ? 'selected' : ''}>Normal</option>
-                                <option value="high" ${announcement && announcement.priority === 'high' ? 'selected' : ''}>High</option>
-                                <option value="urgent" ${announcement && announcement.priority === 'urgent' ? 'selected' : ''}>Urgent</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Status</label>
-                            <select id="announcementStatus">
-                                <option value="true" ${!announcement || announcement.isActive ? 'selected' : ''}>Active</option>
-                                <option value="false" ${announcement && !announcement.isActive ? 'selected' : ''}>Inactive</option>
-                            </select>
-                        </div>
-                    </div>
+                    ${!isEdit ? `
+                    <div class="form-group" style="margin-top: 15px;">
+                        <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                            <input type="checkbox" id="notifyMembersAnnouncement" checked style="width: 18px; height: 18px;">
+                            <span>📧 Notify all members about this announcement via email</span>
+                        </label>
+                    </div>` : ''}
                 </div>
                 <div class="modal-footer">
                     <button onclick="closeAnnouncementModal()" class="btn btn-secondary">Cancel</button>
@@ -1431,15 +1432,17 @@ function closeAnnouncementModal() {
 async function saveAnnouncement(id) {
     try {
         const title = document.getElementById('announcementTitle').value.trim();
-        const message = document.getElementById('announcementMessage').value.trim();
-        const priority = document.getElementById('announcementPriority').value;
-        const isActive = document.getElementById('announcementStatus').value === 'true';
+        const content = document.getElementById('announcementMessage').value.trim();
         
-        if (!title || !message) {
+        if (!title || !content) {
             throw new Error('Title and message are required');
         }
         
-        const data = { title, message, priority, isActive };
+        // Check if notify members checkbox is checked (only for new announcements)
+        const notifyCheckbox = document.getElementById('notifyMembersAnnouncement');
+        const notifyMembers = notifyCheckbox ? notifyCheckbox.checked : false;
+        
+        const data = { title, content, notifyMembers };
         const token = localStorage.getItem('adminToken');
         
         const response = await fetch(`/api/announcements${id ? `/${id}` : ''}`, {

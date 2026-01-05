@@ -2,17 +2,88 @@ const express = require('express');
 const { collection, addDoc, getDocs, doc, getDoc, updateDoc, deleteDoc, query, where, orderBy } = require('firebase/firestore');
 const { db } = require('../config/firebase');
 const { verifyToken, verifyRole } = require('../middleware/auth');
+const { sendWelcomeEmail, sendPaymentConfirmedEmail, sendPaymentRejectedEmail } = require('../services/email');
 
 const router = express.Router();
 
-// Public route - Member registration
+// ============ PUBLIC ROUTES ============
+
+// Get email preferences (for unsubscribe page)
+router.get('/preferences', async (req, res) => {
+    try {
+        const { email } = req.query;
+        
+        if (!email) {
+            return res.status(400).json({ error: 'Email is required' });
+        }
+        
+        const emailQuery = query(collection(db, 'members'), where('email', '==', email.toLowerCase().trim()));
+        const snapshot = await getDocs(emailQuery);
+        
+        if (snapshot.empty) {
+            return res.status(404).json({ error: 'Email not found' });
+        }
+        
+        const memberData = snapshot.docs[0].data();
+        const preferences = memberData.emailPreferences || {
+            events: true,
+            announcements: true
+        };
+        
+        res.json({ success: true, preferences });
+    } catch (error) {
+        console.error('Error fetching preferences:', error);
+        res.status(500).json({ error: 'Failed to fetch preferences' });
+    }
+});
+
+// Update email preferences (for unsubscribe page)
+router.post('/preferences', async (req, res) => {
+    try {
+        const { email, preferences } = req.body;
+        
+        if (!email) {
+            return res.status(400).json({ error: 'Email is required' });
+        }
+        
+        const emailQuery = query(collection(db, 'members'), where('email', '==', email.toLowerCase().trim()));
+        const snapshot = await getDocs(emailQuery);
+        
+        if (snapshot.empty) {
+            return res.status(404).json({ error: 'Email not found' });
+        }
+        
+        const memberDoc = snapshot.docs[0];
+        await updateDoc(doc(db, 'members', memberDoc.id), {
+            emailPreferences: {
+                events: preferences.events !== false,
+                announcements: preferences.announcements !== false
+            },
+            lastUpdated: new Date().toISOString()
+        });
+        
+        console.log(`Email preferences updated for ${email}:`, preferences);
+        
+        res.json({ success: true, message: 'Preferences updated successfully' });
+    } catch (error) {
+        console.error('Error updating preferences:', error);
+        res.status(500).json({ error: 'Failed to update preferences' });
+    }
+});
+
+// Member registration
 router.post('/register', async (req, res) => {
     try {
-        const { name, email, phone, course, registrationNumber, paymentReference, memberType, areaOfInterest } = req.body;
+        const { name, email, phone, course, registrationNumber, paymentReference, memberType, areaOfInterest, consent } = req.body;
         
         // Validate required fields based on member type
         if (!name || !email || !phone || !paymentReference) {
             return res.status(400).json({ error: 'Name, email, phone, and payment reference are required' });
+        }
+        
+        // Validate consent
+        if (!consent) {
+            return res.status(400).json({ error: 'You must agree to the Terms of Service and Privacy Policy' });
         }
         
         if (memberType === 'student' && !course) {
@@ -47,7 +118,16 @@ router.post('/register', async (req, res) => {
             membershipType: 'pending', // Default type, admin will assign proper type
             paymentStatus: 'pending',
             registrationDate: new Date().toISOString(),
-            lastUpdated: new Date().toISOString()
+            lastUpdated: new Date().toISOString(),
+            // Compliance fields
+            consentGiven: true,
+            consentTimestamp: new Date().toISOString(),
+            consentVersion: '1.0',
+            emailPreferences: {
+                events: true,
+                announcements: true,
+                marketing: true
+            }
         };
         
         // Add fields specific to member type
@@ -61,6 +141,11 @@ router.post('/register', async (req, res) => {
         
         // Add to Firebase
         const docRef = await addDoc(collection(db, 'members'), memberData);
+        
+        // Send welcome email (non-blocking)
+        sendWelcomeEmail(memberData).catch(err => {
+            console.error('Failed to send welcome email:', err);
+        });
         
         res.status(201).json({ 
             success: true, 
@@ -235,6 +320,15 @@ router.patch('/:id/payment', verifyRole(['registrar', 'admin']), async (req, res
         }
         
         const memberRef = doc(db, 'members', id);
+        const memberDoc = await getDoc(memberRef);
+        
+        if (!memberDoc.exists()) {
+            return res.status(404).json({ error: 'Member not found' });
+        }
+        
+        const memberData = memberDoc.data();
+        const previousStatus = memberData.paymentStatus;
+        
         const updateData = { 
             paymentStatus,
             lastUpdated: new Date().toISOString()
@@ -242,16 +336,27 @@ router.patch('/:id/payment', verifyRole(['registrar', 'admin']), async (req, res
         
         // Generate member number when payment is confirmed
         if (paymentStatus === 'confirmed') {
-            const memberDoc = await getDoc(memberRef);
-            if (memberDoc.exists()) {
-                const memberData = memberDoc.data();
-                if (!memberData.memberNumber && (memberData.course || memberData.areaOfInterest)) {
-                    updateData.memberNumber = await generateMemberNumber(memberData);
-                }
+            if (!memberData.memberNumber && (memberData.course || memberData.areaOfInterest)) {
+                updateData.memberNumber = await generateMemberNumber(memberData);
             }
         }
         
         await updateDoc(memberRef, updateData);
+        
+        // Send email notification if status changed (non-blocking)
+        if (previousStatus !== paymentStatus) {
+            const updatedMemberData = { ...memberData, ...updateData };
+            
+            if (paymentStatus === 'confirmed') {
+                sendPaymentConfirmedEmail(updatedMemberData).catch(err => {
+                    console.error('Failed to send payment confirmed email:', err);
+                });
+            } else if (paymentStatus === 'rejected') {
+                sendPaymentRejectedEmail(updatedMemberData).catch(err => {
+                    console.error('Failed to send payment rejected email:', err);
+                });
+            }
+        }
         
         res.json({ success: true, message: 'Payment status updated successfully' });
     } catch (error) {
