@@ -90,20 +90,31 @@ router.post('/', verifyRole(['communications', 'admin']), async (req, res) => {
         
         const docRef = await addDoc(collection(db, 'announcements'), announcementData);
         
+        let emailResult = null;
+        
         // Send email notifications if requested
         if (notifyMembers) {
             const members = await getNotifiableMembers();
+            console.log(`Found ${members.length} members to notify about announcement`);
+            
             if (members.length > 0) {
-                sendAnnouncementEmail(announcementData, members).catch(err => {
+                try {
+                    emailResult = await sendAnnouncementEmail(announcementData, members);
+                    console.log('Announcement email result:', emailResult);
+                } catch (err) {
                     console.error('Failed to send announcement emails:', err);
-                });
+                    emailResult = { success: false, error: err.message };
+                }
+            } else {
+                emailResult = { success: false, reason: 'No confirmed members with email notifications enabled' };
             }
         }
         
         res.status(201).json({ 
             success: true, 
             message: 'Announcement created successfully',
-            announcementId: docRef.id
+            announcementId: docRef.id,
+            emailNotification: notifyMembers ? emailResult : { skipped: true }
         });
     } catch (error) {
         console.error('Error creating announcement:', error);

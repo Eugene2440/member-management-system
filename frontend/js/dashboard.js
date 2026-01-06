@@ -1357,7 +1357,7 @@ function renderAnnouncements(announcements) {
     grid.innerHTML = announcements.map(a => `
         <div class="event-card">
             <h3>${escapeHtml(a.title || '')}</h3>
-            <p>${escapeHtml(a.content || a.message || '')}</p>
+            <p style="white-space: pre-wrap;">${escapeHtml(a.content || a.message || '')}</p>
             <p><small>Created: ${new Date(a.createdAt).toLocaleDateString()}</small></p>
             <div class="event-actions">
                 <button class="btn btn-secondary" onclick="editAnnouncement('${a.id}')">
@@ -1456,7 +1456,26 @@ async function saveAnnouncement(id) {
         
         const result = await response.json();
         if (response.ok && result.success) {
-            showNotification(`Announcement ${id ? 'updated' : 'created'} successfully`, 'success');
+            let message = `Announcement ${id ? 'updated' : 'created'} successfully`;
+            
+            // Show email notification status for new announcements
+            if (!id && result.emailNotification) {
+                const emailInfo = result.emailNotification;
+                if (emailInfo.skipped) {
+                    message += ' (email notifications skipped)';
+                } else if (emailInfo.sent > 0) {
+                    message += ` - ${emailInfo.sent} email(s) sent`;
+                    if (emailInfo.failed > 0) {
+                        message += `, ${emailInfo.failed} failed`;
+                    }
+                } else if (emailInfo.reason) {
+                    message += ` (${emailInfo.reason})`;
+                } else if (emailInfo.error) {
+                    message += ` (Email error: ${emailInfo.error})`;
+                }
+            }
+            
+            showNotification(message, 'success');
             closeAnnouncementModal();
             loadAnnouncements();
         } else {
