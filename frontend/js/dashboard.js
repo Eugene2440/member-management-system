@@ -49,7 +49,8 @@ function setupRolePermissions() {
         'events': ['communications', 'admin'],
         'announcements': ['communications', 'admin'],
         'leadership': ['admin'],
-        'partnerships': ['admin']
+        'partnerships': ['admin'],
+        'banners': ['communications', 'admin']
     };
     
     // Hide navigation items user doesn't have access to
@@ -522,6 +523,7 @@ function escapeHtml(text) {
 window.addEventListener('click', function(event) {
     const memberModal = document.getElementById('memberModal');
     const confirmModal = document.getElementById('confirmModal');
+    const bannerModal = document.getElementById('bannerModal');
     
     if (event.target === memberModal) {
         closeMemberModal();
@@ -529,6 +531,10 @@ window.addEventListener('click', function(event) {
     
     if (event.target === confirmModal) {
         closeConfirmModal();
+    }
+    
+    if (event.target === bannerModal) {
+        closeBannerModal();
     }
 });
 
@@ -705,6 +711,8 @@ function showSection(section) {
         showPartnershipsSection();
     } else if (section === 'leadership') {
         showLeadershipSection();
+    } else if (section === 'banners') {
+        showBannersSection();
     }
     
     // Close sidebar on mobile
@@ -724,6 +732,9 @@ function showMembersSection() {
     
     const announcementsSection = document.getElementById('announcementsSection');
     if (announcementsSection) announcementsSection.style.display = 'none';
+    
+    const bannersSection = document.getElementById('bannersSection');
+    if (bannersSection) bannersSection.style.display = 'none';
 }
 
 function showEventsSection() {
@@ -741,6 +752,9 @@ function showEventsSection() {
     
     const announcementsSection = document.getElementById('announcementsSection');
     if (announcementsSection) announcementsSection.style.display = 'none';
+    
+    const bannersSection = document.getElementById('bannersSection');
+    if (bannersSection) bannersSection.style.display = 'none';
 }
 
 function showAnnouncementsSection() {
@@ -757,6 +771,9 @@ function showAnnouncementsSection() {
     
     const partnershipsSection = document.getElementById('partnershipsSection');
     if (partnershipsSection) partnershipsSection.style.display = 'none';
+    
+    const bannersSection = document.getElementById('bannersSection');
+    if (bannersSection) bannersSection.style.display = 'none';
     
     let announcementsSection = document.getElementById('announcementsSection');
     if (!announcementsSection) {
@@ -781,6 +798,9 @@ function showPartnershipsSection() {
     const leadershipSection = document.getElementById('leadershipSection');
     if (leadershipSection) leadershipSection.style.display = 'none';
     
+    const bannersSection = document.getElementById('bannersSection');
+    if (bannersSection) bannersSection.style.display = 'none';
+    
     let partnershipsSection = document.getElementById('partnershipsSection');
     if (!partnershipsSection) {
         createPartnershipsSection();
@@ -803,6 +823,9 @@ function showLeadershipSection() {
     
     const partnershipsSection = document.getElementById('partnershipsSection');
     if (partnershipsSection) partnershipsSection.style.display = 'none';
+    
+    const bannersSection = document.getElementById('bannersSection');
+    if (bannersSection) bannersSection.style.display = 'none';
     
     let leadershipSection = document.getElementById('leadershipSection');
     if (!leadershipSection) {
@@ -2005,3 +2028,373 @@ async function deletePartnership(id) {
         showNotification('Error deleting partnership', 'error');
     }
 }
+
+// ==========================================
+// Banner Management Functions
+// ==========================================
+
+let allBanners = [];
+
+function showBannersSection() {
+    document.querySelector('.stats-section').style.display = 'none';
+    document.querySelector('.analytics-section').style.display = 'none';
+    document.querySelector('.filters-section').style.display = 'none';
+    document.querySelector('.members-section').style.display = 'none';
+    
+    const eventsSection = document.getElementById('eventsSection');
+    if (eventsSection) eventsSection.style.display = 'none';
+    
+    const announcementsSection = document.getElementById('announcementsSection');
+    if (announcementsSection) announcementsSection.style.display = 'none';
+    
+    const leadershipSection = document.getElementById('leadershipSection');
+    if (leadershipSection) leadershipSection.style.display = 'none';
+    
+    const partnershipsSection = document.getElementById('partnershipsSection');
+    if (partnershipsSection) partnershipsSection.style.display = 'none';
+    
+    const bannersSection = document.getElementById('bannersSection');
+    if (bannersSection) {
+        bannersSection.style.display = 'block';
+        loadBanners();
+    }
+}
+
+async function loadBanners() {
+    const loadingIndicator = document.getElementById('bannersLoadingIndicator');
+    const tableBody = document.getElementById('bannersTableBody');
+    const noBanners = document.getElementById('noBanners');
+    
+    try {
+        if (loadingIndicator) loadingIndicator.style.display = 'block';
+        if (tableBody) tableBody.innerHTML = '';
+        if (noBanners) noBanners.style.display = 'none';
+        
+        const token = localStorage.getItem('adminToken');
+        const response = await fetch('/api/banners', {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        
+        if (!response.ok) {
+            if (response.status === 401) {
+                logout();
+                return;
+            }
+            throw new Error('Failed to load banners');
+        }
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            allBanners = result.banners || [];
+            renderBannersTable();
+        } else {
+            throw new Error(result.error || 'Failed to load banners');
+        }
+        
+    } catch (error) {
+        console.error('Error loading banners:', error);
+        showNotification('Error loading banners: ' + error.message, 'error');
+        if (noBanners) noBanners.style.display = 'block';
+    } finally {
+        if (loadingIndicator) loadingIndicator.style.display = 'none';
+    }
+}
+
+function renderBannersTable() {
+    const tableBody = document.getElementById('bannersTableBody');
+    const noBanners = document.getElementById('noBanners');
+    
+    if (!allBanners || allBanners.length === 0) {
+        if (tableBody) tableBody.innerHTML = '';
+        if (noBanners) noBanners.style.display = 'block';
+        return;
+    }
+    
+    if (noBanners) noBanners.style.display = 'none';
+    
+    tableBody.innerHTML = allBanners.map(banner => {
+        const startDate = banner.startDate ? new Date(banner.startDate).toLocaleString() : 'Immediate';
+        const endDate = banner.endDate ? new Date(banner.endDate).toLocaleString() : 'Indefinite';
+        const impressions = banner.impressions || 0;
+        const clicks = banner.clicks || 0;
+        const ctr = impressions > 0 ? ((clicks / impressions) * 100).toFixed(2) + '%' : '0%';
+        
+        // Determine status
+        const now = new Date();
+        let statusClass = 'status-pending';
+        let statusText = 'Inactive';
+        
+        if (banner.active) {
+            const startOk = !banner.startDate || new Date(banner.startDate) <= now;
+            const endOk = !banner.endDate || new Date(banner.endDate) >= now;
+            
+            if (startOk && endOk) {
+                statusClass = 'status-confirmed';
+                statusText = 'Active';
+            } else if (!startOk) {
+                statusClass = 'status-pending';
+                statusText = 'Scheduled';
+            } else {
+                statusClass = 'status-rejected';
+                statusText = 'Expired';
+            }
+        }
+        
+        return `
+            <tr>
+                <td>${escapeHtml(banner.title)}</td>
+                <td>
+                    <span class="status-badge ${statusClass}">${statusText}</span>
+                </td>
+                <td>${startDate}</td>
+                <td>${endDate}</td>
+                <td>${impressions}</td>
+                <td>${clicks}</td>
+                <td>${ctr}</td>
+                <td>
+                    <div class="action-buttons">
+                        <button class="action-btn btn-edit" onclick="editBanner('${banner.id}')">Edit</button>
+                        <button class="action-btn ${banner.active ? 'btn-reject' : 'btn-confirm'}" onclick="toggleBannerStatus('${banner.id}', ${!banner.active})">
+                            ${banner.active ? 'Disable' : 'Enable'}
+                        </button>
+                        <button class="action-btn btn-reject" onclick="deleteBanner('${banner.id}')">Delete</button>
+                    </div>
+                </td>
+            </tr>
+        `;
+    }).join('');
+}
+
+function showBannerModal(banner = null) {
+    const isEdit = banner !== null;
+    const modal = document.getElementById('bannerModal');
+    const modalTitle = document.getElementById('bannerModalTitle');
+    const deleteBtn = document.getElementById('deleteBannerBtn');
+    
+    // Set modal title
+    if (modalTitle) {
+        modalTitle.textContent = isEdit ? 'Edit Banner' : 'Create Banner';
+    }
+    
+    // Show/hide delete button
+    if (deleteBtn) {
+        deleteBtn.style.display = isEdit ? 'inline-block' : 'none';
+    }
+    
+    // Populate form fields
+    document.getElementById('bannerId').value = banner ? banner.id : '';
+    document.getElementById('bannerTitle').value = banner ? banner.title : '';
+    document.getElementById('bannerDescription').value = banner ? (banner.description || '') : '';
+    document.getElementById('bannerImageUrl').value = banner ? (banner.imageUrl || '') : '';
+    document.getElementById('bannerRedirectUrl').value = banner ? banner.redirectUrl : '';
+    
+    // Handle datetime-local format for dates
+    if (banner && banner.startDate) {
+        const startDate = new Date(banner.startDate);
+        document.getElementById('bannerStartDate').value = formatDateTimeLocal(startDate);
+    } else {
+        document.getElementById('bannerStartDate').value = '';
+    }
+    
+    if (banner && banner.endDate) {
+        const endDate = new Date(banner.endDate);
+        document.getElementById('bannerEndDate').value = formatDateTimeLocal(endDate);
+    } else {
+        document.getElementById('bannerEndDate').value = '';
+    }
+    
+    document.getElementById('bannerDisplayDuration').value = banner ? (banner.displayDuration || 10) : 10;
+    document.getElementById('bannerDisplayFrequency').value = banner ? (banner.displayFrequency || 'once_per_session') : 'once_per_session';
+    
+    const activeCheckbox = document.getElementById('bannerActive');
+    if (activeCheckbox) {
+        activeCheckbox.checked = banner ? banner.active : true;
+        updateBannerActiveLabel();
+    }
+    
+    // Show modal
+    if (modal) {
+        modal.style.display = 'block';
+    }
+}
+
+function formatDateTimeLocal(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+}
+
+function updateBannerActiveLabel() {
+    const checkbox = document.getElementById('bannerActive');
+    const label = document.getElementById('bannerActiveLabel');
+    if (checkbox && label) {
+        label.textContent = checkbox.checked ? 'Active' : 'Inactive';
+    }
+}
+
+function closeBannerModal() {
+    const modal = document.getElementById('bannerModal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+    // Reset form
+    const form = document.getElementById('bannerForm');
+    if (form) {
+        form.reset();
+    }
+}
+
+function editBanner(bannerId) {
+    const banner = allBanners.find(b => b.id === bannerId);
+    if (banner) {
+        showBannerModal(banner);
+    }
+}
+
+async function saveBanner() {
+    try {
+        const bannerId = document.getElementById('bannerId').value;
+        const title = document.getElementById('bannerTitle').value.trim();
+        const description = document.getElementById('bannerDescription').value.trim();
+        const imageUrl = document.getElementById('bannerImageUrl').value.trim();
+        const redirectUrl = document.getElementById('bannerRedirectUrl').value.trim();
+        const startDateValue = document.getElementById('bannerStartDate').value;
+        const endDateValue = document.getElementById('bannerEndDate').value;
+        const displayDuration = parseInt(document.getElementById('bannerDisplayDuration').value) || 10;
+        const displayFrequency = document.getElementById('bannerDisplayFrequency').value;
+        const active = document.getElementById('bannerActive').checked;
+        
+        // Validate required fields
+        if (!title) {
+            throw new Error('Title is required');
+        }
+        if (!redirectUrl) {
+            throw new Error('Redirect URL is required');
+        }
+        
+        // Build banner data
+        const bannerData = {
+            title,
+            description: description || null,
+            imageUrl: imageUrl || null,
+            redirectUrl,
+            startDate: startDateValue ? new Date(startDateValue).toISOString() : null,
+            endDate: endDateValue ? new Date(endDateValue).toISOString() : null,
+            displayDuration,
+            displayFrequency,
+            active
+        };
+        
+        const token = localStorage.getItem('adminToken');
+        const isEdit = !!bannerId;
+        
+        const response = await fetch(`/api/banners${isEdit ? `/${bannerId}` : ''}`, {
+            method: isEdit ? 'PUT' : 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(bannerData)
+        });
+        
+        const result = await response.json();
+        
+        if (response.ok && result.success) {
+            showNotification(`Banner ${isEdit ? 'updated' : 'created'} successfully`, 'success');
+            closeBannerModal();
+            await loadBanners();
+        } else {
+            throw new Error(result.error || `Failed to ${isEdit ? 'update' : 'create'} banner`);
+        }
+        
+    } catch (error) {
+        console.error('Error saving banner:', error);
+        showNotification('Error saving banner: ' + error.message, 'error');
+    }
+}
+
+function deleteBanner(bannerId) {
+    const banner = allBanners.find(b => b.id === bannerId);
+    const bannerTitle = banner ? banner.title : 'this banner';
+    
+    showConfirmDialog(
+        `Are you sure you want to delete "${bannerTitle}"? This action cannot be undone.`,
+        () => performDeleteBanner(bannerId)
+    );
+}
+
+function deleteBannerFromModal() {
+    const bannerId = document.getElementById('bannerId').value;
+    if (bannerId) {
+        deleteBanner(bannerId);
+    }
+}
+
+async function performDeleteBanner(bannerId) {
+    try {
+        const token = localStorage.getItem('adminToken');
+        
+        const response = await fetch(`/api/banners/${bannerId}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        
+        const result = await response.json();
+        
+        if (response.ok && result.success) {
+            showNotification('Banner deleted successfully', 'success');
+            closeBannerModal();
+            await loadBanners();
+        } else {
+            throw new Error(result.error || 'Failed to delete banner');
+        }
+        
+    } catch (error) {
+        console.error('Error deleting banner:', error);
+        showNotification('Error deleting banner: ' + error.message, 'error');
+    }
+}
+
+async function toggleBannerStatus(bannerId, newStatus) {
+    try {
+        const token = localStorage.getItem('adminToken');
+        
+        const response = await fetch(`/api/banners/${bannerId}`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ active: newStatus })
+        });
+        
+        const result = await response.json();
+        
+        if (response.ok && result.success) {
+            showNotification(`Banner ${newStatus ? 'enabled' : 'disabled'} successfully`, 'success');
+            await loadBanners();
+        } else {
+            throw new Error(result.error || 'Failed to update banner status');
+        }
+        
+    } catch (error) {
+        console.error('Error toggling banner status:', error);
+        showNotification('Error updating banner status: ' + error.message, 'error');
+    }
+}
+
+// Add event listener for banner active toggle
+document.addEventListener('DOMContentLoaded', function() {
+    const bannerActiveCheckbox = document.getElementById('bannerActive');
+    if (bannerActiveCheckbox) {
+        bannerActiveCheckbox.addEventListener('change', updateBannerActiveLabel);
+    }
+});

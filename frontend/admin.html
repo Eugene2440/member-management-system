@@ -35,6 +35,7 @@
                 <li><a href="#" onclick="showSection('announcements')"><i class="fas fa-bullhorn"></i> Announcements</a></li>
                 <li><a href="#" onclick="showSection('partnerships')"><i class="fas fa-handshake"></i> Partnerships</a></li>
                 <li><a href="#" onclick="showSection('leadership')"><i class="fas fa-user-tie"></i> Leadership</a></li>
+                <li><a href="#" onclick="showSection('banners')"><i class="fas fa-ad"></i> Banners</a></li>
                 <li><button onclick="logout()" class="btn btn-secondary" style="padding: 10px 20px; border-radius: 25px;"><i class="fas fa-sign-out-alt"></i> Logout</button></li>
             </ul>
             <div class="nav-toggle">
@@ -181,6 +182,46 @@
                 
                 <div id="noMembers" class="no-members" style="display: none;">
                     <p>No members found matching your criteria.</p>
+                </div>
+            </section>
+
+            <!-- Banners Section -->
+            <section id="bannersSection" class="content-section" style="display: none;">
+                <div class="section-header">
+                    <h2><i class="fas fa-ad"></i> Promotional Banners</h2>
+                    <div class="section-actions">
+                        <button onclick="showBannerModal()" class="btn-primary"><i class="fas fa-plus"></i> Create Banner</button>
+                        <button onclick="loadBanners()" class="refresh-btn"><i class="fas fa-sync-alt"></i> Refresh</button>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table id="bannersTable" class="members-table">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Status</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Impressions</th>
+                                <th>Clicks</th>
+                                <th>CTR</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bannersTableBody">
+                            <!-- Banners will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="bannersLoadingIndicator" class="loading-indicator" style="display: none;">
+                    <div class="loading-spinner"></div>
+                    <p>Loading banners...</p>
+                </div>
+
+                <div id="noBanners" class="no-members" style="display: none;">
+                    <p>No banners found. Create your first promotional banner!</p>
                 </div>
             </section>
         </main>
@@ -354,6 +395,97 @@
             <div class="modal-footer">
                 <button onclick="closeConfirmModal()" class="btn-secondary">Cancel</button>
                 <button onclick="confirmAction()" class="btn-danger">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Banner Modal -->
+    <div id="bannerModal" class="modal">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h2 id="bannerModalTitle">Create Banner</h2>
+                <button onclick="closeBannerModal()" class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="bannerForm">
+                    <input type="hidden" id="bannerId">
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="bannerTitle">Title <span class="required">*</span></label>
+                            <input type="text" id="bannerTitle" name="title" required placeholder="Enter banner title">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="bannerDescription">Description</label>
+                            <textarea id="bannerDescription" name="description" rows="3" placeholder="Enter banner description (optional)"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="bannerImageUrl">Image URL</label>
+                            <input type="url" id="bannerImageUrl" name="imageUrl" placeholder="https://example.com/image.jpg (optional)">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="bannerRedirectUrl">Redirect URL <span class="required">*</span></label>
+                            <input type="url" id="bannerRedirectUrl" name="redirectUrl" required placeholder="https://example.com/page">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="bannerStartDate">Start Date</label>
+                            <input type="datetime-local" id="bannerStartDate" name="startDate">
+                            <small>Leave empty for immediate activation</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="bannerEndDate">End Date</label>
+                            <input type="datetime-local" id="bannerEndDate" name="endDate">
+                            <small>Leave empty for indefinite display</small>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="bannerDisplayDuration">Display Duration (seconds)</label>
+                            <input type="number" id="bannerDisplayDuration" name="displayDuration" min="1" max="60" value="10" placeholder="10">
+                            <small>Time before banner auto-closes (default: 10 seconds)</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="bannerDisplayFrequency">Display Frequency</label>
+                            <select id="bannerDisplayFrequency" name="displayFrequency">
+                                <option value="once_per_session">Once per session</option>
+                                <option value="every_visit">Every visit</option>
+                            </select>
+                            <small>How often to show the banner to users</small>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="bannerActive">Status</label>
+                            <div class="toggle-container">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="bannerActive" name="active" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                                <span id="bannerActiveLabel">Active</span>
+                            </div>
+                            <small>Toggle to enable or disable the banner</small>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button onclick="closeBannerModal()" class="btn-secondary">Cancel</button>
+                <button onclick="saveBanner()" class="btn-primary" id="saveBannerBtn">Save Banner</button>
+                <button onclick="deleteBannerFromModal()" class="btn-danger" id="deleteBannerBtn" style="display: none;">Delete Banner</button>
             </div>
         </div>
     </div>

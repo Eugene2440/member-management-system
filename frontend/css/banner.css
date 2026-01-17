@@ -1,0 +1,364 @@
+/* Promotional Banner Modal Styles */
+/* Follows AECAS design system - uses CSS variables from main.css */
+
+/* ============================================
+   Banner Overlay - Full-screen backdrop
+   ============================================ */
+.banner-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.banner-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* ============================================
+   Banner Modal - Centered container
+   ============================================ */
+.banner-modal {
+    background: var(--white, #ffffff);
+    border-radius: 20px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow: hidden;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+    transform: scale(0.9) translateY(20px);
+    transition: transform 0.3s ease;
+    position: relative;
+    cursor: pointer;
+}
+
+.banner-overlay.active .banner-modal {
+    transform: scale(1) translateY(0);
+}
+
+/* ============================================
+   Banner Close Button
+   ============================================ */
+.banner-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 36px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.95);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: var(--gray-600, #4b5563);
+    transition: all 0.2s ease;
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.banner-close:hover {
+    background: var(--white, #ffffff);
+    color: var(--primary-blue, #1e3a8a);
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.banner-close:focus {
+    outline: 2px solid var(--primary-blue, #1e3a8a);
+    outline-offset: 2px;
+}
+
+/* X icon using pseudo-elements */
+.banner-close::before,
+.banner-close::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 2px;
+    background-color: currentColor;
+    border-radius: 1px;
+}
+
+.banner-close::before {
+    transform: rotate(45deg);
+}
+
+.banner-close::after {
+    transform: rotate(-45deg);
+}
+
+/* ============================================
+   Banner Content Wrapper
+   ============================================ */
+.banner-content {
+    display: flex;
+    flex-direction: column;
+}
+
+/* ============================================
+   Banner Image
+   ============================================ */
+.banner-image {
+    width: 100%;
+    height: auto;
+    max-height: 280px;
+    object-fit: cover;
+    display: block;
+}
+
+.banner-image-container {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--primary-blue, #1e3a8a) 0%, var(--secondary-blue, #3b82f6) 100%);
+    min-height: 120px;
+}
+
+/* Fallback gradient when no image */
+.banner-image-container.no-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 150px;
+}
+
+.banner-image-container.no-image::after {
+    content: '📢';
+    font-size: 3rem;
+}
+
+/* ============================================
+   Banner Title
+   ============================================ */
+.banner-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-blue, #1e3a8a);
+    margin: 0 0 12px 0;
+    line-height: 1.3;
+    letter-spacing: -0.3px;
+}
+
+/* ============================================
+   Banner Description
+   ============================================ */
+.banner-description {
+    font-size: 1rem;
+    color: var(--gray-600, #4b5563);
+    margin: 0 0 20px 0;
+    line-height: 1.6;
+}
+
+/* ============================================
+   Banner Text Container
+   ============================================ */
+.banner-text {
+    padding: 25px;
+}
+
+/* ============================================
+   Banner CTA (Call to Action)
+   ============================================ */
+.banner-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--primary-orange, #eab308);
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.banner-cta::after {
+    content: '→';
+    transition: transform 0.2s ease;
+}
+
+.banner-modal:hover .banner-cta::after {
+    transform: translateX(4px);
+}
+
+.banner-modal:hover .banner-cta {
+    color: var(--secondary-orange, #ca8a04);
+}
+
+/* ============================================
+   Banner Progress Bar (auto-close timer)
+   ============================================ */
+.banner-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 4px;
+    background: var(--primary-orange, #eab308);
+    border-radius: 0 0 0 20px;
+    transition: width linear;
+}
+
+/* ============================================
+   Animations
+   ============================================ */
+@keyframes bannerFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes bannerSlideUp {
+    from {
+        transform: scale(0.9) translateY(30px);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+    }
+}
+
+.banner-overlay.active {
+    animation: bannerFadeIn 0.3s ease;
+}
+
+.banner-overlay.active .banner-modal {
+    animation: bannerSlideUp 0.4s ease;
+}
+
+/* ============================================
+   Responsive Design
+   ============================================ */
+@media (max-width: 768px) {
+    .banner-modal {
+        width: 95%;
+        max-width: none;
+        margin: 10px;
+        border-radius: 16px;
+    }
+
+    .banner-close {
+        top: 12px;
+        right: 12px;
+        width: 32px;
+        height: 32px;
+        font-size: 18px;
+    }
+
+    .banner-close::before,
+    .banner-close::after {
+        width: 14px;
+    }
+
+    .banner-image {
+        max-height: 220px;
+    }
+
+    .banner-text {
+        padding: 20px;
+    }
+
+    .banner-title {
+        font-size: 1.3rem;
+    }
+
+    .banner-description {
+        font-size: 0.95rem;
+        margin-bottom: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .banner-overlay {
+        padding: 15px;
+    }
+
+    .banner-modal {
+        width: 100%;
+        margin: 0;
+        border-radius: 12px;
+        max-height: calc(100vh - 30px);
+    }
+
+    .banner-close {
+        top: 10px;
+        right: 10px;
+        width: 30px;
+        height: 30px;
+    }
+
+    .banner-close::before,
+    .banner-close::after {
+        width: 12px;
+    }
+
+    .banner-image {
+        max-height: 180px;
+    }
+
+    .banner-text {
+        padding: 18px;
+    }
+
+    .banner-title {
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+    }
+
+    .banner-description {
+        font-size: 0.9rem;
+        line-height: 1.5;
+    }
+
+    .banner-cta {
+        font-size: 0.9rem;
+    }
+}
+
+/* ============================================
+   Accessibility
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+    .banner-overlay,
+    .banner-modal,
+    .banner-close,
+    .banner-cta::after,
+    .banner-progress {
+        transition: none;
+        animation: none;
+    }
+
+    .banner-overlay.active .banner-modal {
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .banner-modal {
+        border: 2px solid var(--gray-800, #1f2937);
+    }
+
+    .banner-close {
+        border: 2px solid var(--gray-600, #4b5563);
+    }
+}
+
+/* Focus visible for keyboard navigation */
+.banner-modal:focus-visible {
+    outline: 3px solid var(--primary-blue, #1e3a8a);
+    outline-offset: 2px;
+}

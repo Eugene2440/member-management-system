@@ -9,6 +9,7 @@ const eventRoutes = require('./routes/events');
 const announcementRoutes = require('./routes/announcements');
 const leadershipRoutes = require('./routes/leadership');
 const partnershipRoutes = require('./routes/partnerships');
+const bannerRoutes = require('./routes/banners');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -40,6 +41,7 @@ app.use('/api/events', eventRoutes);
 app.use('/api/announcements', announcementRoutes);
 app.use('/api/leadership', leadershipRoutes);
 app.use('/api/partnerships', partnershipRoutes);
+app.use('/api/banners', bannerRoutes);
 
 // Serve frontend
 app.get('/', (req, res) => {
