@@ -2286,12 +2286,18 @@ async function saveBanner() {
             throw new Error('Redirect URL is required');
         }
         
+        // Ensure redirect URL has a protocol
+        let finalRedirectUrl = redirectUrl;
+        if (!finalRedirectUrl.match(/^https?:\/\//i)) {
+            finalRedirectUrl = 'https://' + finalRedirectUrl;
+        }
+        
         // Build banner data
         const bannerData = {
             title,
             description: description || null,
             imageUrl: imageUrl || null,
-            redirectUrl,
+            redirectUrl: finalRedirectUrl,
             startDate: startDateValue ? new Date(startDateValue).toISOString() : null,
             endDate: endDateValue ? new Date(endDateValue).toISOString() : null,
             displayDuration,
