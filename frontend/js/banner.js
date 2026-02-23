@@ -301,7 +301,11 @@ function handleBannerClick(banner) {
     if (banner.redirectUrl) {
         // Small delay to ensure tracking request is sent
         setTimeout(() => {
-            window.location.href = banner.redirectUrl;
+            // Open URL in new tab exactly as provided
+            window.open(banner.redirectUrl, '_blank');
+            
+            // Close the banner
+            closeBanner(banner.id);
         }, 100);
     } else {
         // No redirect URL, just close the banner

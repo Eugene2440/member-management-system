@@ -426,8 +426,21 @@
 
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="bannerImageUrl">Image URL</label>
-                            <input type="url" id="bannerImageUrl" name="imageUrl" placeholder="https://example.com/image.jpg (optional)">
+                            <label for="bannerImageUrl">Banner Image</label>
+                            <div class="image-upload-container">
+                                <input type="file" id="bannerImageFile" accept="image/*" style="display: none;" onchange="handleBannerImageUpload(event)">
+                                <input type="url" id="bannerImageUrl" name="imageUrl" placeholder="Or paste image URL (optional)" style="margin-bottom: 10px;">
+                                <button type="button" onclick="document.getElementById('bannerImageFile').click()" class="btn-secondary" style="width: 100%;">
+                                    <i class="fas fa-upload"></i> Upload Image
+                                </button>
+                                <div id="bannerImagePreview" style="margin-top: 10px; display: none;">
+                                    <img id="bannerPreviewImg" style="max-width: 100%; max-height: 200px; border-radius: 8px;">
+                                    <button type="button" onclick="removeBannerImage()" class="btn-danger" style="margin-top: 10px; width: 100%;">
+                                        <i class="fas fa-trash"></i> Remove Image
+                                    </button>
+                                </div>
+                            </div>
+                            <small>Upload an image or paste a URL. Recommended size: 1200x400px</small>
                         </div>
                     </div>
 

@@ -2191,6 +2191,14 @@ function showBannerModal(banner = null) {
     document.getElementById('bannerImageUrl').value = banner ? (banner.imageUrl || '') : '';
     document.getElementById('bannerRedirectUrl').value = banner ? banner.redirectUrl : '';
     
+    // Handle image preview
+    if (banner && banner.imageUrl) {
+        document.getElementById('bannerPreviewImg').src = banner.imageUrl;
+        document.getElementById('bannerImagePreview').style.display = 'block';
+    } else {
+        document.getElementById('bannerImagePreview').style.display = 'none';
+    }
+    
     // Handle datetime-local format for dates
     if (banner && banner.startDate) {
         const startDate = new Date(banner.startDate);
@@ -2398,3 +2406,40 @@ document.addEventListener('DOMContentLoaded', function() {
         bannerActiveCheckbox.addEventListener('change', updateBannerActiveLabel);
     }
 });
+
+
+// Banner Image Upload Functions
+function handleBannerImageUpload(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+        showNotification('Please select an image file', 'error');
+        return;
+    }
+    
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+        showNotification('Image size must be less than 5MB', 'error');
+        return;
+    }
+    
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        // Compress and display preview
+        compressImage(e.target.result, function(compressedBase64) {
+            document.getElementById('bannerImageUrl').value = compressedBase64;
+            document.getElementById('bannerPreviewImg').src = compressedBase64;
+            document.getElementById('bannerImagePreview').style.display = 'block';
+        }, 0.8); // 80% quality for banners
+    };
+    reader.readAsDataURL(file);
+}
+
+function removeBannerImage() {
+    document.getElementById('bannerImageUrl').value = '';
+    document.getElementById('bannerImageFile').value = '';
+    document.getElementById('bannerImagePreview').style.display = 'none';
+    document.getElementById('bannerPreviewImg').src = '';
+}
