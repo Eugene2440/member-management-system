@@ -1,4 +1,6 @@
 // Dashboard functionality
+import { API_BASE_URL } from './config.js';
+
 let currentUser = null;
 let allMembers = [];
 let filteredMembers = [];
@@ -103,7 +105,7 @@ async function loadMembers() {
         noMembers.style.display = 'none';
         
         const token = localStorage.getItem('adminToken');
-        const response = await fetch('/api/members', {
+        const response = await fetch(`${API_BASE_URL}/members`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -275,7 +277,7 @@ function refreshMembers() {
 async function updatePaymentStatus(memberId, status) {
     try {
         const token = localStorage.getItem('adminToken');
-        const response = await fetch(`/api/members/${memberId}/payment`, {
+        const response = await fetch(`${API_BASE_URL}/members/${memberId}/payment`, {
             method: 'PATCH',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -377,7 +379,7 @@ async function saveMember() {
         }
         
         const token = localStorage.getItem('adminToken');
-        const response = await fetch(`/api/members/${memberId}`, {
+        const response = await fetch(`${API_BASE_URL}/members/${memberId}`, {
             method: 'PUT',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -415,7 +417,7 @@ async function performDeleteMember() {
         const memberId = document.getElementById('memberId').value;
         const token = localStorage.getItem('adminToken');
         
-        const response = await fetch(`/api/members/${memberId}`, {
+        const response = await fetch(`${API_BASE_URL}/members/${memberId}`, {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -872,7 +874,7 @@ function createEventsSection() {
 async function loadEvents() {
     try {
         const token = localStorage.getItem('adminToken');
-        const response = await fetch('/api/events', {
+        const response = await fetch(`${API_BASE_URL}/events`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -969,7 +971,7 @@ async function deleteEvent(eventId) {
     
     try {
         const token = localStorage.getItem('adminToken');
-        const response = await fetch(`/api/events/${eventId}`, {
+        const response = await fetch(`${API_BASE_URL}/events/${eventId}`, {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -1150,7 +1152,7 @@ async function saveEvent(eventId) {
         const eventData = { title, date, time, location, description, flyerImage, lumaRegistrationLink, remarks, notifyMembers };
         const token = localStorage.getItem('adminToken');
         
-        const response = await fetch(`/api/events${eventId ? `/${eventId}` : ''}`, {
+        const response = await fetch(`${API_BASE_URL}/events${eventId ? `/${eventId}` : ''}`, {
             method: eventId ? 'PUT' : 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -1253,7 +1255,7 @@ async function addImageToGallery(eventId, imageData) {
         gallery.push(imageData);
         
         const token = localStorage.getItem('adminToken');
-        const response = await fetch(`/api/events/${eventId}`, {
+        const response = await fetch(`${API_BASE_URL}/events/${eventId}`, {
             method: 'PUT',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -1286,7 +1288,7 @@ async function removeGalleryImage(eventId, index) {
         gallery.splice(index, 1);
         
         const token = localStorage.getItem('adminToken');
-        const response = await fetch(`/api/events/${eventId}`, {
+        const response = await fetch(`${API_BASE_URL}/events/${eventId}`, {
             method: 'PUT',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -1355,7 +1357,7 @@ function createAnnouncementsSection() {
 async function loadAnnouncements() {
     try {
         const token = localStorage.getItem('adminToken');
-        const response = await fetch('/api/announcements', {
+        const response = await fetch(`${API_BASE_URL}/announcements`, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         
@@ -1399,7 +1401,7 @@ function addAnnouncement() {
 }
 
 function editAnnouncement(id) {
-    fetch('/api/announcements', {
+    fetch(`${API_BASE_URL}/announcements`, {
         headers: { 'Authorization': `Bearer ${localStorage.getItem('adminToken')}` }
     })
     .then(r => r.json())
@@ -1468,7 +1470,7 @@ async function saveAnnouncement(id) {
         const data = { title, content, notifyMembers };
         const token = localStorage.getItem('adminToken');
         
-        const response = await fetch(`/api/announcements${id ? `/${id}` : ''}`, {
+        const response = await fetch(`${API_BASE_URL}/announcements${id ? `/${id}` : ''}`, {
             method: id ? 'PUT' : 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -1514,7 +1516,7 @@ async function deleteAnnouncement(id) {
     
     try {
         const token = localStorage.getItem('adminToken');
-        const response = await fetch(`/api/announcements/${id}`, {
+        const response = await fetch(`${API_BASE_URL}/announcements/${id}`, {
             method: 'DELETE',
             headers: { 'Authorization': `Bearer ${token}` }
         });
@@ -1569,7 +1571,7 @@ function createLeadershipSection() {
 async function loadLeadership() {
     try {
         const token = localStorage.getItem('adminToken');
-        const response = await fetch('/api/leadership', {
+        const response = await fetch(`${API_BASE_URL}/leadership`, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         
@@ -1621,7 +1623,7 @@ function addLeader() {
 }
 
 function editLeader(id) {
-    fetch('/api/leadership', {
+    fetch(`${API_BASE_URL}/leadership`, {
         headers: { 'Authorization': `Bearer ${localStorage.getItem('adminToken')}` }
     })
     .then(r => r.json())
@@ -1730,7 +1732,7 @@ async function saveLeader(id) {
         const data = { position, name, description, photo, order };
         const token = localStorage.getItem('adminToken');
         
-        const response = await fetch(`/api/leadership${id ? `/${id}` : ''}`, {
+        const response = await fetch(`${API_BASE_URL}/leadership${id ? `/${id}` : ''}`, {
             method: id ? 'PUT' : 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -1757,7 +1759,7 @@ async function deleteLeader(id) {
     
     try {
         const token = localStorage.getItem('adminToken');
-        const response = await fetch(`/api/leadership/${id}`, {
+        const response = await fetch(`${API_BASE_URL}/leadership/${id}`, {
             method: 'DELETE',
             headers: { 'Authorization': `Bearer ${token}` }
         });
@@ -1796,7 +1798,7 @@ function createPartnershipsSection() {
 async function loadPartnerships() {
     try {
         const token = localStorage.getItem('adminToken');
-        const response = await fetch('/api/partnerships', {
+        const response = await fetch(`${API_BASE_URL}/partnerships`, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         
@@ -1855,7 +1857,7 @@ function addPartnership() {
 }
 
 function editPartnership(id) {
-    fetch('/api/partnerships', {
+    fetch(`${API_BASE_URL}/partnerships`, {
         headers: { 'Authorization': `Bearer ${localStorage.getItem('adminToken')}` }
     })
     .then(r => r.json())
@@ -1987,7 +1989,7 @@ async function savePartnership(id) {
         const data = { name, description, link, email, phone, photo, order };
         const token = localStorage.getItem('adminToken');
         
-        const response = await fetch(`/api/partnerships${id ? `/${id}` : ''}`, {
+        const response = await fetch(`${API_BASE_URL}/partnerships${id ? `/${id}` : ''}`, {
             method: id ? 'PUT' : 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -2014,7 +2016,7 @@ async function deletePartnership(id) {
     
     try {
         const token = localStorage.getItem('adminToken');
-        const response = await fetch(`/api/partnerships/${id}`, {
+        const response = await fetch(`${API_BASE_URL}/partnerships/${id}`, {
             method: 'DELETE',
             headers: { 'Authorization': `Bearer ${token}` }
         });
@@ -2071,7 +2073,7 @@ async function loadBanners() {
         if (noBanners) noBanners.style.display = 'none';
         
         const token = localStorage.getItem('adminToken');
-        const response = await fetch('/api/banners', {
+        const response = await fetch(`${API_BASE_URL}/banners`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -2308,7 +2310,7 @@ async function saveBanner() {
         const token = localStorage.getItem('adminToken');
         const isEdit = !!bannerId;
         
-        const response = await fetch(`/api/banners${isEdit ? `/${bannerId}` : ''}`, {
+        const response = await fetch(`${API_BASE_URL}/banners${isEdit ? `/${bannerId}` : ''}`, {
             method: isEdit ? 'PUT' : 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -2354,7 +2356,7 @@ async function performDeleteBanner(bannerId) {
     try {
         const token = localStorage.getItem('adminToken');
         
-        const response = await fetch(`/api/banners/${bannerId}`, {
+        const response = await fetch(`${API_BASE_URL}/banners/${bannerId}`, {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -2381,7 +2383,7 @@ async function toggleBannerStatus(bannerId, newStatus) {
     try {
         const token = localStorage.getItem('adminToken');
         
-        const response = await fetch(`/api/banners/${bannerId}`, {
+        const response = await fetch(`${API_BASE_URL}/banners/${bannerId}`, {
             method: 'PUT',
             headers: {
                 'Authorization': `Bearer ${token}`,

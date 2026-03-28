@@ -1,3 +1,5 @@
+import { API_BASE_URL } from './config.js';
+
 // Registration form functionality
 document.addEventListener('DOMContentLoaded', function() {
     // Handle TUK Student Registration
@@ -89,7 +91,7 @@ async function handleRegistration(e, submitBtn, type) {
         }
         
         // Submit to API
-        const response = await fetch('/api/members/register', {
+        const response = await fetch(`${API_BASE_URL}/members/register`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

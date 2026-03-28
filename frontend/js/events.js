@@ -1,10 +1,8 @@
-const API_URL = window.location.hostname === 'localhost' 
-    ? 'http://localhost:3000/api' 
-    : 'https://member-management-system-e52u.onrender.com/api';
+import { API_BASE_URL } from './config.js';
 
 async function loadUpcomingEvents() {
     try {
-        const response = await fetch(`${API_URL}/events/public`);
+        const response = await fetch(`${API_BASE_URL}/events/public`);
         const data = await response.json();
         
         if (data.success && data.events.length > 0) {

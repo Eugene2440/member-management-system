@@ -1,3 +1,5 @@
+import { API_BASE_URL } from './config.js';
+
 // Login form functionality
 document.addEventListener('DOMContentLoaded', function() {
     const loginForm = document.getElementById('loginForm');
@@ -38,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             // Submit to API
-            const response = await fetch('/api/auth/login', {
+            const response = await fetch(`${API_BASE_URL}/auth/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -81,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 async function verifyTokenAndRedirect(token) {
     try {
-        const response = await fetch('/api/auth/verify', {
+        const response = await fetch(`${API_BASE_URL}/auth/verify`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,

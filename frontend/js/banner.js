@@ -5,10 +5,8 @@
  * Requirements: 3.1, 3.2, 3.3, 3.4, 3.5, 5.1, 5.3, 5.4, 7.1, 7.4
  */
 
-// API URL configuration - follows existing AECAS pattern
-const BANNER_API_URL = window.location.hostname === 'localhost' 
-    ? 'http://localhost:3000/api' 
-    : 'https://member-management-system-e52u.onrender.com/api';
+// Import centralized API configuration
+import { API_BASE_URL } from './config.js';
 
 // Session storage key prefix for tracking shown banners
 const BANNER_STORAGE_PREFIX = 'aecas_banner_shown_';
@@ -56,7 +54,7 @@ async function initBannerSystem() {
  */
 async function fetchActiveBanners() {
     try {
-        const response = await fetch(`${BANNER_API_URL}/banners/active`);
+        const response = await fetch(`${API_BASE_URL}/banners/active`);
         
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -336,10 +334,10 @@ async function trackEvent(bannerId, eventType) {
         // Try sendBeacon first for better reliability
         if (navigator.sendBeacon) {
             const blob = new Blob([data], { type: 'application/json' });
-            navigator.sendBeacon(`${BANNER_API_URL}/banners/track`, blob);
+            navigator.sendBeacon(`${API_BASE_URL}/banners/track`, blob);
         } else {
             // Fallback to fetch
-            fetch(`${BANNER_API_URL}/banners/track`, {
+            fetch(`${API_BASE_URL}/banners/track`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
