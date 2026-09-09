@@ -1,4 +1,6 @@
-import { API_BASE_URL } from './config.js';
+import { API_BASE_URL, safeLocalStorage } from './config.js';
+
+const localStorage = safeLocalStorage;
 
 // Login form functionality
 document.addEventListener('DOMContentLoaded', function() {

@@ -26,6 +26,84 @@ const isLocalhost = window.location.hostname === 'localhost' ||
 const LOCAL_API_URL = 'http://localhost:3000/api';
 const PRODUCTION_API_URL = 'https://aecas.onrender.com/api';
 
+function createSafeStorage(storageType = 'local') {
+    const memoryStore = Object.create(null);
+
+    const getTargetStorage = () => {
+        if (typeof window === 'undefined') {
+            return null;
+        }
+
+        try {
+            const target = storageType === 'session' ? window.sessionStorage : window.localStorage;
+            const checkKey = '__aecas_storage_check__';
+            target.setItem(checkKey, '1');
+            target.removeItem(checkKey);
+            return target;
+        } catch (error) {
+            return null;
+        }
+    };
+
+    return {
+        getItem(key) {
+            const target = getTargetStorage();
+            try {
+                if (target && typeof target.getItem === 'function') {
+                    return target.getItem(key);
+                }
+            } catch (error) {
+                // Ignore storage access errors and fall back to memory storage.
+            }
+
+            return Object.prototype.hasOwnProperty.call(memoryStore, key)
+                ? memoryStore[key]
+                : null;
+        },
+        setItem(key, value) {
+            const target = getTargetStorage();
+            const safeValue = String(value);
+
+            try {
+                if (target && typeof target.setItem === 'function') {
+                    target.setItem(key, safeValue);
+                    return;
+                }
+            } catch (error) {
+                // Fall back to in-memory storage when browser storage is blocked.
+            }
+
+            memoryStore[key] = safeValue;
+        },
+        removeItem(key) {
+            const target = getTargetStorage();
+
+            try {
+                if (target && typeof target.removeItem === 'function') {
+                    target.removeItem(key);
+                }
+            } catch (error) {
+                // Ignore storage access errors.
+            }
+
+            delete memoryStore[key];
+        },
+        clear() {
+            const target = getTargetStorage();
+
+            try {
+                if (target && typeof target.clear === 'function') {
+                    target.clear();
+                }
+            } catch (error) {
+                // Ignore storage access errors.
+            }
+
+            Object.keys(memoryStore).forEach((key) => delete memoryStore[key]);
+        }
+    };
+}
+
 /**
  * API_BASE_URL - The backend API base URL
  * 
@@ -38,3 +116,5 @@ const PRODUCTION_API_URL = 'https://aecas.onrender.com/api';
  * Requirements: 1.1, 1.5, 5.1, 5.2
  */
 export const API_BASE_URL = isLocalhost ? LOCAL_API_URL : PRODUCTION_API_URL;
+export const safeLocalStorage = createSafeStorage('local');
+export const safeSessionStorage = createSafeStorage('session');

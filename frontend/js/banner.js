@@ -6,7 +6,9 @@
  */
 
 // Import centralized API configuration
-import { API_BASE_URL } from './config.js';
+import { API_BASE_URL, safeSessionStorage } from './config.js';
+
+const sessionStorage = safeSessionStorage;
 
 // Session storage key prefix for tracking shown banners
 const BANNER_STORAGE_PREFIX = 'aecas_banner_shown_';

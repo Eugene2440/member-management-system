@@ -1,5 +1,32 @@
 // Dashboard functionality
-import { API_BASE_URL } from './config.js';
+import { API_BASE_URL, safeLocalStorage } from './config.js';
+
+const localStorage = safeLocalStorage;
+
+function safeReadJson(key, fallback) {
+    try {
+        const raw = localStorage.getItem(key);
+        if (!raw) return fallback;
+        const value = JSON.parse(raw);
+        return value ?? fallback;
+    } catch (error) {
+        console.warn(`Invalid cached value for ${key}, clearing it.`, error);
+        try {
+            localStorage.removeItem(key);
+        } catch (removeError) {
+            console.warn(`Unable to clear cached value for ${key}.`, removeError);
+        }
+        return fallback;
+    }
+}
+
+function safeWriteJson(key, value) {
+    try {
+        localStorage.setItem(key, JSON.stringify(value));
+    } catch (error) {
+        console.warn(`Unable to store ${key} in browser storage.`, error);
+    }
+}
 
 let currentUser = null;
 let allMembers = [];
@@ -8,18 +35,31 @@ let filteredMembers = [];
 document.addEventListener('DOMContentLoaded', function() {
     // Check authentication
     const token = localStorage.getItem('adminToken');
-    const userStr = localStorage.getItem('adminUser');
-    
-    if (!token || !userStr) {
+    let userData = null;
+
+    try {
+        userData = safeReadJson('adminUser', null);
+    } catch (error) {
+        console.warn('Unable to read cached admin user data.', error);
+        userData = null;
+    }
+
+    if (!token || !userData) {
+        try {
+            localStorage.removeItem('adminToken');
+            localStorage.removeItem('adminUser');
+        } catch (error) {
+            console.warn('Unable to clear stale auth data.', error);
+        }
         window.location.href = '/login';
         return;
     }
-    
+
     try {
-        currentUser = JSON.parse(userStr);
+        currentUser = userData;
         initializeDashboard();
     } catch (error) {
-        console.error('Error parsing user data:', error);
+        console.error('Error initializing dashboard user data:', error);
         logout();
     }
 });
@@ -898,7 +938,7 @@ function renderEvents(events) {
     const now = new Date().toISOString().split('T')[0];
     const view = window.currentEventView || 'upcoming';
     
-    localStorage.setItem('currentEvents', JSON.stringify(events));
+    safeWriteJson('currentEvents', events);
     
     const upcoming = events.filter(e => e.date >= now);
     const past = events.filter(e => e.date < now);
@@ -928,7 +968,7 @@ function renderEvents(events) {
 
 function toggleEventView(view) {
     window.currentEventView = view;
-    const events = JSON.parse(localStorage.getItem('currentEvents') || '[]');
+    const events = safeReadJson('currentEvents', []);
     renderEvents(events);
 }
 
@@ -959,7 +999,7 @@ function addNewEvent() {
 }
 
 function editEvent(eventId) {
-    const events = JSON.parse(localStorage.getItem('currentEvents') || '[]');
+    const events = safeReadJson('currentEvents', []);
     const event = events.find(e => e.id === eventId);
     if (event) {
         showEventModal(event);
@@ -1177,7 +1217,7 @@ async function saveEvent(eventId) {
 }
 
 function manageGallery(eventId) {
-    const events = JSON.parse(localStorage.getItem('currentEvents') || '[]');
+    const events = safeReadJson('currentEvents', []);
     const event = events.find(e => e.id === eventId);
     if (!event) return;
     
@@ -1247,7 +1287,7 @@ async function handleGalleryUpload(event, eventId) {
 
 async function addImageToGallery(eventId, imageData) {
     try {
-        const events = JSON.parse(localStorage.getItem('currentEvents') || '[]');
+        const events = safeReadJson('currentEvents', []);
         const event = events.find(e => e.id === eventId);
         if (!event) return;
         
@@ -1280,7 +1320,7 @@ async function removeGalleryImage(eventId, index) {
     if (!confirm('Remove this image from gallery?')) return;
     
     try {
-        const events = JSON.parse(localStorage.getItem('currentEvents') || '[]');
+        const events = safeReadJson('currentEvents', []);
         const event = events.find(e => e.id === eventId);
         if (!event) return;
         
