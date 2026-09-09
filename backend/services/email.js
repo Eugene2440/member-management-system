@@ -3,10 +3,22 @@ const nodemailer = require('nodemailer');
 // Base URL for links
 const BASE_URL = process.env.BASE_URL || 'https://aecas.co.ke';
 
-// Create reusable transporter
+// Parse EMAIL_FROM (e.g. `AECAS <support@aecas.co.ke>`) into { name, email }
+const parseFrom = () => {
+    const raw = process.env.EMAIL_FROM || process.env.SMTP_USER || 'AECAS <support@aecas.co.ke>';
+    const match = raw.match(/^\s*(.*?)\s*<([^>]+)>\s*$/);
+    if (match) {
+        return { name: match[1], email: match[2] };
+    }
+    return { name: 'AECAS', email: raw.trim() };
+};
+
+const FROM = parseFrom();
+
+// Create reusable transporter (Brevo SMTP or any SMTP host)
 const createTransporter = () => {
     return nodemailer.createTransport({
-        host: process.env.SMTP_HOST || 'smtp.gmail.com',
+        host: process.env.SMTP_HOST || 'smtp-relay.brevo.com',
         port: parseInt(process.env.SMTP_PORT) || 587,
         secure: false,
         auth: {
@@ -16,9 +28,46 @@ const createTransporter = () => {
     });
 };
 
-// Check if email is configured
+// Check if email is configured (Brevo HTTP API key OR SMTP credentials)
 const isEmailConfigured = () => {
-    return process.env.SMTP_USER && process.env.SMTP_PASS;
+    return !!(process.env.BREVO_API_KEY || (process.env.SMTP_USER && process.env.SMTP_PASS));
+};
+
+// Send a single email via the Brevo Transactional HTTP API (no SMTP required,
+// works on hosts that block outbound SMTP, e.g. Render free tier allows only ports 80/443)
+const sendBrevoEmail = async (to, subject, html) => {
+    if (typeof fetch !== 'function') {
+        throw new Error('Global fetch is unavailable in this Node version; set SMTP_USER/SMTP_PASS to use SMTP sending.');
+    }
+
+    const response = await fetch('https://api.brevo.com/v3/smtp/email', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'api-key': process.env.BREVO_API_KEY
+        },
+        body: JSON.stringify({
+            sender: { name: FROM.name, email: FROM.email },
+            to: [{ email: to }],
+            subject,
+            htmlContent: html
+        })
+    });
+
+    if (!response.ok) {
+        let detail = '';
+        try {
+            const body = await response.json();
+            detail = body.message || JSON.stringify(body);
+        } catch (_) { /* response body is not JSON */ }
+        throw new Error(`Brevo API error ${response.status}: ${detail || response.statusText}`);
+    }
+
+    const data = await response.json();
+    const messageId = data.messageId || `brevo-${Date.now()}`;
+    console.log('Email sent successfully via Brevo API:', messageId);
+    return { success: true, messageId };
 };
 
 // Send single email
@@ -29,9 +78,15 @@ const sendEmail = async (to, subject, html) => {
     }
 
     try {
+        // Prefer the Brevo HTTP API when an API key is configured (works on
+        // hosts that block outbound SMTP, e.g. Render free tier).
+        if (process.env.BREVO_API_KEY) {
+            return await sendBrevoEmail(to, subject, html);
+        }
+
         const transporter = createTransporter();
         const mailOptions = {
-            from: process.env.EMAIL_FROM || process.env.SMTP_USER,
+            from: `${FROM.name} <${FROM.email}>`,
             to,
             subject,
             html
@@ -63,8 +118,13 @@ const sendBulkEmail = async (recipients, subject, html) => {
             const personalizedHtml = html.replace(/{{email}}/g, recipient.email)
                                          .replace(/{{name}}/g, recipient.name || 'Member');
             
-            await sendEmail(recipient.email, subject, personalizedHtml);
-            results.sent++;
+            const result = await sendEmail(recipient.email, subject, personalizedHtml);
+            if (result.success) {
+                results.sent++;
+            } else {
+                results.failed++;
+                results.errors.push({ email: recipient.email, error: result.error || result.reason || 'Unknown error' });
+            }
         } catch (error) {
             results.failed++;
             results.errors.push({ email: recipient.email, error: error.message });
@@ -72,7 +132,7 @@ const sendBulkEmail = async (recipients, subject, html) => {
     }
     
     console.log(`Bulk email complete: ${results.sent} sent, ${results.failed} failed`);
-    return { success: true, ...results };
+    return { success: results.failed === 0, ...results };
 };
 
 // Common email footer with unsubscribe link (GDPR/DPA compliant)
@@ -423,6 +483,16 @@ const getAnnouncementEmailHTML = (announcementData, memberEmail) => {
 </html>`;
 };
 
+
+// ============ STARTUP STATUS ============
+
+if (!isEmailConfigured()) {
+    console.log('⚠️ [WARN] EMAIL NOT CONFIGURED — set SMTP_USER/SMTP_PASS or BREVO_API_KEY in your .env to enable sending.');
+} else if (process.env.BREVO_API_KEY) {
+    console.log(`✅ Email configured via Brevo HTTP API (from: ${FROM.name} <${FROM.email}>)`);
+} else {
+    console.log(`✅ Email configured via SMTP (${process.env.SMTP_HOST || 'smtp-relay.brevo.com'}, from: ${FROM.name} <${FROM.email}>)`);
+}
 
 // ============ EXPORT FUNCTIONS ============
 

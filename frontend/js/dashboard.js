@@ -2375,6 +2375,65 @@ async function saveBanner() {
     }
 }
 
+// ============================================================
+// Expose dashboard functions to inline onclick handlers.
+//
+// admin.html loads this file as a module (<script type="module">),
+// so functions declared here live in module scope and are NOT
+// visible to global inline `onclick="..."` attributes. Attach the
+// functions used by those handlers to `window` so the buttons work.
+// ============================================================
+Object.assign(window, {
+    addAnnouncement,
+    addLeader,
+    addNewEvent,
+    addPartnership,
+    applyFilters,
+    clearFilters,
+    closeAnnouncementModal,
+    closeBannerModal,
+    closeConfirmModal,
+    closeEventModal,
+    closeFlyerViewModal,
+    closeGalleryModal,
+    closeLeaderModal,
+    closeMemberModal,
+    closePartnershipModal,
+    confirmAction,
+    deleteAnnouncement,
+    deleteBanner,
+    deleteBannerFromModal,
+    deleteEvent,
+    deleteLeader,
+    deleteMember,
+    deletePartnership,
+    editAnnouncement,
+    editBanner,
+    editEvent,
+    editLeader,
+    editMember,
+    editPartnership,
+    loadBanners,
+    logout,
+    manageGallery,
+    refreshMembers,
+    removeBannerImage,
+    removeGalleryImage,
+    saveAnnouncement,
+    saveBanner,
+    saveEvent,
+    saveLeader,
+    saveMember,
+    savePartnership,
+    searchMembers,
+    showBannerModal,
+    showSection,
+    toggleBannerStatus,
+    toggleEventView,
+    updatePaymentStatus,
+    viewEventFlyer
+});
+
 function deleteBanner(bannerId) {
     const banner = allBanners.find(b => b.id === bannerId);
     const bannerTitle = banner ? banner.title : 'this banner';

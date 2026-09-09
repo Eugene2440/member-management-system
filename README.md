@@ -82,19 +82,24 @@ FIREBASE_APP_ID=your_app_id
 # Authentication
 JWT_SECRET=your_secure_random_string
 
-# Email Configuration
-SMTP_HOST=smtp.gmail.com
+# Email Configuration (Brevo)
+SMTP_HOST=smtp-relay.brevo.com
 SMTP_PORT=587
-SMTP_USER=your_email@gmail.com
-SMTP_PASS=your_app_password
-EMAIL_FROM=AECAS <noreply@aecas.co.ke>
+SMTP_USER=your_brevo_login_email
+SMTP_PASS=your_brevo_smtp_key
+EMAIL_FROM="AECAS <support@aecas.co.ke>"
+# BREVO_API_KEY=xkeysib-...  # Optional; preferred for Render free tier (outbound SMTP blocked)
 ```
 
-### Gmail Setup for SMTP
+### Brevo Setup for Email
 
-1. Enable 2-Factor Authentication on your Google account
-2. Generate an App Password: Google Account → Security → App Passwords
-3. Use the 16-character app password as `SMTP_PASS`
+1. Create a free account at https://www.brevo.com
+2. Verify the sender (`support@aecas.co.ke`) or your domain: Settings → Senders & IP → Add a sender (this adds SPF/DKIM DNS records — required before Brevo allows sending)
+3. Generate credentials under SMTP & API:
+   - **SMTP Key** → use your Brevo login email as `SMTP_USER` and the key as `SMTP_PASS`
+   - **API Keys** → optional `BREVO_API_KEY` (starts with `xkeysib-`). Preferred: works via HTTPS on any host, including Render's free tier which only allows outbound ports 80/443 (outbound SMTP port 587 is blocked there).
+
+> **Note:** The free Brevo plan is limited to **300 emails/day**. Bulk "notify all members" sends count against this quota.
 
 ## API Endpoints
 

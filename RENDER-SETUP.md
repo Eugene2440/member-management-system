@@ -39,6 +39,15 @@ FIREBASE_MESSAGING_SENDER_ID=491333029318
 FIREBASE_APP_ID=1:491333029318:web:b22ab906a3749ef701f6c7
 JWT_SECRET=c855fa737e7c5d4f722baa772369f67c478967188a7bc136ac3c1015735a75a7
 NODE_ENV=production
+
+# Email (Brevo - verify the sender first at https://www.brevo.com)
+SMTP_HOST=smtp-relay.brevo.com
+SMTP_PORT=587
+SMTP_USER=your_brevo_login_email
+SMTP_PASS=your_brevo_smtp_key
+EMAIL_FROM="AECAS <support@aecas.co.ke>"
+# BREVO_API_KEY=xkeysib-...   # Optional; recommended - Render free tier blocks outbound SMTP
+BASE_URL=https://www.aecas.co.ke
 ```
 
 ## Step 5: Deploy
