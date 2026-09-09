@@ -140,7 +140,7 @@ const getEmailFooter = (email = '') => {
     return `
         <!-- Footer -->
         <div style="background-color: #1e3a8a; padding: 30px; text-align: center;">
-            <p style="color: #e0e7ff; margin: 0 0 10px 0; font-size: 14px;">Building Tomorrow's Professionals Today</p>
+            <p style="color: #e0e7ff; margin: 0 0 10px 0; font-size: 14px;">Fostering Interdisciplinary Collaboration in Engineering and the Built Environment</p>
             <p style="color: #93c5fd; margin: 0; font-size: 12px;">Technical University of Kenya, Haile Selassie Avenue, Nairobi</p>
             <div style="margin-top: 20px;">
                 <a href="${BASE_URL}" style="color: #ffffff; text-decoration: none; margin: 0 10px; font-size: 12px;">Website</a>
