@@ -180,6 +180,24 @@ async function loadMembers() {
     }
 }
 
+function getEffectiveMembershipStatus(member) {
+    if (!member) return 'inactive';
+
+    if (member.membershipStatus === 'renewal_pending') return 'renewal_pending';
+    if (member.membershipStatus === 'renewal_confirmed') return 'renewal_confirmed';
+    if (member.membershipStatus === 'expired') return 'expired';
+
+    const paymentIsConfirmed = member.paymentStatus === 'confirmed';
+    const membershipDate = member.membershipEndDate ? new Date(member.membershipEndDate) : null;
+    const eligibleForRenewal = paymentIsConfirmed && (!membershipDate || Number.isNaN(membershipDate.getTime()) || membershipDate <= new Date());
+
+    if (eligibleForRenewal) {
+        return 'inactive';
+    }
+
+    return member.membershipStatus || 'active';
+}
+
 function renderMembersTable() {
     const tableBody = document.getElementById('membersTableBody');
     const noMembers = document.getElementById('noMembers');
@@ -195,6 +213,8 @@ function renderMembersTable() {
     tableBody.innerHTML = filteredMembers.map(member => {
         const registrationDate = new Date(member.registrationDate).toLocaleDateString();
         const statusClass = `status-${member.paymentStatus}`;
+        const membershipStatus = getEffectiveMembershipStatus(member);
+        const renewalClass = membershipStatus === 'renewal_pending' ? 'status-pending' : membershipStatus === 'inactive' ? 'status-rejected' : 'status-confirmed';
         
         return `
             <tr>
@@ -207,6 +227,7 @@ function renderMembersTable() {
                 <td>${escapeHtml(member.paymentReference || 'N/A')}</td>
                 <td>${escapeHtml(member.membershipType)}</td>
                 <td><span class="status-badge ${statusClass}">${member.paymentStatus}</span></td>
+                <td><span class="status-badge ${renewalClass}">${membershipStatus}</span></td>
                 <td>${registrationDate}</td>
                 <td>
                     <div class="action-buttons">
@@ -226,6 +247,10 @@ function getActionButtons(member) {
     if (['registrar', 'admin'].includes(role)) {
         buttons += `<button class="action-btn btn-edit" onclick="editMember('${member.id}')">Edit</button>`;
     }
+
+    if (['registrar', 'admin'].includes(role) && member.membershipStatus === 'renewal_pending') {
+        buttons += `<button class="action-btn btn-confirm" onclick="confirmRenewal('${member.id}')">Confirm Renewal</button>`;
+    }
     
     // Payment status buttons for registrar and admin
     if (['registrar', 'admin'].includes(role)) {
@@ -244,6 +269,7 @@ function updateStats() {
     const totalMembers = allMembers.length;
     const pendingPayments = allMembers.filter(m => m.paymentStatus === 'pending').length;
     const confirmedPayments = allMembers.filter(m => m.paymentStatus === 'confirmed').length;
+    const renewalPending = allMembers.filter(m => (m.membershipStatus || 'active') === 'renewal_pending').length;
     
     // This month members (registered in current month)
     const currentMonth = new Date().getMonth();
@@ -257,6 +283,10 @@ function updateStats() {
     document.getElementById('pendingPayments').textContent = pendingPayments;
     document.getElementById('confirmedPayments').textContent = confirmedPayments;
     document.getElementById('thisMonthMembers').textContent = thisMonthMembers;
+    const renewalIndicator = document.getElementById('renewalPendingCount');
+    if (renewalIndicator) {
+        renewalIndicator.textContent = renewalPending;
+    }
 }
 
 function searchMembers() {
@@ -267,9 +297,12 @@ function applyFilters() {
     const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
     const paymentStatusFilter = document.getElementById('paymentStatusFilter').value;
     const membershipTypeFilter = document.getElementById('membershipTypeFilter').value;
+    const membershipStatusFilter = document.getElementById('membershipStatusFilter').value;
     const courseFilter = document.getElementById('courseFilter').value;
     
     filteredMembers = allMembers.filter(member => {
+        const memberMembershipStatus = getEffectiveMembershipStatus(member);
+
         // Search filter - expanded to include new fields
         const matchesSearch = !searchTerm || 
             member.name.toLowerCase().includes(searchTerm) ||
@@ -289,12 +322,16 @@ function applyFilters() {
         // Membership type filter
         const matchesMembershipType = !membershipTypeFilter || 
             member.membershipType === membershipTypeFilter;
+
+        // Membership status filter
+        const matchesMembershipStatus = !membershipStatusFilter ||
+            memberMembershipStatus === membershipStatusFilter;
         
         // Course filter
         const matchesCourse = !courseFilter || 
             member.course === courseFilter || member.areaOfInterest === courseFilter;
         
-        return matchesSearch && matchesPaymentStatus && matchesMembershipType && matchesCourse;
+        return matchesSearch && matchesPaymentStatus && matchesMembershipType && matchesMembershipStatus && matchesCourse;
     });
     
     renderMembersTable();
@@ -304,6 +341,7 @@ function clearFilters() {
     document.getElementById('searchInput').value = '';
     document.getElementById('paymentStatusFilter').value = '';
     document.getElementById('membershipTypeFilter').value = '';
+    document.getElementById('membershipStatusFilter').value = '';
     document.getElementById('courseFilter').value = '';
     
     filteredMembers = [...allMembers];
@@ -312,6 +350,39 @@ function clearFilters() {
 
 function refreshMembers() {
     loadMembers();
+}
+
+window.confirmRenewal = confirmRenewal;
+window.updatePaymentStatus = updatePaymentStatus;
+window.editMember = editMember;
+window.deleteMember = deleteMember;
+window.logout = logout;
+window.showSection = showSection;
+
+async function confirmRenewal(memberId) {
+    try {
+        const token = localStorage.getItem('adminToken');
+        const response = await fetch(`${API_BASE_URL}/members/${memberId}/renewal/confirm`, {
+            method: 'PATCH',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ notes: 'Membership renewed successfully.' })
+        });
+
+        const result = await response.json();
+
+        if (response.ok && result.success) {
+            showNotification('Membership renewal confirmed successfully', 'success');
+            await loadMembers();
+        } else {
+            throw new Error(result.error || 'Failed to confirm renewal');
+        }
+    } catch (error) {
+        console.error('Error confirming renewal:', error);
+        showNotification('Error confirming renewal: ' + error.message, 'error');
+    }
 }
 
 async function updatePaymentStatus(memberId, status) {

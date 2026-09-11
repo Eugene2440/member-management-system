@@ -115,26 +115,16 @@ async function generateMemberNumberInTransaction(transaction, memberData) {
 }
 
 async function generateMemberNumber(memberData) {
-  if (memberData.memberNumber) {
-    return memberData.memberNumber;
-  }
-
   try {
     return await runTransaction(db, async (transaction) => {
       return generateMemberNumberInTransaction(transaction, memberData);
     });
   } catch (error) {
     console.error('Error generating member number:', error);
-    if (memberData.memberNumber) {
-      return memberData.memberNumber;
-    }
-
-    const courseCode = getCourseCode(memberData);
-    const fallbackNumber = memberData.memberType === 'non-student'
-      ? `AECAS/ASS/${courseCode}/001`
-      : `AECAS/${courseCode}/001`;
-
-    return fallbackNumber;
+    const timestamp = Date.now().toString().slice(-3);
+    return memberData.memberType === 'non-student'
+      ? `AECAS/ASS/GEN/${timestamp}`
+      : `AECAS/GEN/${timestamp}`;
   }
 }
 
@@ -165,59 +155,6 @@ function isRenewalEligible(memberData) {
   return isWithinAnnualRenewalWindow(memberData);
 }
 
-function getEffectiveMembershipStatus(memberData) {
-  if (!memberData) return 'inactive';
-
-  if (memberData.membershipStatus === 'renewal_pending') return 'renewal_pending';
-  if (memberData.membershipStatus === 'renewal_confirmed') return 'renewal_confirmed';
-  if (memberData.membershipStatus === 'expired') return 'expired';
-
-  if (isRenewalEligible(memberData)) {
-    return 'inactive';
-  }
-
-  return memberData.membershipStatus || 'active';
-}
-
-function buildLookupVariants(fieldName, rawValue) {
-  const variants = new Set();
-  const value = String(rawValue ?? '').trim();
-
-  if (!value) {
-    return [];
-  }
-
-  variants.add(value);
-
-  if (fieldName === 'email') {
-    const normalizedEmail = normalizeEmail(value);
-    variants.add(normalizedEmail);
-    variants.add(normalizeIdentifier(value));
-  }
-
-  if (fieldName === 'phone') {
-    const digitsOnly = value.replace(/\D/g, '');
-    variants.add(normalizePhone(value));
-    variants.add(digitsOnly);
-    variants.add(normalizeIdentifier(value));
-
-    if (digitsOnly.startsWith('254')) {
-      variants.add(`0${digitsOnly.slice(3)}`);
-    }
-
-    if (digitsOnly.startsWith('0')) {
-      variants.add(`+254${digitsOnly.slice(1)}`);
-    }
-  }
-
-  if (fieldName === 'memberNumber') {
-    variants.add(value.toUpperCase());
-    variants.add(normalizeIdentifier(value));
-  }
-
-  return [...variants].filter(Boolean);
-}
-
 async function findMemberByIdentifiers({ memberNumber, email, phone }) {
   const suppliedValues = {
     memberNumber: normalizeIdentifier(memberNumber),
@@ -240,20 +177,25 @@ async function findMemberByIdentifiers({ memberNumber, email, phone }) {
     const candidateMap = new Map();
 
     for (const fieldName of providedFields) {
-      const rawValue = fieldName === 'memberNumber' ? memberNumber : fieldName === 'email' ? email : phone;
-      const lookupVariants = buildLookupVariants(fieldName, rawValue);
+      const queryValue = suppliedValues[fieldName];
+      if (!queryValue) continue;
 
-      for (const lookupValue of lookupVariants) {
-        const lookupQuery = query(collection(db, 'members'), where(fieldName, '==', lookupValue));
-        const snapshot = await getDocs(lookupQuery);
+      const lookupQuery = query(
+        collection(db, 'members'),
+        where(
+          fieldName,
+          '==',
+          fieldName === 'email' ? normalizeEmail(queryValue) : fieldName === 'phone' ? normalizePhone(queryValue) : queryValue
+        )
+      );
 
-        snapshot.forEach((memberDoc) => {
-          const member = { id: memberDoc.id, ...memberDoc.data() };
-          const currentEntry = candidateMap.get(memberDoc.id) || { member, matchCount: 0 };
-          currentEntry.matchCount += 1;
-          candidateMap.set(memberDoc.id, currentEntry);
-        });
-      }
+      const snapshot = await getDocs(lookupQuery);
+      snapshot.forEach((memberDoc) => {
+        const member = { id: memberDoc.id, ...memberDoc.data() };
+        const currentEntry = candidateMap.get(memberDoc.id) || { member, matchCount: 0 };
+        currentEntry.matchCount += 1;
+        candidateMap.set(memberDoc.id, currentEntry);
+      });
     }
 
     const matches = [...candidateMap.values()].filter(({ member }) => {
@@ -589,7 +531,6 @@ router.get('/', verifyRole(['registrar', 'admin']), async (req, res) => {
 
     querySnapshot.forEach((memberDoc) => {
       const memberData = { id: memberDoc.id, ...memberDoc.data() };
-      memberData.membershipStatus = getEffectiveMembershipStatus(memberData);
 
       if (search) {
         const searchLower = search.toLowerCase();
@@ -627,7 +568,7 @@ router.put('/:id', verifyRole(['registrar', 'admin']), async (req, res) => {
       const memberDoc = await getDoc(doc(db, 'members', id));
       if (memberDoc.exists()) {
         const memberData = { ...memberDoc.data(), ...updateData };
-        if (memberData.paymentStatus === 'confirmed' && !memberData.memberNumber) {
+        if (memberData.paymentStatus === 'confirmed') {
           updateData.memberNumber = await generateMemberNumber(memberData);
         }
       }

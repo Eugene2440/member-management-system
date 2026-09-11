@@ -64,6 +64,10 @@ app.get('/join', (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend/join.html'));
 });
 
+app.get('/renew', (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/renew.html'));
+});
+
 app.get('/contact', (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend/contact.html'));
 });

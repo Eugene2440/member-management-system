@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Renew Membership - AECAS</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="icon" type="image/jpeg" href="css/logo.jpg">
+    
+    <style>
+        .renew-wrapper {
+            max-width: 760px;
+            margin: 120px auto 60px;
+            padding: 0 20px;
+        }
+
+        .renew-card {
+            background: var(--white, #fff);
+            border-radius: 20px;
+            box-shadow: 0 20px 45px rgba(15, 27, 45, 0.08);
+            padding: 32px;
+        }
+
+        .renew-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .renew-header p {
+            color: var(--gray-600, #666);
+            margin-top: 8px;
+        }
+
+        .amount-box {
+            background: linear-gradient(135deg, rgba(34, 120, 255, 0.08), rgba(255, 153, 0, 0.12));
+            border: 1px solid rgba(34, 120, 255, 0.08);
+            border-radius: 16px;
+            padding: 18px 20px;
+            margin: 20px 0 24px;
+            text-align: center;
+        }
+
+        .amount-box strong {
+            font-size: 2rem;
+            display: block;
+            color: var(--primary-blue, #2278ff);
+        }
+
+        .verification-box,
+        .payment-box {
+            display: none;
+        }
+
+        .verification-box.active,
+        .payment-box.active {
+            display: block;
+        }
+
+        .field-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 18px;
+        }
+
+        .member-summary {
+            background: var(--light-blue, #eef5ff);
+            border-radius: 14px;
+            padding: 18px;
+            margin-top: 20px;
+            color: var(--gray-800, #333);
+        }
+
+        .member-summary p {
+            margin: 6px 0;
+        }
+
+        .muted {
+            color: var(--gray-600, #666);
+            font-size: 0.95rem;
+        }
+
+        .status-chip {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            background: rgba(40, 167, 69, 0.12);
+            color: #1e7e34;
+        }
+
+        .alert-message {
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            font-weight: 500;
+        }
+
+        .alert-message.error {
+            background-color: #f8d7da;
+            color: #842029;
+            border: 1px solid #f5c2c7;
+        }
+
+        .alert-message.success {
+            background-color: #d1e7dd;
+            color: #0f5132;
+            border: 1px solid #badbcc;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="home.html" class="nav-logo">
+                <img src="css/logo.jpg" alt="AECAS Logo">
+                <div class="nav-logo-text">
+                    <span class="nav-logo-title">AECAS</span>
+                    <span class="nav-logo-subtitle">The Association of Engineering Construction and Architecture Students</span>
+                </div>
+            </a>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="home.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="events.html"><i class="fas fa-calendar-alt"></i> Events</a></li>
+                <li><a href="leadership.html"><i class="fas fa-users"></i> Leadership</a></li>
+                <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+                <li><a href="join.html" class="btn btn-primary" style="padding: 10px 20px; border-radius: 25px;"><i class="fas fa-user-plus"></i> Join AECAS</a></li>
+            </ul>
+            <button class="nav-toggle" aria-label="Toggle Navigation Menu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <main class="renew-wrapper">
+        <div class="renew-card">
+            <div id="alertBanner" class="alert-message" role="alert"></div>
+
+            <div class="renew-header">
+                <h1>Renew Your Membership</h1>
+                <p>Verify your existing record, pay KSh 100, and submit your payment reference for confirmation.</p>
+            </div>
+
+            <div class="amount-box">
+                <span class="muted">Annual Renewal Fee</span>
+                <strong>KSh 100</strong>
+                <span class="muted">All members joining before August 10 qualify for annual renewal.</span>
+            </div>
+
+            <div id="verificationBox" class="verification-box active">
+                <form id="renewalVerifyForm">
+                    <div class="field-grid">
+                        <div class="form-group">
+                            <label for="memberNumber">Member Number</label>
+                            <input type="text" id="memberNumber" name="memberNumber" placeholder="AECAS/CE/001">
+                        </div>
+                        <div class="form-group">
+                            <label for="renewEmail">Email Address</label>
+                            <input type="email" id="renewEmail" name="email" placeholder="you@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="renewPhone">Phone Number</label>
+                            <input type="tel" id="renewPhone" name="phone" placeholder="0712345678">
+                        </div>
+                    </div>
+
+                    <p class="muted" style="margin-top: 16px;">
+                        Enter any two of the three fields above. The system will verify your existing member record.
+                    </p>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 18px;">
+                        Verify Membership
+                    </button>
+                </form>
+            </div>
+
+            <div id="paymentBox" class="payment-box">
+                <div class="member-summary" id="memberSummary"></div>
+
+                <form id="renewalPaymentForm" style="margin-top: 22px;">
+                    <div class="form-group">
+                        <label for="paymentReference">Payment Reference</label>
+                        <input type="text" id="paymentReference" name="paymentReference" placeholder="Transaction code or payment reference" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="renewalNotes">Notes (optional)</label>
+                        <textarea id="renewalNotes" name="renewalNotes" rows="3" placeholder="Any additional note for the admin"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 8px;">
+                        Submit Renewal Request
+                    </button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script type="module">
+        import { API_BASE_URL } from './js/config.js';
+
+        const verificationBox = document.getElementById('verificationBox');
+        const paymentBox = document.getElementById('paymentBox');
+        const memberSummary = document.getElementById('memberSummary');
+        const renewalVerifyForm = document.getElementById('renewalVerifyForm');
+        const renewalPaymentForm = document.getElementById('renewalPaymentForm');
+        const alertBanner = document.getElementById('alertBanner');
+
+        let verifiedMember = null;
+
+        function showAlert(message, type = 'error') {
+            alertBanner.className = `alert-message ${type}`;
+            alertBanner.textContent = message;
+            alertBanner.style.display = 'block';
+            alertBanner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function clearAlert() {
+            alertBanner.style.display = 'none';
+            alertBanner.textContent = '';
+        }
+
+        function renderMemberSummary(member) {
+            memberSummary.innerHTML = '';
+            
+            const fields = [
+                { label: 'Name', value: member.name },
+                { label: 'Member Number', value: member.memberNumber || 'N/A' },
+                { label: 'Email', value: member.email },
+                { label: 'Phone', value: member.phone }
+            ];
+
+            fields.forEach(field => {
+                const p = document.createElement('p');
+                const strong = document.createElement('strong');
+                strong.textContent = `${field.label}: `;
+                p.appendChild(strong);
+                p.appendChild(document.createTextNode(field.value));
+                memberSummary.appendChild(p);
+            });
+
+            const statusP = document.createElement('p');
+            const statusStrong = document.createElement('strong');
+            statusStrong.textContent = 'Status: ';
+            const span = document.createElement('span');
+            span.className = 'status-chip';
+            span.textContent = 'Eligible for Renewal';
+            statusP.appendChild(statusStrong);
+            statusP.appendChild(span);
+            memberSummary.appendChild(statusP);
+        }
+
+        renewalVerifyForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            clearAlert();
+
+            const formData = new FormData(renewalVerifyForm);
+            const memberNumber = formData.get('memberNumber')?.toString().trim();
+            const email = formData.get('email')?.toString().trim();
+            const phone = formData.get('phone')?.toString().trim();
+
+            const providedCount = [memberNumber, email, phone].filter(Boolean).length;
+            if (providedCount < 2) {
+                showAlert('Please provide at least two of the following: member number, email, or phone number.');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/members/renewal/verify`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ memberNumber, email, phone })
+                });
+
+                const result = await response.json();
+
+                if (!response.ok || !result.success) {
+                    throw new Error(result.error || 'Unable to verify your membership.');
+                }
+
+                verifiedMember = result.member;
+                renderMemberSummary(verifiedMember);
+
+                verificationBox.classList.remove('active');
+                paymentBox.classList.add('active');
+            } catch (error) {
+                showAlert(error.message);
+            }
+        });
+
+        renewalPaymentForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            clearAlert();
+
+            if (!verifiedMember) {
+                showAlert('Please verify your membership before submitting a renewal request.');
+                return;
+            }
+
+            const paymentReference = document.getElementById('paymentReference').value.trim();
+            if (!paymentReference) {
+                showAlert('Please enter the payment reference after paying KSh 100.');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/members/renewal/request`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        memberNumber: verifiedMember.memberNumber,
+                        email: verifiedMember.email,
+                        phone: verifiedMember.phone,
+                        paymentReference,
+                        notes: document.getElementById('renewalNotes').value.trim()
+                    })
+                });
+
+                const result = await response.json();
+                if (!response.ok || !result.success) {
+                    throw new Error(result.error || 'Renewal request failed.');
+                }
+
+                showAlert('Your renewal request has been submitted successfully. Please wait for admin confirmation.', 'success');
+                renewalPaymentForm.reset();
+                verificationBox.classList.add('active');
+                paymentBox.classList.remove('active');
+                verifiedMember = null;
+                renewalVerifyForm.reset();
+            } catch (error) {
+                showAlert(error.message);
+            }
+        });
+
+        const toggleBtn = document.querySelector('.nav-toggle');
+        const navMenu = document.getElementById('navMenu');
+        
+        toggleBtn.addEventListener('click', () => {
+            const isExpanded = navMenu.classList.toggle('active');
+            toggleBtn.setAttribute('aria-expanded', isExpanded);
+        });
+    </script>
+</body>
+</html>
