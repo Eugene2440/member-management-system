@@ -19,8 +19,15 @@ const { verifyToken, verifyRole } = require('../middleware/auth');
 const {
   sendWelcomeEmail,
   sendPaymentConfirmedEmail,
-  sendPaymentRejectedEmail
+  sendPaymentRejectedEmail,
+  sendRenewalConfirmedEmail
 } = require('../services/email');
+const {
+  RENEWAL_FEE_KES,
+  getRenewalCycleEnd,
+  getEffectiveMembershipStatus,
+  isRenewalEligible
+} = require('../services/renewalCycle');
 
 const router = express.Router();
 
@@ -136,47 +143,6 @@ async function generateMemberNumber(memberData) {
 
     return fallbackNumber;
   }
-}
-
-function isWithinAnnualRenewalWindow(memberData) {
-  const now = new Date();
-  const annualCutoff = new Date(now.getFullYear(), 7, 10, 23, 59, 59, 999);
-
-  const memberJoinDate = memberData.registrationDate ? new Date(memberData.registrationDate) : null;
-  const memberLastRenewal = memberData.lastRenewalDate ? new Date(memberData.lastRenewalDate) : null;
-
-  if (!memberJoinDate && !memberLastRenewal) {
-    return true;
-  }
-
-  const referenceDate = memberLastRenewal && memberLastRenewal > new Date(0) ? memberLastRenewal : memberJoinDate;
-  if (!referenceDate || Number.isNaN(referenceDate.getTime())) {
-    return true;
-  }
-
-  return referenceDate <= annualCutoff;
-}
-
-function isRenewalEligible(memberData) {
-  if (!memberData) return false;
-  if (memberData.paymentStatus !== 'confirmed') return false;
-  if (memberData.membershipStatus === 'renewal_pending') return false;
-  if (memberData.membershipStatus === 'renewal_confirmed') return false;
-  return isWithinAnnualRenewalWindow(memberData);
-}
-
-function getEffectiveMembershipStatus(memberData) {
-  if (!memberData) return 'inactive';
-
-  if (memberData.membershipStatus === 'renewal_pending') return 'renewal_pending';
-  if (memberData.membershipStatus === 'renewal_confirmed') return 'renewal_confirmed';
-  if (memberData.membershipStatus === 'expired') return 'expired';
-
-  if (isRenewalEligible(memberData)) {
-    return 'inactive';
-  }
-
-  return memberData.membershipStatus || 'active';
 }
 
 function buildLookupVariants(fieldName, rawValue) {
@@ -496,7 +462,7 @@ router.post('/renewal/verify', publicLookupRateLimiter, async (req, res) => {
 
     return res.json({
       success: true,
-      amount: 100,
+      amount: RENEWAL_FEE_KES,
       member: {
         id: member.id,
         name: member.name,
@@ -518,7 +484,7 @@ router.post('/renewal/verify', publicLookupRateLimiter, async (req, res) => {
 router.post('/renewal/request', publicLookupRateLimiter, async (req, res) => {
   try {
     const requestBody = req.body || {};
-    const { memberNumber, email, phone, paymentReference } = requestBody;
+    const { memberNumber, email, phone, paymentReference, notes } = requestBody;
 
     if (!paymentReference) {
       return res.status(400).json({ error: 'Payment reference is required for renewal.' });
@@ -529,31 +495,50 @@ router.post('/renewal/request', publicLookupRateLimiter, async (req, res) => {
       return res.status(404).json({ success: false, error: result.reason || 'No matching member was found.' });
     }
 
-    const memberData = result.member;
-    if (!isRenewalEligible(memberData)) {
-      return res.status(400).json({ error: 'This member is not eligible for annual renewal at the moment.' });
+    const memberId = result.member.id;
+    const memberRef = doc(db, 'members', memberId);
+    const trimmedNotes = notes ? String(notes).trim().slice(0, 500) : null;
+
+    // Re-validate and write inside a transaction so two concurrent
+    // submissions cannot both slip past the pending-request check.
+    const outcome = await runTransaction(db, async (transaction) => {
+      const memberDoc = await transaction.get(memberRef);
+
+      if (!memberDoc.exists()) {
+        return { status: 404, error: 'No matching member was found.' };
+      }
+
+      const memberData = { id: memberDoc.id, ...memberDoc.data() };
+
+      if (memberData.membershipStatus === 'renewal_pending') {
+        return { status: 409, error: 'This member already has a renewal request pending admin review.' };
+      }
+
+      if (!isRenewalEligible(memberData)) {
+        return { status: 400, error: 'This member is not eligible for annual renewal at the moment.' };
+      }
+
+      transaction.update(memberRef, {
+        membershipStatus: 'renewal_pending',
+        renewalRequestedAt: new Date().toISOString(),
+        renewalReference: String(paymentReference).trim(),
+        renewalAmount: RENEWAL_FEE_KES,
+        renewalNotes: trimmedNotes,
+        lastUpdated: new Date().toISOString()
+      });
+
+      return { status: 200 };
+    });
+
+    if (outcome.status !== 200) {
+      return res.status(outcome.status).json({ success: false, error: outcome.error });
     }
-
-    if (memberData.membershipStatus === 'renewal_pending') {
-      return res.status(409).json({ error: 'This member already has a renewal request pending admin review.' });
-    }
-
-    const memberRef = doc(db, 'members', memberData.id);
-    const updatedMember = {
-      membershipStatus: 'renewal_pending',
-      renewalRequestedAt: new Date().toISOString(),
-      renewalReference: String(paymentReference).trim(),
-      renewalAmount: 100,
-      lastUpdated: new Date().toISOString()
-    };
-
-    await updateDoc(memberRef, updatedMember);
 
     return res.json({
       success: true,
       message: 'Annual membership renewal request submitted successfully. Please wait for admin confirmation.',
-      amount: 100,
-      memberId: memberData.id
+      amount: RENEWAL_FEE_KES,
+      memberId
     });
   } catch (error) {
     console.error('Error creating renewal request:', error);
@@ -658,23 +643,29 @@ router.patch('/:id/renewal/confirm', verifyRole(['registrar', 'admin']), async (
 
     const memberData = memberDoc.data();
     const now = new Date();
-    const baseExpiryDate = memberData.membershipEndDate ? new Date(memberData.membershipEndDate) : new Date();
-    const nextExpiry = new Date(baseExpiryDate);
-    nextExpiry.setFullYear(nextExpiry.getFullYear() + 1);
+
+    // The confirmed renewal activates the membership cycle that is current at
+    // confirmation time, so the renewed term runs until that cycle ends
+    // (the next August 10).
+    const nextExpiry = getRenewalCycleEnd(now);
 
     const updateData = {
       membershipStatus: 'active',
       renewalConfirmedAt: now.toISOString(),
       lastRenewalDate: now.toISOString(),
       membershipStartDate: memberData.membershipStartDate || now.toISOString(),
-      membershipEndDate: nextExpiry.toISOString(),
+      membershipEndDate: nextExpiry ? nextExpiry.toISOString() : null,
       renewalReference: renewalReference || memberData.renewalReference || null,
       renewalNotes: notes || memberData.renewalNotes || null,
-      renewalAmount: memberData.renewalAmount || 100,
+      renewalAmount: memberData.renewalAmount || RENEWAL_FEE_KES,
       lastUpdated: now.toISOString()
     };
 
     await updateDoc(memberRef, updateData);
+
+    sendRenewalConfirmedEmail({ ...memberData, ...updateData, id }).catch((err) => {
+      console.error('Failed to send renewal confirmed email:', err);
+    });
 
     return res.json({ success: true, message: 'Membership renewal confirmed successfully.' });
   } catch (error) {
@@ -702,15 +693,35 @@ router.patch('/:id/payment', verifyRole(['registrar', 'admin']), async (req, res
 
     const memberData = memberDoc.data();
     const previousStatus = memberData.paymentStatus;
+    const now = new Date();
 
     const updateData = {
       paymentStatus,
-      lastUpdated: new Date().toISOString()
+      lastUpdated: now.toISOString()
     };
 
     if (paymentStatus === 'confirmed') {
       if (!memberData.memberNumber && (memberData.course || memberData.areaOfInterest)) {
         updateData.memberNumber = await generateMemberNumber(memberData);
+      }
+
+      // Record the membership term this payment activates. A member's term is
+      // anchored on their registration (join) date, so the term runs to the
+      // end of the cycle their registration date falls in. paymentConfirmedAt
+      // is recorded for auditing only - it does not affect renewal eligibility.
+      if (previousStatus !== 'confirmed') {
+        updateData.paymentConfirmedAt = now.toISOString();
+
+        if (!memberData.membershipStartDate) {
+          updateData.membershipStartDate = memberData.registrationDate || now.toISOString();
+        }
+
+        if (!memberData.membershipEndDate) {
+          const cycleEnd = getRenewalCycleEnd(memberData.registrationDate || now);
+          if (cycleEnd) {
+            updateData.membershipEndDate = cycleEnd.toISOString();
+          }
+        }
       }
     }
 

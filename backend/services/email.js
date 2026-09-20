@@ -484,6 +484,53 @@ const getAnnouncementEmailHTML = (announcementData, memberEmail) => {
 };
 
 
+// Renewal Confirmed Email
+const getRenewalConfirmedEmailHTML = (member) => {
+    const expiryDate = member.membershipEndDate
+        ? new Date(member.membershipEndDate).toLocaleDateString('en-KE', { year: 'numeric', month: 'long', day: 'numeric' })
+        : 'the end of the current membership year';
+
+    return `
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f5f5f5;">
+    <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff;">
+        <div style="background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); padding: 30px; text-align: center;">
+            <div style="font-size: 50px; margin-bottom: 10px;">&#9989;</div>
+            <h1 style="color: #ffffff; margin: 0; font-size: 28px;">Renewal Confirmed</h1>
+        </div>
+
+        <div style="padding: 40px 30px;">
+            <h2 style="color: #1e3a8a; margin: 0 0 20px 0;">Hello ${member.name || 'Member'}!</h2>
+            <p style="color: #4b5563; margin: 0 0 15px 0; line-height: 1.7;">
+                Your AECAS annual membership renewal has been confirmed. Your membership is now active until <strong>${expiryDate}</strong>.
+            </p>
+            <div style="background-color: #f0f9ff; border-left: 4px solid #3b82f6; border-radius: 8px; padding: 20px; margin: 20px 0;">
+                <p style="color: #1e3a8a; margin: 0 0 8px 0;"><strong>Member Number:</strong> ${member.memberNumber || 'N/A'}</p>
+                <p style="color: #1e3a8a; margin: 0;"><strong>Status:</strong> Active</p>
+            </div>
+            <div style="text-align: center; margin: 30px 0;">
+                <a href="${BASE_URL}" style="display: inline-block; background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); color: #ffffff; text-decoration: none; padding: 14px 30px; border-radius: 25px; font-weight: 600;">Visit AECAS</a>
+            </div>
+        </div>
+
+        ${getEmailFooter(member.email)}
+    </div>
+</body>
+</html>`;
+};
+
+// Send renewal confirmation email
+const sendRenewalConfirmedEmail = async (memberData) => {
+    const subject = 'AECAS Membership Renewal Confirmed';
+    const html = getRenewalConfirmedEmailHTML(memberData);
+    return sendEmail(memberData.email, subject, html);
+};
+
 // ============ STARTUP STATUS ============
 
 if (!isEmailConfigured()) {
@@ -517,6 +564,13 @@ module.exports = {
     sendPaymentRejectedEmail: async (memberData) => {
         const subject = 'AECAS Registration - Payment Issue';
         const html = getPaymentRejectedEmailHTML(memberData);
+        return sendEmail(memberData.email, subject, html);
+    },
+    
+    // Renewal emails
+    sendRenewalConfirmedEmail: async (memberData) => {
+        const subject = 'AECAS Membership Renewal Confirmed';
+        const html = getRenewalConfirmedEmailHTML(memberData);
         return sendEmail(memberData.email, subject, html);
     },
     

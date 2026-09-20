@@ -180,24 +180,6 @@ async function loadMembers() {
     }
 }
 
-function getEffectiveMembershipStatus(member) {
-    if (!member) return 'inactive';
-
-    if (member.membershipStatus === 'renewal_pending') return 'renewal_pending';
-    if (member.membershipStatus === 'renewal_confirmed') return 'renewal_confirmed';
-    if (member.membershipStatus === 'expired') return 'expired';
-
-    const paymentIsConfirmed = member.paymentStatus === 'confirmed';
-    const membershipDate = member.membershipEndDate ? new Date(member.membershipEndDate) : null;
-    const eligibleForRenewal = paymentIsConfirmed && (!membershipDate || Number.isNaN(membershipDate.getTime()) || membershipDate <= new Date());
-
-    if (eligibleForRenewal) {
-        return 'inactive';
-    }
-
-    return member.membershipStatus || 'active';
-}
-
 function renderMembersTable() {
     const tableBody = document.getElementById('membersTableBody');
     const noMembers = document.getElementById('noMembers');
@@ -213,7 +195,7 @@ function renderMembersTable() {
     tableBody.innerHTML = filteredMembers.map(member => {
         const registrationDate = new Date(member.registrationDate).toLocaleDateString();
         const statusClass = `status-${member.paymentStatus}`;
-        const membershipStatus = getEffectiveMembershipStatus(member);
+        const membershipStatus = member.membershipStatus;
         const renewalClass = membershipStatus === 'renewal_pending' ? 'status-pending' : membershipStatus === 'inactive' ? 'status-rejected' : 'status-confirmed';
         
         return `
@@ -301,7 +283,7 @@ function applyFilters() {
     const courseFilter = document.getElementById('courseFilter').value;
     
     filteredMembers = allMembers.filter(member => {
-        const memberMembershipStatus = getEffectiveMembershipStatus(member);
+        const memberMembershipStatus = member.membershipStatus;
 
         // Search filter - expanded to include new fields
         const matchesSearch = !searchTerm || 

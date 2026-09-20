@@ -108,6 +108,8 @@ EMAIL_FROM="AECAS <support@aecas.co.ke>"
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | POST | `/api/members/register` | Register new member |
+| POST | `/api/members/renewal/verify` | Verify member identity and renewal eligibility |
+| POST | `/api/members/renewal/request` | Submit annual renewal request (KSh 100) |
 | GET | `/api/events/public` | Get all events |
 | GET | `/api/announcements/public` | Get active announcements |
 | GET | `/api/leadership/public` | Get leadership team |
@@ -122,6 +124,7 @@ EMAIL_FROM="AECAS <support@aecas.co.ke>"
 | GET | `/api/members` | Registrar, Admin | List all members |
 | PUT | `/api/members/:id` | Registrar, Admin | Update member |
 | PATCH | `/api/members/:id/payment` | Registrar, Admin | Update payment status |
+| PATCH | `/api/members/:id/renewal/confirm` | Registrar, Admin | Confirm annual renewal |
 | DELETE | `/api/members/:id` | Admin | Delete member |
 | POST | `/api/events` | Communications, Admin | Create event |
 | PUT | `/api/events/:id` | Communications, Admin | Update event |
